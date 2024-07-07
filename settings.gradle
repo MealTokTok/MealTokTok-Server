@@ -1,0 +1,8 @@
+rootProject.name = 'mealtoktok'
+
+include('application')
+include('application:app-api')
+include('domain')
+include('storage')
+include('internal')
+include('common')
