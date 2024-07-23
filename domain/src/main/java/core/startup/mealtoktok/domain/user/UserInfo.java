@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.domain.user;
 
-import core.startup.mealtoktok.domain.auth.OAuthUserInfo;
+import core.startup.mealtoktok.domain.auth.OAuthProfile;
 
 import java.time.LocalDate;
 
@@ -25,19 +25,19 @@ public record UserInfo(
         return new UserInfo(username, nickname, gender, phoneNumber, birth, email, profileImageUrl, addressWithCoordinate);
     }
 
-    public static UserInfo of(OAuthUserInfo oAuthUserInfo, AddressWithCoordinate addressWithCoordinate) {
+    public static UserInfo of(OAuthProfile oAuthProfile, AddressWithCoordinate addressWithCoordinate) {
         return new UserInfo(
-                oAuthUserInfo.getName(),
-                oAuthUserInfo.getNickname(),
-                (oAuthUserInfo.getGender() != null) ?
-                        Gender.valueOf(oAuthUserInfo.getGender().toUpperCase())
+                oAuthProfile.getName(),
+                oAuthProfile.getNickname(),
+                (oAuthProfile.getGender() != null) ?
+                        Gender.valueOf(oAuthProfile.getGender().toUpperCase())
                         : null,
-                oAuthUserInfo.getPhoneNumber(),
-                (oAuthUserInfo.getBirthdate() != null) ?
-                        LocalDate.parse(oAuthUserInfo.getBirthdate())
+                oAuthProfile.getPhoneNumber(),
+                (oAuthProfile.getBirthdate() != null) ?
+                        LocalDate.parse(oAuthProfile.getBirthdate())
                         : null,
-                oAuthUserInfo.getEmail(),
-                oAuthUserInfo.getPicture(),
+                oAuthProfile.getEmail(),
+                oAuthProfile.getPicture(),
                 addressWithCoordinate
         );
     }

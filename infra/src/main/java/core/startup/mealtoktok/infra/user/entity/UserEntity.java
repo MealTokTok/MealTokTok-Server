@@ -1,6 +1,7 @@
 package core.startup.mealtoktok.infra.user.entity;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
+import core.startup.mealtoktok.domain.auth.OAuthProfile;
 import core.startup.mealtoktok.domain.auth.OAuthProvider;
 import core.startup.mealtoktok.domain.user.*;
 import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
@@ -116,5 +117,16 @@ public class UserEntity extends BaseTimeEntity {
         this.city = addressWithCoordinate.address().city();
         this.street = addressWithCoordinate.address().street();
         this.detail = addressWithCoordinate.address().detail();
+    }
+
+    public void oAuthUpdate(OAuthProfile profile) {
+        this.username = profile.getName();
+        this.nickname = profile.getNickname();
+        this.profileImageUrl = profile.getPicture();
+        this.gender = Gender.valueOf(profile.getGender());
+        this.email = profile.getEmail();
+        this.birth = LocalDate.parse(profile.getBirthdate());
+        this.phoneNumber = profile.getPhoneNumber();
+
     }
 }

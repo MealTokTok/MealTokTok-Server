@@ -17,10 +17,6 @@ public class UserReader {
         );
     }
 
-    public User readBy(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     public boolean isAlreadyRegistered(OAuthInfo oAuthInfo) {
         return userRepository.existsByOAuthInfo(oAuthInfo);
     }

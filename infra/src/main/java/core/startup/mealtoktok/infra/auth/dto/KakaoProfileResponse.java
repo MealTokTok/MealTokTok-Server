@@ -1,13 +1,13 @@
 package core.startup.mealtoktok.infra.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import core.startup.mealtoktok.domain.auth.OAuthUserInfo;
+import core.startup.mealtoktok.domain.auth.OAuthProfile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class KakaoUserInfoResponse implements OAuthUserInfo {
+public class KakaoProfileResponse implements OAuthProfile {
         private String sub;
         private String name;
         private String nickname;

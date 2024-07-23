@@ -11,22 +11,30 @@ import static core.startup.mealtoktok.common.properties.OauthProperties.*;
 public class AuthService {
 
     private final UserReader userReader;
-    private final OauthClient oauthClient;
-    private final OauthAuthenticator oauthAuthenticator;
+    private final OAuthClient oAuthClient;
+    private final OAuthAuthenticator oAuthAuthenticator;
     private final TokenGenerator tokenGenerator;
     private final UserAppender userAppender;
+    private final UserUpdater userUpdater;
 
-    public boolean canRegistered(String oidcToken) {
-        OAuthInfo oAuthInfo = oauthAuthenticator.authenticate(oidcToken);
+    public boolean canRegistered(String idToken) {
+        OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(idToken);
         return !userReader.isAlreadyRegistered(oAuthInfo);
     }
 
-    public JwtTokens signUp(OAuthToken oAuthToken,
-                       AddressWithCoordinate addressWithCoordinate) {
-        OAuthInfo oAuthInfo = oauthAuthenticator.authenticate(oAuthToken.idToken());
-        OAuthUserInfo oAuthUserInfo = oauthClient.getUserInfo(oAuthToken.accessToken());
-        TargetUser target = userAppender.append(oAuthInfo, UserInfo.of(oAuthUserInfo, addressWithCoordinate));
-        return tokenGenerator.generate(target);
+    public JwtTokens signUp(OAuthTokens oAuthTokens,
+                            AddressWithCoordinate addressWithCoordinate) {
+        OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(oAuthTokens.idToken());
+        OAuthProfile oAuthProfile = oAuthClient.getUserInfo(oAuthTokens.accessToken());
+        TargetUser targetUser = userAppender.append(oAuthInfo, UserInfo.of(oAuthProfile, addressWithCoordinate));
+        return tokenGenerator.generate(targetUser);
+    }
+
+    public JwtTokens login(OAuthTokens oAuthTokens) {
+        oAuthAuthenticator.authenticate(oAuthTokens.idToken());
+        OAuthProfile oAuthProfile = oAuthClient.getUserInfo(oAuthTokens.accessToken());
+        TargetUser targetUser = userUpdater.update(oAuthProfile);
+        return tokenGenerator.generate(targetUser);
     }
 
     public String getKakaoLoginLink() {
@@ -39,8 +47,9 @@ public class AuthService {
     }
 
     public void getCredentialTest(String code) {
-        OAuthToken authToken = oauthClient.auth(CLIENT_ID, REDIRECT_URL, code);
+        OAuthTokens authToken = oAuthClient.auth(CLIENT_ID, REDIRECT_URL, code);
         signUp(authToken, AddressWithCoordinate.of("충청북도 흥덕구 봉명동 2300-1", 36.629, 127.456));
     }
+
 
 }

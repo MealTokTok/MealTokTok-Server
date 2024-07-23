@@ -12,19 +12,19 @@ import static core.startup.mealtoktok.common.consts.MealTokTokConstant.BEARER;
 
 @Component
 @RequiredArgsConstructor
-public class KakaoClient implements OauthClient {
+public class KakaoClient implements OAuthClient {
 
     private final KakaoAuthClient kakaoAuthClient;
     private final KakaoInfoClient kakaoInfoClient;
 
     @Override
-    public OAuthToken auth(String clientId, String redirectUri, String code) {
+    public OAuthTokens auth(String clientId, String redirectUri, String code) {
         KakaoTokenResponse kakaoTokenResponse = kakaoAuthClient.kakaoAuth(clientId, redirectUri, code);
-        return OAuthToken.of(kakaoTokenResponse.access_token(), kakaoTokenResponse.id_token());
+        return OAuthTokens.of(kakaoTokenResponse.access_token(), kakaoTokenResponse.id_token());
     }
 
     @Override
-    public OAuthUserInfo getUserInfo(String accessToken) {
+    public OAuthProfile getUserInfo(String accessToken) {
         return kakaoInfoClient.getUserInfo(BEARER + accessToken);
     }
 

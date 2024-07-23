@@ -8,9 +8,9 @@ import static core.startup.mealtoktok.common.properties.OauthProperties.*;
 
 @Component
 @RequiredArgsConstructor
-public class OauthAuthenticator {
+public class OAuthAuthenticator {
 
-    private final OauthClient oauthClient;
+    private final OAuthClient oauthClient;
     private final OidcTokenParser oidcTokenParser;
 
     public OAuthInfo authenticate(String idToken) {

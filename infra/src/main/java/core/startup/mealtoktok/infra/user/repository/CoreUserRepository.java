@@ -1,6 +1,7 @@
 package core.startup.mealtoktok.infra.user.repository;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
+import core.startup.mealtoktok.domain.auth.OAuthProfile;
 import core.startup.mealtoktok.domain.user.UserInfo;
 import core.startup.mealtoktok.domain.user.TargetUser;
 import core.startup.mealtoktok.domain.user.User;
@@ -25,8 +26,12 @@ public class CoreUserRepository implements UserRepository {
     }
 
     @Override
-    public User update(User user) {
-        return jpaUserRepository.save(UserEntity.from(user)).toDomain();
+    public TargetUser update(OAuthProfile profile) {
+        UserEntity userEntity = jpaUserRepository.findByOid(profile.getSub())
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        userEntity.oAuthUpdate(profile);
+        return TargetUser.from(userEntity.getUserId());
     }
 
     @Override
@@ -37,8 +42,8 @@ public class CoreUserRepository implements UserRepository {
     }
 
     @Override
-    public User findByEmail(String email) {
-        return jpaUserRepository.findByEmail(email)
+    public User findByOAuthId(String oid) {
+        return jpaUserRepository.findByOid(oid)
                 .map(UserEntity::toDomain)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }

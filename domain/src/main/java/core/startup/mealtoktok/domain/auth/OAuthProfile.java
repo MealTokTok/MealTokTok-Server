@@ -1,8 +1,6 @@
 package core.startup.mealtoktok.domain.auth;
 
-import java.time.LocalDate;
-
-public interface OAuthUserInfo {
+public interface OAuthProfile {
 
     String getSub();
 
