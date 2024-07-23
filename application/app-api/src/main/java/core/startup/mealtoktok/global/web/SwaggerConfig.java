@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.global.web;
 
-import core.startup.mealtoktok.global.security.JwtTokenProperties;
+import core.startup.mealtoktok.global.security.SecurityProperties;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -22,18 +22,18 @@ public class SwaggerConfig {
 
         // API 요청헤더에 인증정보 포함
         SecurityRequirement securityRequirement = new SecurityRequirement()
-                .addList(JwtTokenProperties.ACCESS_TOKEN_HEADER)
-                .addList(JwtTokenProperties.REFRESH_TOKEN_HEADER);
+                .addList(SecurityProperties.ACCESS_TOKEN_HEADER)
+                .addList(SecurityProperties.REFRESH_TOKEN_HEADER);
         // SecuritySchemes 등록
         Components components = new Components()
-                .addSecuritySchemes(JwtTokenProperties.ACCESS_TOKEN_HEADER, new SecurityScheme()
-                        .name(JwtTokenProperties.ACCESS_TOKEN_HEADER)
+                .addSecuritySchemes(SecurityProperties.ACCESS_TOKEN_HEADER, new SecurityScheme()
+                        .name(SecurityProperties.ACCESS_TOKEN_HEADER)
                         .type(SecurityScheme.Type.APIKEY) // HTTP 방식
                         .scheme("bearer")
                         .in(SecurityScheme.In.HEADER)
                         .bearerFormat("JWT"))
-                .addSecuritySchemes(JwtTokenProperties.REFRESH_TOKEN_HEADER, new SecurityScheme()
-                        .name(JwtTokenProperties.REFRESH_TOKEN_HEADER)
+                .addSecuritySchemes(SecurityProperties.REFRESH_TOKEN_HEADER, new SecurityScheme()
+                        .name(SecurityProperties.REFRESH_TOKEN_HEADER)
                         .type(SecurityScheme.Type.APIKEY) // HTTP 방식
                         .scheme("bearer")
                         .in(SecurityScheme.In.HEADER)

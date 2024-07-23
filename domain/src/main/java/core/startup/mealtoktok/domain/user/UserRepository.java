@@ -8,7 +8,7 @@ public interface UserRepository {
 
     User findByEmail(String email);
 
-    void save(OAuthInfo oAuthInfo, UserInfo userInfo);
+    TargetUser save(OAuthInfo oAuthInfo, UserInfo userInfo);
 
     User update(User user);
 

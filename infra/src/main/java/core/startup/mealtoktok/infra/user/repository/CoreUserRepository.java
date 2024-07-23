@@ -19,8 +19,9 @@ public class CoreUserRepository implements UserRepository {
     private final JpaUserRepository jpaUserRepository;
 
     @Override
-    public void save(OAuthInfo oAuthInfo, UserInfo userInfo) {
-        jpaUserRepository.save(UserEntity.from(oAuthInfo, userInfo));
+    public TargetUser save(OAuthInfo oAuthInfo, UserInfo userInfo) {
+        UserEntity savedUser = jpaUserRepository.save(UserEntity.from(oAuthInfo, userInfo));
+        return TargetUser.from(savedUser.getUserId());
     }
 
     @Override

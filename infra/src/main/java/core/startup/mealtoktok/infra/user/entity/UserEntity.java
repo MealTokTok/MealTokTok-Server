@@ -5,20 +5,17 @@ import core.startup.mealtoktok.domain.auth.OAuthProvider;
 import core.startup.mealtoktok.domain.user.*;
 import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
+@Getter
 public class UserEntity extends BaseTimeEntity {
 
     //Embeddable 고려

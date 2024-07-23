@@ -4,8 +4,10 @@ import core.startup.mealtoktok.api.auth.request.SignupRequest;
 import core.startup.mealtoktok.api.auth.response.OAuthLogin;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
+import core.startup.mealtoktok.domain.auth.JwtTokens;
+import core.startup.mealtoktok.global.security.JwtTokenizer;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,14 +17,16 @@ public class AuthApi implements AuthApiDocs {
 
     private final AuthService authService;
 
-    @GetMapping("/oauth/sign-up/validation")
+
+    @GetMapping("/oauth/can-sign-up/")
     public Response<Boolean> canRegistered(@RequestParam String oidcToken) {
         return Response.success(authService.canRegistered(oidcToken));
     }
 
     @PostMapping("/oauth/sign-up")
-    public Response<Void> signUp(@RequestBody SignupRequest signupRequest) {
-        authService.signUp(signupRequest.toOAuthToken(), signupRequest.toInfo());
+    public Response<Void> signUp(@RequestBody SignupRequest signupRequest, HttpServletResponse response) {
+        JwtTokens jwtTokens = authService.signUp(signupRequest.toOAuthToken(), signupRequest.toInfo());
+        JwtTokenizer.setInHeader(response, jwtTokens.accessToken(), jwtTokens.refreshToken());
         return Response.success("회원가입 성공");
     }
 

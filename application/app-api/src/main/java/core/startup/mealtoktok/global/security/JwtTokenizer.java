@@ -1,5 +1,7 @@
 package core.startup.mealtoktok.global.security;
 
+import core.startup.mealtoktok.domain.auth.JwtTokens;
+import core.startup.mealtoktok.domain.auth.TokenGenerator;
 import core.startup.mealtoktok.domain.user.TargetUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -13,10 +15,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
-import static core.startup.mealtoktok.global.security.JwtTokenProperties.*;
+import static core.startup.mealtoktok.global.security.SecurityProperties.*;
 
 @Component
-public class JwtTokenizer {
+public class JwtTokenizer implements TokenGenerator {
 
     public static String generateAccessToken(TargetUser targetUser) {
         Key key = getKeyFromSecretKey(SECRET_KEY);
@@ -40,8 +42,8 @@ public class JwtTokenizer {
     }
 
     public static void setInHeader(HttpServletResponse response, String accessToken, String refreshToken) {
-        response.setHeader(ACCESS_TOKEN_HEADER, BEARER + accessToken);
-        response.setHeader(REFRESH_TOKEN_HEADER, BEARER + refreshToken);
+        response.setHeader(ACCESS_TOKEN_HEADER, accessToken);
+        response.setHeader(REFRESH_TOKEN_HEADER, refreshToken);
     }
 
     public static Key getKeyFromSecretKey(String secretKey) {
@@ -80,4 +82,8 @@ public class JwtTokenizer {
     }
 
 
+    @Override
+    public JwtTokens generate(TargetUser targetUser) {
+        return JwtTokens.of(generateAccessToken(targetUser), generateRefreshToken(targetUser));
+    }
 }

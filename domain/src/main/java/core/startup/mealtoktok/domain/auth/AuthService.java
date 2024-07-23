@@ -1,9 +1,6 @@
 package core.startup.mealtoktok.domain.auth;
 
-import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
-import core.startup.mealtoktok.domain.user.UserAppender;
-import core.startup.mealtoktok.domain.user.UserInfo;
-import core.startup.mealtoktok.domain.user.UserReader;
+import core.startup.mealtoktok.domain.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +13,7 @@ public class AuthService {
     private final UserReader userReader;
     private final OauthClient oauthClient;
     private final OauthAuthenticator oauthAuthenticator;
+    private final TokenGenerator tokenGenerator;
     private final UserAppender userAppender;
 
     public boolean canRegistered(String oidcToken) {
@@ -23,11 +21,12 @@ public class AuthService {
         return !userReader.isAlreadyRegistered(oAuthInfo);
     }
 
-    public void signUp(OAuthToken oAuthToken,
+    public JwtTokens signUp(OAuthToken oAuthToken,
                        AddressWithCoordinate addressWithCoordinate) {
         OAuthInfo oAuthInfo = oauthAuthenticator.authenticate(oAuthToken.idToken());
         OAuthUserInfo oAuthUserInfo = oauthClient.getUserInfo(oAuthToken.accessToken());
-        userAppender.append(oAuthInfo, UserInfo.of(oAuthUserInfo, addressWithCoordinate));
+        TargetUser target = userAppender.append(oAuthInfo, UserInfo.of(oAuthUserInfo, addressWithCoordinate));
+        return tokenGenerator.generate(target);
     }
 
     public String getKakaoLoginLink() {

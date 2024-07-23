@@ -10,8 +10,8 @@ public class UserAppender {
 
     private final UserRepository userRepository;
 
-    public void append(OAuthInfo oAuthInfo, UserInfo userInfo) {
-        userRepository.save(oAuthInfo, userInfo);
+    public TargetUser append(OAuthInfo oAuthInfo, UserInfo userInfo) {
+        return userRepository.save(oAuthInfo, userInfo);
     }
 
 }
