@@ -52,6 +52,6 @@ spring:
             user-name-attribute: id
 
 jwt:
-  secret-key: ${SECRET_KEY}
+  secret-key: ${JWT_SECRET_KEY}
   access-token:
     expiration: 2592000 #3일

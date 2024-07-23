@@ -1,8 +1,8 @@
 package core.startup.mealtoktok.infra.user.cache;
 
-import core.startup.mealtoktok.domain.user.RefreshToken;
+import core.startup.mealtoktok.domain.auth.RefreshToken;
 import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.domain.user.TokenRepository;
+import core.startup.mealtoktok.domain.auth.TokenRepository;
 import core.startup.mealtoktok.infra.user.config.RedisConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class RedisTokenRepository implements TokenRepository {
     public void setRefreshToken(RefreshToken refreshToken) {
         String key = getKey(refreshToken.userId());
         log.info("Set Refresh Token from {} : {}", key, refreshToken);
-        tokenRedisTemplate.opsForValue().setIfAbsent(key, refreshToken);
+        tokenRedisTemplate.opsForValue().set(key, refreshToken);
     }
 
     @Override
@@ -32,13 +32,6 @@ public class RedisTokenRepository implements TokenRepository {
         RefreshToken token = tokenRedisTemplate.opsForValue().get(key);
         log.info("Get Refresh Token from {} : {}", key, token);
         return Optional.ofNullable(token);
-    }
-
-    @Override
-    public void deleteRefreshToken(TargetUser targetUser) {
-        String key = getKey(targetUser.userId());
-        tokenRedisTemplate.delete(key);
-        log.info("리프레시 토큰 폐기 완료 - {}", key);
     }
 
     @Override

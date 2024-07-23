@@ -1,8 +1,8 @@
 package core.startup.mealtoktok.global.security;
 
-import core.startup.mealtoktok.common.exception.ErrorCode;
+import core.startup.mealtoktok.domain.auth.RefreshToken;
+import core.startup.mealtoktok.domain.auth.TokenManager;
 import core.startup.mealtoktok.domain.user.*;
-import core.startup.mealtoktok.global.exception.WebException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,13 +53,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 user, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("{} 유저 인증 성공", user.getUsername());
+        log.info("{} 유저 인증 성공", user.getUserInfo().profileImageUrl());
     }
 
     private void reIssueToken(TargetUser targetUser, HttpServletResponse response) {
         String reIssuedAccessToken = generateAccessToken(targetUser);
         String reIssuedRefreshToken = generateRefreshToken(targetUser);
-        tokenManager.updateRefreshToken(RefreshToken.of(targetUser, reIssuedRefreshToken));
+        tokenManager.saveRefreshToken(RefreshToken.of(targetUser, reIssuedRefreshToken));
         setInHeader(response, reIssuedAccessToken, reIssuedRefreshToken);
+        response.setStatus(HttpServletResponse.SC_CREATED);
     }
 }

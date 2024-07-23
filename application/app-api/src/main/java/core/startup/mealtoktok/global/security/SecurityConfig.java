@@ -18,7 +18,6 @@ public class SecurityConfig {
 
     private final JwtTokenFilter jwtTokenFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final HttpCookieAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository;
 
     private static final String[] SWAGGER_URIS = {
             /* swagger v2 */
@@ -43,35 +42,20 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/","/health", "/api/v2/alarms/subscribe", "/error", "/error/**", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
-                                .requestMatchers(SWAGGER_URIS).permitAll()
-                                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                                .anyRequest().authenticated())
-                .exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
-                        httpSecurityExceptionHandlingConfigurer
-                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                )
-                .oauth2Login(
-                        oauth2 -> oauth2
-                                .loginPage("/oauth2/authorization/kakao")
-                                .authorizationEndpoint(
-                                        authorizationEndpointConfig -> authorizationEndpointConfig
-                                                .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository)
-                                )
-                                .successHandler(oAuth2MemberSuccessHandler)
-                                .failureHandler(oAuth2LoginFailureHandler)
-                                .userInfoEndpoint(
-                                        userInfoEndpointConfig -> userInfoEndpointConfig
-                                                .userService(customOAuth2UserService)
-                                )
-
                 );
+//                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+//                        authorizationManagerRequestMatcherRegistry
+//                                .requestMatchers("/","/health", "/error", "/error/**", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
+//                                .requestMatchers(SWAGGER_URIS).permitAll()
+//                                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                                .anyRequest().authenticated())
+//                .exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
+//                        httpSecurityExceptionHandlingConfigurer
+//                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                );
 
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new JwtExceptionHandleFilter(), JwtTokenFilter.class);
+//        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(new JwtExceptionHandleFilter(), JwtTokenFilter.class);
         return http.build();
     }
 
