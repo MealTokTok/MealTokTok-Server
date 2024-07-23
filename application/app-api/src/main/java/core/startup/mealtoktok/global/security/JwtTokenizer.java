@@ -2,7 +2,10 @@ package core.startup.mealtoktok.global.security;
 
 import core.startup.mealtoktok.domain.auth.JwtTokens;
 import core.startup.mealtoktok.domain.auth.TokenGenerator;
+import core.startup.mealtoktok.domain.auth.exception.ExpiredTokenException;
+import core.startup.mealtoktok.domain.auth.exception.InvalidTokenException;
 import core.startup.mealtoktok.domain.user.TargetUser;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,16 +73,19 @@ public class JwtTokenizer implements TokenGenerator {
     }
 
     public static TargetUser extractTargetUser(String token) {
-        //TODO: Handle exception
-        return TargetUser.from(Long.parseLong(
-                Jwts.parserBuilder()
-                .setSigningKey(getKeyFromSecretKey(SECRET_KEY))
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject())
-        );
-    }
+        try {
+            return TargetUser.from(Long.parseLong(Jwts.parserBuilder()
+                    .setSigningKey(getKeyFromSecretKey(SECRET_KEY))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject()));
+        } catch (ExpiredJwtException e) {
+            throw ExpiredTokenException.EXCEPTION;
+        } catch (Exception e) {
+            throw InvalidTokenException.EXCEPTION;
+        }
+    };
 
 
     @Override
