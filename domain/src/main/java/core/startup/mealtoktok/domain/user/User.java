@@ -1,10 +1,10 @@
 package core.startup.mealtoktok.domain.user;
 
+import core.startup.mealtoktok.domain.auth.OAuthInfo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Setter
@@ -12,19 +12,9 @@ import java.util.Set;
 @Builder
 public class User {
     private Long userId;
-    private String nickname;
-    private Gender gender;
-    private String email;
-    private String username;
-    private String phoneNumber;
-    private LocalDateTime birth;
-    private AddressInfo addressInfo;
+    private UserInfo userInfo;
+    private OAuthInfo oAuthInfo;
+    private UserRole userRole;
     private Set<String> deviceTokens;
-    private LocalDateTime createdAt;
-
-    public User initAddressInfo(AddressInfo addressInfo) {
-        this.addressInfo = addressInfo;
-        return this;
-    }
-
+    private UserDateInfo userDateInfo;
 }

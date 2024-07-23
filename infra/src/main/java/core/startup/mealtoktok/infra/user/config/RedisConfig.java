@@ -2,7 +2,7 @@ package core.startup.mealtoktok.infra.user.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import core.startup.mealtoktok.domain.user.RefreshToken;
+import core.startup.mealtoktok.domain.auth.RefreshToken;
 import core.startup.mealtoktok.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

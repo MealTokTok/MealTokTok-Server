@@ -7,14 +7,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
-import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
-import static core.startup.mealtoktok.global.security.JwtTokenConfig.*;
+import static core.startup.mealtoktok.global.security.JwtTokenProperties.*;
 
 @Component
 public class JwtTokenizer {
@@ -41,7 +40,6 @@ public class JwtTokenizer {
     }
 
     public static void setInHeader(HttpServletResponse response, String accessToken, String refreshToken) {
-        response.setStatus(HttpServletResponse.SC_CREATED);
         response.setHeader(ACCESS_TOKEN_HEADER, BEARER + accessToken);
         response.setHeader(REFRESH_TOKEN_HEADER, BEARER + refreshToken);
     }
@@ -52,7 +50,6 @@ public class JwtTokenizer {
     }
 
     public static Date getTokenExpiration() {
-
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, ACCESS_TOKEN_EXPIRATION);
         return calendar.getTime();

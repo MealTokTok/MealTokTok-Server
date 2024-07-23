@@ -1,0 +1,7 @@
+oauth:
+  kakao:
+    base-url: https://kauth.kakao.com
+    client-id: ${KAKAO_CLIENT}
+    redirect-url: ${KAKAO_REDIRECT}
+    app-id: ${KAKAO_APP_ID}
+    admin-key: ${KAKAO_ADMIN_KEY}
