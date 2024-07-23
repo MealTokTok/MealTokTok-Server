@@ -1,7 +1,7 @@
-package core.startup.mealtoktok.auth;
+package core.startup.mealtoktok.api.auth;
 
-import core.startup.mealtoktok.api.user.request.SignupRequest;
-import core.startup.mealtoktok.auth.response.OAuthLogin;
+import core.startup.mealtoktok.api.auth.request.SignupRequest;
+import core.startup.mealtoktok.api.auth.response.OAuthLogin;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +21,9 @@ public class AuthApi implements AuthApiDocs {
     }
 
     @PostMapping("/oauth/sign-up")
-    public ResponseEntity<Void> signUp(@RequestBody SignupRequest signupRequest) {
+    public Response<Void> signUp(@RequestBody SignupRequest signupRequest) {
         authService.signUp(signupRequest.toOAuthToken(), signupRequest.toInfo());
-        return ResponseEntity.ok().build();
+        return Response.success("회원가입 성공");
     }
 
     @GetMapping("/oauth/login/link")
@@ -33,8 +33,8 @@ public class AuthApi implements AuthApiDocs {
     }
 
     @GetMapping("/login/oauth2/code/kakao")
-    public ResponseEntity<Void> credentialTest(@RequestParam String code) {
+    public Response<Void> credentialTest(@RequestParam String code) {
         authService.getCredentialTest(code);
-        return ResponseEntity.ok().build();
+        return Response.success("테스트 성공");
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import core.startup.mealtoktok.common.exception.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpHeaders;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.*;
 
@@ -17,6 +18,8 @@ public class Response<T> {
     private String message;
 
     private T result;
+
+    private HttpHeaders httpHeaders;
 
     private Response(String responseCode, T result) {
         this.responseCode = responseCode;
@@ -41,6 +44,11 @@ public class Response<T> {
     }
 
     public static Response<Void> error(BaseErrorCode errorCode, String message) {
-        return new Response<>(errorCode.getErrorReason().errorCode(), message,null);
+        return new Response<>(errorCode.getErrorReason().errorCode(),  message);
+    }
+
+    public Response<T> headers(HttpHeaders httpHeaders) {
+        this.httpHeaders = httpHeaders;
+        return this;
     }
 }

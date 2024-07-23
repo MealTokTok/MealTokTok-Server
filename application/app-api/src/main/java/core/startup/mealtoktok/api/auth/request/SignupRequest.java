@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api.user.request;
+package core.startup.mealtoktok.api.auth.request;
 
 import core.startup.mealtoktok.domain.auth.OAuthToken;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
@@ -8,6 +8,12 @@ public record SignupRequest(
         String accessToken,
         AddressInfo addressInfo
 ) {
+
+    public record AddressInfo(
+            String address,
+            Double latitude,
+            Double longitude
+    ) { }
 
     public OAuthToken toOAuthToken() {
         return OAuthToken.of(accessToken, idToken);
