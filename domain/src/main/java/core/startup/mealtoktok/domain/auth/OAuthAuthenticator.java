@@ -14,7 +14,7 @@ public class OAuthAuthenticator {
     private final OidcTokenParser oidcTokenParser;
 
     public OAuthInfo authenticate(String idToken) {
-        String kid = oidcTokenParser.getKid(idToken, BASE_URL, CLIENT_ID);
+        String kid = oidcTokenParser.getKid(idToken, BASE_URL, SERVICE_KEY);
         OIDCPublicKey matchedPublicKey = getMatchedPublicKey(kid);
         OIDCPayload payload = oidcTokenParser.getPayload(idToken, matchedPublicKey.n(), matchedPublicKey.e());
         return OAuthInfo.kakao(payload);

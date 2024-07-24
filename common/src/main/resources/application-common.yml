@@ -1,3 +1,7 @@
+spring:
+  config:
+    activate:
+      on-profile: local
 oauth:
   kakao:
     base-url: https://kauth.kakao.com
@@ -5,3 +9,17 @@ oauth:
     redirect-url: ${KAKAO_REDIRECT}
     app-id: ${KAKAO_APP_ID}
     admin-key: ${KAKAO_ADMIN_KEY}
+    service-key: ${KAKAO_CLIENT}
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+oauth:
+  kakao:
+    base-url: https://kauth.kakao.com
+    client-id: ${KAKAO_CLIENT}
+    redirect-url: ${KAKAO_REDIRECT}
+    app-id: ${KAKAO_APP_ID}
+    admin-key: ${KAKAO_ADMIN_KEY}
+    service-key: ${KAKAO_APP_ID}

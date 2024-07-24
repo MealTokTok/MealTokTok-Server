@@ -3,6 +3,7 @@ package core.startup.mealtoktok.infra.auth.client;
 import core.startup.mealtoktok.infra.auth.config.KaKaoClientConfig;
 import core.startup.mealtoktok.infra.auth.dto.KakaoTokenResponse;
 import core.startup.mealtoktok.infra.auth.dto.KakaoOIDCPublicKeysResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public interface KakaoAuthClient {
             @PathVariable("REDIRECT_URI") String redirectUri,
             @PathVariable("CODE") String code);
 
+    @Cacheable(cacheNames = "oidc", key = "'kakao-oidc-open-keys'", cacheManager = "oidcCacheManager")
     @GetMapping("/.well-known/jwks.json")
     KakaoOIDCPublicKeysResponse getKakaoOIDCOpenKeys();
 
