@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.global.util;
+package core.startup.mealtoktok.api.global.util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

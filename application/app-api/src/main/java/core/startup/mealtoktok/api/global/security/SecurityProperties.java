@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.global.security;
+package core.startup.mealtoktok.api.global.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

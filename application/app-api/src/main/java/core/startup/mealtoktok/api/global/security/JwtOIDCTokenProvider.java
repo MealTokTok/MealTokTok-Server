@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.global.security;
+package core.startup.mealtoktok.api.global.security;
 
 import core.startup.mealtoktok.domain.auth.OIDCPayload;
 import core.startup.mealtoktok.domain.auth.OidcTokenParser;
