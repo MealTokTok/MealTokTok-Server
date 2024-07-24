@@ -4,6 +4,7 @@ import core.startup.mealtoktok.domain.dishCategory.DishCategory;
 import core.startup.mealtoktok.domain.dishCategory.DishCategoryRepository;
 import core.startup.mealtoktok.domain.dishCategory.TargetDishCategory;
 import core.startup.mealtoktok.infra.dishCategory.entity.DishCategoryEntity;
+import core.startup.mealtoktok.infra.dishCategory.exception.DishCategoryNotFoundException;
 import core.startup.mealtoktok.infra.dishStore.exception.DishStoreNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,6 @@ public class CoreDishCategoryRepository implements DishCategoryRepository {
     public DishCategory findById(TargetDishCategory targetCategory) {
         return jpaDishCategoryRepository.findById(targetCategory.categoryId())
                 .map(DishCategoryEntity::toDomain)
-                .orElseThrow(() -> DishStoreNotFoundException.EXCEPTION);
+                .orElseThrow(() -> DishCategoryNotFoundException.EXCEPTION);
     }
 }

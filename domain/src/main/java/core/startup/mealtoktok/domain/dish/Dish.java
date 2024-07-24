@@ -1,6 +1,5 @@
 package core.startup.mealtoktok.domain.dish;
 
-import core.startup.mealtoktok.domain.dishCategory.DishCategory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +8,9 @@ import lombok.Setter;
 @Getter
 @Builder
 public class Dish {
-
     Long dishId;
-
-    Long storeId;
-
     String dishName;
-
-    DishCategory dishCategory;
+    String imgUrl;
+    Long dishStoreId;
+    Long dishCategoryId;
 }

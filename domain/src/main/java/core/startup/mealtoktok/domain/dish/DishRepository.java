@@ -6,4 +6,8 @@ import core.startup.mealtoktok.domain.dishCategory.DishCategory;
 public interface DishRepository {
 
     void save(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo);
+
+    Dish findById(TargetDish targetDish);
+
+    void delete(Dish dish);
 }

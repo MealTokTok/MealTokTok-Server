@@ -4,8 +4,10 @@ import core.startup.mealtoktok.domain.DishStore.DishStore;
 import core.startup.mealtoktok.domain.dish.Dish;
 import core.startup.mealtoktok.domain.dish.DishInfo;
 import core.startup.mealtoktok.domain.dish.DishRepository;
+import core.startup.mealtoktok.domain.dish.TargetDish;
 import core.startup.mealtoktok.domain.dishCategory.DishCategory;
 import core.startup.mealtoktok.infra.dish.entity.DishEntity;
+import core.startup.mealtoktok.infra.dish.exception.DishNotFoundException;
 import core.startup.mealtoktok.infra.dishCategory.entity.DishCategoryEntity;
 import core.startup.mealtoktok.infra.dishCategory.repository.JpaDishCategoryRepository;
 import core.startup.mealtoktok.infra.dishStore.entity.DishStoreEntity;
@@ -28,5 +30,18 @@ public class CoreJpaDishRepository implements DishRepository {
         DishStoreEntity dishStoreEntity = jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
         DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(dishStore.getStoreId());
         jpaDishRepository.save(DishEntity.of(dishStoreEntity, dishCategoryEntity, dishInfo));
+    }
+
+    @Override
+    public Dish findById(TargetDish targetDish) {
+        return jpaDishRepository.findById(targetDish.dishId())
+                .map(DishEntity::toDomain)
+                .orElseThrow(()-> DishNotFoundException.EXCEPTION);
+    }
+
+    @Override
+    public void delete(Dish dish) {
+        DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
+        jpaDishRepository.delete(dishEntity);
     }
 }

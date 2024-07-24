@@ -44,4 +44,14 @@ public class DishEntity {
                 .dishCategoryEntity(dishCategoryEntity)
                 .build();
     }
+
+    public Dish toDomain() {
+        return Dish.builder()
+                .dishId(dishId)
+                .dishName(dishName)
+                .imgUrl(imgUrl)
+                .dishStoreId(dishStoreEntity.getStoreId())
+                .dishCategoryId(dishCategoryEntity.getCategoryId())
+                .build();
+    }
 }
