@@ -22,10 +22,6 @@ public class TokenManager {
                 .map(RefreshToken::refreshToken);
     }
 
-    public void ban(String accessToken) {
-        tokenRepository.ban(accessToken);
-    }
-
     public boolean isAlreadyLogin(String accessToken) {
         return tokenRepository.isAlreadyLogin(accessToken);
     }
