@@ -20,13 +20,11 @@ public class OAuthAuthenticator {
         return OAuthInfo.kakao(payload);
     }
 
-
     private OIDCPublicKey getMatchedPublicKey(String kid) {
         return oauthClient.getPublicKeys().stream()
                 .filter(oidcPublicKey -> oidcPublicKey.kid().equals(kid))
                 .findFirst()
                 .orElseThrow(() -> NoMatchedKidException.EXCEPTION);
     }
-
 
 }
