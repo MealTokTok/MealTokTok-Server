@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.global.security;
+package core.startup.mealtoktok.api.global.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
-import static core.startup.mealtoktok.global.security.SecurityConstant.*;
+import static core.startup.mealtoktok.api.global.security.SecurityConstant.*;
 
 @Configuration
 @RequiredArgsConstructor

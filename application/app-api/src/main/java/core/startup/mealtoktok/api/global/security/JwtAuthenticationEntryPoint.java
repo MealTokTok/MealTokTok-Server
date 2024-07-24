@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.global.security;
+package core.startup.mealtoktok.api.global.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

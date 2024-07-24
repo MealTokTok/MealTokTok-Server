@@ -1,6 +1,6 @@
-package core.startup.mealtoktok.global.web;
+package core.startup.mealtoktok.api.global.web;
 
-import core.startup.mealtoktok.global.security.SecurityProperties;
+import core.startup.mealtoktok.api.global.security.SecurityProperties;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

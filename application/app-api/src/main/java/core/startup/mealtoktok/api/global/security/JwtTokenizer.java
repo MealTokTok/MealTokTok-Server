@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.global.security;
+package core.startup.mealtoktok.api.global.security;
 
 import core.startup.mealtoktok.domain.auth.JwtTokens;
 import core.startup.mealtoktok.domain.auth.TokenGenerator;
@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
-import static core.startup.mealtoktok.global.security.SecurityProperties.*;
+import static core.startup.mealtoktok.api.global.security.SecurityProperties.*;
 
 @Component
 public class JwtTokenizer implements TokenGenerator {

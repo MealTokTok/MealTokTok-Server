@@ -6,7 +6,7 @@ import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
 import core.startup.mealtoktok.domain.auth.JwtTokens;
 import core.startup.mealtoktok.domain.auth.OAuthTokens;
-import core.startup.mealtoktok.global.security.JwtTokenizer;
+import core.startup.mealtoktok.api.global.security.JwtTokenizer;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

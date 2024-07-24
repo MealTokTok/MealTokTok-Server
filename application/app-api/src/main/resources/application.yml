@@ -1,10 +1,8 @@
 spring:
   profiles:
     group:
-      local: common, domain
-      prod: common, domain
-    include:
-      - infra
+      local: common, domain, infra
+      prod: common, domain, infra
 
   servlet:
     multipart:

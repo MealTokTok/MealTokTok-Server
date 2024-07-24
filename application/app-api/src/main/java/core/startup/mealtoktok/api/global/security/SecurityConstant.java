@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.global.security;
+package core.startup.mealtoktok.api.global.security;
 
 public class SecurityConstant {
     public static final String[] PERMIT_SWAGGER_URIS = {

@@ -11,7 +11,7 @@ allprojects {
 }
 
 subprojects {
-	group = 'core.startup'
+	group = 'core.startup.mealtoktok'
 	version = '0.0.1'
 	sourceCompatibility = '17'
 
@@ -36,10 +36,26 @@ subprojects {
 		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	}
 
-	tasks.named('test') {
+	test() {
 		useJUnitPlatform()
 	}
 }
+
+bootJar {
+	enabled = false
+}
+
+project(':application') {
+	bootJar {
+		enabled = false
+	}
+
+	jar {
+		enabled = false
+	}
+}
+
+
 
 
 
