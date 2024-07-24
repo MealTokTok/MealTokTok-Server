@@ -19,7 +19,7 @@ public interface AuthApiDocs {
     Response<Void> signUp(SignupRequest signupRequest, HttpServletResponse response);
 
     @Operation(summary = "로그인")
-    Response<Void> login(@RequestParam OAuthTokens oAuthTokens, HttpServletResponse response);
+    Response<Void> login(OAuthTokens oAuthTokens, HttpServletResponse response);
 
     @Operation(summary = "OAuth 링크발급(백엔드 개발 테스트용입니다)")
     Response<OAuthLogin> oauthLoginLink();
