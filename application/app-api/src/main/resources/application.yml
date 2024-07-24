@@ -2,7 +2,7 @@ spring:
   profiles:
     group:
       local: common, domain, infra
-      prod: common, domain, infra
+      dev: common, domain, infra
 
   servlet:
     multipart:
@@ -18,13 +18,25 @@ server:
   shutdown: graceful
 
 jwt:
+  secret-key: ${JWT_SECRET_KEY}
   access-token:
     header: Access-token
   refresh-token:
     header: Refresh-token
 ---
-
+spring:
+  config:
+    activate:
+      on-profile: local
 jwt:
-  secret-key: ${JWT_SECRET_KEY}
+  access-token:
+    expiration: 2592000 #3일
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+jwt:
   access-token:
     expiration: 2592000 #3일

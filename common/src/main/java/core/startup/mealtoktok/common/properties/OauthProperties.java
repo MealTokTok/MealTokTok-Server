@@ -11,8 +11,14 @@ public class OauthProperties {
     public static String REDIRECT_URL;
     public static String APP_ID;
     public static String ADMIN_KEY;
+    public static String SERVICE_KEY;
 
     public static final String KAKAO_OAUTH_QUERY_STRING = "/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code&scope=openid";
+
+    @Value("${oauth.kakao.service-key}")
+    public void setServiceKey(String serviceKey) {
+        OauthProperties.SERVICE_KEY = serviceKey;
+    }
 
     @Value("${oauth.kakao.base-url}")
     public void setBaseUrl(String baseUrl) {
