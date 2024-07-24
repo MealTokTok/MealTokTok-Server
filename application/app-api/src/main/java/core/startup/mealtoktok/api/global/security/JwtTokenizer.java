@@ -1,9 +1,9 @@
 package core.startup.mealtoktok.api.global.security;
 
+import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
 import core.startup.mealtoktok.domain.auth.JwtTokens;
 import core.startup.mealtoktok.domain.auth.TokenGenerator;
-import core.startup.mealtoktok.domain.auth.exception.ExpiredTokenException;
-import core.startup.mealtoktok.domain.auth.exception.InvalidTokenException;
+import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
 import core.startup.mealtoktok.domain.user.TargetUser;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

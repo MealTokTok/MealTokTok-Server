@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.api.global.security;
 
+import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
 import core.startup.mealtoktok.domain.auth.RefreshToken;
 import core.startup.mealtoktok.domain.auth.TokenManager;
 import core.startup.mealtoktok.domain.user.*;
@@ -32,7 +33,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         if (refreshToken.isPresent()) {
             TargetUser targetUser = JwtTokenizer.extractTargetUser(refreshToken.get());
-            tokenManager.validate(targetUser, refreshToken.get());
+            validateRefreshToken(targetUser, refreshToken.get());
             reIssueToken(targetUser, response);
             log.info("userEntity - {} 리프레시 토큰 재발급", targetUser.userId());
             return;
@@ -47,11 +48,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void saveAuthentication(User user) {
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                user, null, null);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("{} 유저 인증 성공", user.getUserInfo().profileImageUrl());
+    public void validateRefreshToken(TargetUser targetUser, String givenRefreshToken) {
+        tokenManager.getRefreshToken(targetUser)
+                .filter(existRefreshToken -> existRefreshToken.equals(givenRefreshToken))
+                .orElseThrow(() -> InvalidTokenException.EXCEPTION);
     }
 
     private void reIssueToken(TargetUser targetUser, HttpServletResponse response) {
@@ -60,5 +60,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         tokenManager.saveRefreshToken(RefreshToken.of(targetUser, reIssuedRefreshToken));
         JwtTokenizer.setInHeader(response, reIssuedAccessToken, reIssuedRefreshToken);
         response.setStatus(HttpServletResponse.SC_CREATED);
+    }
+
+    private void saveAuthentication(User user) {
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                user, null, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        log.info("{} 유저 인증 성공", user.getUserInfo().profileImageUrl());
     }
 }

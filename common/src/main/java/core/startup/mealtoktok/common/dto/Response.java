@@ -1,9 +1,11 @@
 package core.startup.mealtoktok.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import core.startup.mealtoktok.common.exception.BaseErrorCode;
+import core.startup.mealtoktok.common.exception.ErrorReason;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.*;
 
@@ -12,11 +14,16 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
 @JsonInclude(Include.NON_NULL)
 public class Response<T> {
 
-    private String responseCode;
 
+    private String path;
+
+    private String responseCode;
     private String message;
 
     private T result;
+
+    private LocalDateTime timeStamp;
+
 
     private Response(String responseCode, T result) {
         this.responseCode = responseCode;
@@ -26,6 +33,13 @@ public class Response<T> {
     private Response(String responseCode, String message) {
         this.responseCode = responseCode;
         this.message = message;
+    }
+
+    public Response(String path, String errorCode, String message) {
+        this.path = path;
+        this.responseCode = errorCode;
+        this.message = message;
+        this.timeStamp = LocalDateTime.now();
     }
 
     public static <T> Response<T> success(T result) {
@@ -40,8 +54,8 @@ public class Response<T> {
         return new Response<>("SUCCESS", message);
     }
 
-    public static Response<Void> error(BaseErrorCode errorCode, String message) {
-        return new Response<>(errorCode.getErrorReason().errorCode(),  message);
+    public static Response<Void> error(ErrorReason errorReason, String path, String message) {
+        return new Response<>(path, errorReason.errorCode(), message);
     }
 
 }
