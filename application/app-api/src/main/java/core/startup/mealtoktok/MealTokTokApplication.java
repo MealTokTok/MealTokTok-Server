@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api;
+package core.startup.mealtoktok;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
