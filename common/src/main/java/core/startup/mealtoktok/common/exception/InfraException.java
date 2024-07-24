@@ -10,6 +10,6 @@ public class InfraException extends CustomException {
     }
 
     public InfraException(BaseErrorCode errorCode) {
-        super(errorCode, null);
+        super(errorCode, "인프라 계층 예외");
     }
 }

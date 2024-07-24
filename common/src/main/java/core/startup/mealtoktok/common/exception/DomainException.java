@@ -10,6 +10,6 @@ public class DomainException extends CustomException {
     }
 
     public DomainException(BaseErrorCode errorCode) {
-        super(errorCode, null);
+        super(errorCode, "도메인 계층 예외");
     }
 }

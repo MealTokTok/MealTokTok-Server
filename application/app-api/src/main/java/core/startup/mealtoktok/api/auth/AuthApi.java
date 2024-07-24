@@ -24,7 +24,7 @@ public class AuthApi implements AuthApiDocs {
     }
 
     @GetMapping("/oauth/login")
-    public Response<Void> login(@RequestParam OAuthTokens oAuthTokens, HttpServletResponse response) {
+    public Response<Void> login(OAuthTokens oAuthTokens, HttpServletResponse response) {
         JwtTokens jwtTokens = authService.login(oAuthTokens);
         JwtTokenizer.setInHeader(response, jwtTokens.accessToken(), jwtTokens.refreshToken());
         return Response.success("로그인 성공");

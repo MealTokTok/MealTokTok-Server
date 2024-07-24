@@ -1,6 +1,7 @@
 package core.startup.mealtoktok.infra.auth.exception;
 
 import core.startup.mealtoktok.common.exception.InfraException;
+import core.startup.mealtoktok.domain.auth.exception.AuthErrorCode;
 
 public class OtherServerExpiredTokenException extends InfraException {
 
