@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 
 public class HttpUtils {
 
-
     public static HttpHeaders setHeaders(JwtTokens jwtTokens) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(SecurityProperties.ACCESS_TOKEN_HEADER, jwtTokens.accessToken());
