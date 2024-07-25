@@ -54,4 +54,9 @@ public class DishEntity {
                 .dishCategoryId(dishCategoryEntity.getCategoryId())
                 .build();
     }
+
+    public void update(DishInfo dishInfo) {
+        this.dishName = dishInfo.dishName();
+        this.imgUrl = dishInfo.imgUrl();
+    }
 }

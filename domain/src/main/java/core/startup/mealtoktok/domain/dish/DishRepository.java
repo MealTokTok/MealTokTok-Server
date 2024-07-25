@@ -14,4 +14,6 @@ public interface DishRepository {
     void delete(Dish dish);
 
     List<Dish> findAllByStoreAndCategory(DishStore dishStore, DishCategory dishCategory);
+
+    void update(Dish dish, DishInfo dishInfo);
 }

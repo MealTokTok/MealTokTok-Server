@@ -53,4 +53,11 @@ public class CoreJpaDishRepository implements DishRepository {
                 .stream().map(DishEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    public void update(Dish dish, DishInfo dishInfo) {
+        DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
+        dishEntity.update(dishInfo);
+    }
+
 }

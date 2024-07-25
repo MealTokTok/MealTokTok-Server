@@ -1,8 +1,9 @@
 package core.startup.mealtoktok.api.dish;
 
+import core.startup.mealtoktok.api.dish.request.DishRequest;
 import core.startup.mealtoktok.common.dto.Response;
-import core.startup.mealtoktok.domain.dish.DeleteDishService;
 import core.startup.mealtoktok.domain.dish.TargetDish;
+import core.startup.mealtoktok.domain.dish.UpdateDishService;
 import core.startup.mealtoktok.domain.user.TargetUser;
 import core.startup.mealtoktok.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -12,15 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class DeleteDishApi {
+public class UpdateDishApi {
 
-    private final DeleteDishService deleteDishService;
+    private final UpdateDishService updateDishService;
 
-    @DeleteMapping(("dishes/{dishId}"))
-    public Response<Void> deleteDish(@RequestParam("dishId") Long dishId,
+    @PatchMapping(("dishes/{dishId}"))
+    public Response<Void> updateDish(@RequestParam("dishId") Long dishId,
+                                     @RequestBody DishRequest request,
                                      @AuthenticationPrincipal User currentUser)
     {
-        deleteDishService.deleteDish(TargetUser.from(currentUser.getUserId()), TargetDish.from(dishId));
-        return Response.success("반찬 삭제 성공");
+        updateDishService.updateDish(TargetUser.from(currentUser.getUserId()), TargetDish.from(dishId), request.toDishInfo());
+        return Response.success("반찬 수정 성공");
     }
 }

@@ -9,12 +9,14 @@ import core.startup.mealtoktok.domain.dishCategory.TargetDishCategory;
 import core.startup.mealtoktok.domain.user.TargetUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ReadDishService {
 
     private final DishStoreReader dishStoreReader;

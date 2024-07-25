@@ -1,8 +1,8 @@
-package core.startup.mealtoktok.api.Dish.request;
+package core.startup.mealtoktok.api.dish.request;
 
 import core.startup.mealtoktok.domain.dish.DishInfo;
 
-public record CreateDishRequest(
+public record DishRequest(
         String dishName,
         String imgUrl
 ) {
