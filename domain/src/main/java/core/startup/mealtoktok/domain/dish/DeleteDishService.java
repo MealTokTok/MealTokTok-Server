@@ -16,7 +16,7 @@ public class DeleteDishService {
     private final DishRemover dishRemover;
     private final UserReader userReader;
 
-    public void deleteDish(TargetDish targetDish) {
+    public void deleteDish(TargetUser targetUser, TargetDish targetDish) {
        //User user = userReader.read(targetUser);
         Dish dish = dishReader.read(targetDish);
         //검증 로직

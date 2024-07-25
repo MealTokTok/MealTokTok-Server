@@ -1,6 +1,6 @@
-package core.startup.mealtoktok.api.Dish;
+package core.startup.mealtoktok.api.dish;
 
-import core.startup.mealtoktok.api.Dish.request.CreateDishRequest;
+import core.startup.mealtoktok.api.dish.request.CreateDishRequest;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.DishStore.TargetDishStore;
 import core.startup.mealtoktok.domain.dish.CreateDishService;
@@ -19,12 +19,12 @@ public class CreateDishApi {
     private final CreateDishService createDishService;
 
     @PostMapping(("/stores/{storeId}/categories/{categoryId}/dishes"))
-    public Response<Void> createDish(@RequestParam Long storeId,
-                                     @RequestParam Long categoryId,
-                                     @RequestBody CreateDishRequest request)
-                                     //@AuthenticationPrincipal User currentUser)
+    public Response<Void> createDish(@RequestParam("storeId") Long storeId,
+                                     @RequestParam("categoryId") Long categoryId,
+                                     @RequestBody CreateDishRequest request,
+                                     @AuthenticationPrincipal User currentUser)
     {
-        createDishService.createDish(TargetDishStore.from(storeId), TargetDishCategory.from(categoryId), request.toDishInfo());
+        createDishService.createDish(TargetUser.from(currentUser), TargetDishStore.from(storeId), TargetDishCategory.from(categoryId), request.toDishInfo());
         return Response.success("반찬 생성 성공");
     }
 

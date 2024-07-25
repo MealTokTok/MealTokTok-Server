@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 @Transactional
 @RequiredArgsConstructor
@@ -43,5 +45,12 @@ public class CoreJpaDishRepository implements DishRepository {
     public void delete(Dish dish) {
         DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
         jpaDishRepository.delete(dishEntity);
+    }
+
+    @Override
+    public List<Dish> findAllByStoreAndCategory(DishStore dishStore, DishCategory dishCategory) {
+        return jpaDishRepository.findAllByStoreAndCategory(dishStore.getStoreId(), dishCategory.getCategoryId())
+                .stream().map(DishEntity::toDomain)
+                .toList();
     }
 }

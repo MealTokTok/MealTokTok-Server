@@ -7,28 +7,23 @@ import core.startup.mealtoktok.domain.dishCategory.DishCategory;
 import core.startup.mealtoktok.domain.dishCategory.DishCategoryReader;
 import core.startup.mealtoktok.domain.dishCategory.TargetDishCategory;
 import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.domain.user.User;
-import core.startup.mealtoktok.domain.user.UserReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+
 @Service
 @RequiredArgsConstructor
-public class CreateDishService {
+public class ReadDishService {
 
     private final DishStoreReader dishStoreReader;
     private final DishCategoryReader dishCategoryReader;
-    private final DishAppender dishAppender;
-    private final UserReader userReader;
+    private final DishReader dishReader;
 
-    public void createDish(TargetUser targetUser,
-                           TargetDishStore targetDishStore,
-                           TargetDishCategory targetDishCategory,
-                           DishInfo dishInfo){
-        //User user = userReader.read(targetUser);
+    public List<Dish> readDishes(TargetUser targetUser, TargetDishStore targetDishStore, TargetDishCategory targetDishCategory){
         DishStore dishStore = dishStoreReader.read(targetDishStore);
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
-        dishAppender.append(dishStore, dishCategory, dishInfo);
+        return dishReader.readAll(dishStore, dishCategory);
     }
-
 }
