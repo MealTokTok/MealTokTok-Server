@@ -5,7 +5,6 @@ import core.startup.mealtoktok.domain.dishCategory.DishCategoryRepository;
 import core.startup.mealtoktok.domain.dishCategory.TargetDishCategory;
 import core.startup.mealtoktok.infra.dishCategory.entity.DishCategoryEntity;
 import core.startup.mealtoktok.infra.dishCategory.exception.DishCategoryNotFoundException;
-import core.startup.mealtoktok.infra.dishStore.exception.DishStoreNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

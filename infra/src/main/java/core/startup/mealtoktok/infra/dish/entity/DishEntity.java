@@ -1,9 +1,7 @@
 package core.startup.mealtoktok.infra.dish.entity;
 
-import core.startup.mealtoktok.domain.DishStore.DishStore;
 import core.startup.mealtoktok.domain.dish.Dish;
 import core.startup.mealtoktok.domain.dish.DishInfo;
-import core.startup.mealtoktok.domain.dishCategory.DishCategory;
 import core.startup.mealtoktok.infra.dishCategory.entity.DishCategoryEntity;
 import core.startup.mealtoktok.infra.dishStore.entity.DishStoreEntity;
 import jakarta.persistence.*;

@@ -17,6 +17,7 @@ public class CreateDishService {
 
     private final DishStoreReader dishStoreReader;
     private final DishCategoryReader dishCategoryReader;
+    private final DishReader dishReader;
     private final DishAppender dishAppender;
 
     public void createDish(TargetDishStore targetDishStore,
@@ -24,7 +25,7 @@ public class CreateDishService {
                            DishInfo dishInfo){
         DishStore dishStore = dishStoreReader.read(targetDishStore);
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
-
+        dishReader.checkNoDuplicateDishName(dishStore, dishInfo.dishName());
         dishAppender.append(dishStore, dishCategory, dishInfo);
     }
 

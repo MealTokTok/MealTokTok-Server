@@ -30,7 +30,7 @@ public class CoreJpaDishRepository implements DishRepository {
     @Override
     public void save(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
         DishStoreEntity dishStoreEntity = jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
-        DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(dishStore.getStoreId());
+        DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(dishCategory.getCategoryId());
         jpaDishRepository.save(DishEntity.of(dishStoreEntity, dishCategoryEntity, dishInfo));
     }
 
@@ -58,6 +58,12 @@ public class CoreJpaDishRepository implements DishRepository {
     public void update(Dish dish, DishInfo dishInfo) {
         DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
         dishEntity.update(dishInfo);
+    }
+
+    @Override
+    public boolean existsByDishStoreEntityAndDishName(DishStore dishStore, String dishName) {
+        DishStoreEntity dishStoreEntity = jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
+        return jpaDishRepository.existsByDishStoreEntityAndDishName(dishStoreEntity, dishName);
     }
 
 }

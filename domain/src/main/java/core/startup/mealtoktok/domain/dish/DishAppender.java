@@ -14,4 +14,5 @@ public class DishAppender {
     public void append(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
         dishRepository.save(dishStore, dishCategory, dishInfo);
     }
+
 }
