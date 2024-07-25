@@ -10,7 +10,6 @@ oauth:
     app-id: ${KAKAO_APP_ID}
     admin-key: ${KAKAO_ADMIN_KEY}
     service-key: ${KAKAO_REST_API_KEY}
-
 ---
 spring:
   config:
