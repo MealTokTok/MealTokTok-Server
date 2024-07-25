@@ -25,5 +25,5 @@ public interface AuthApiDocs {
     Response<OAuthLoginResponse> oauthLoginLink();
 
     @Operation(summary = "OAuth code를 통한 테스트(백엔드 개발 테스트용입니다)")
-    Response<Void> credentialTest(@RequestParam String code);
+    Response<Void> credentialTest(@RequestParam String code, HttpServletResponse response);
 }

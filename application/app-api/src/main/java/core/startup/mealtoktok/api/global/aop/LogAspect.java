@@ -26,7 +26,7 @@ public class LogAspect {
     public void all() {
     }
 
-    @Pointcut("execution(* core.startup.mealtoktok.api..*Api.*(..))")
+    @Pointcut("execution(* core.startup.mealtoktok.api..*Api.*(..)) && !execution(* core.startup.mealtoktok.api.HealthCheckApi..*(..))")
     public void controller() {
     }
 

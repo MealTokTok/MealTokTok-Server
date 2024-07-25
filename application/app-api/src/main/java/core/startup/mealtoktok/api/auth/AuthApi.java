@@ -46,8 +46,9 @@ public class AuthApi implements AuthApiDocs {
     }
 
     @GetMapping("/login/oauth2/code/kakao")
-    public Response<Void> credentialTest(@RequestParam("code") String code) {
-        authService.getCredentialTest(code);
+    public Response<Void> credentialTest(@RequestParam("code") String code, HttpServletResponse response) {
+        JwtTokens jwtTokens = authService.getCredentialTest(code);
+        JwtTokenizer.setInHeader(response, jwtTokens.accessToken(), jwtTokens.refreshToken());
         return Response.success("테스트 성공");
     }
 }
