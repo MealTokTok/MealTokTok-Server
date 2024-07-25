@@ -1,9 +1,9 @@
 package core.startup.mealtoktok.api.global.security;
 
+import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
 import core.startup.mealtoktok.domain.auth.OIDCPayload;
 import core.startup.mealtoktok.domain.auth.OidcTokenParser;
 import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
-import core.startup.mealtoktok.domain.auth.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

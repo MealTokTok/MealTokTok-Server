@@ -1,6 +1,7 @@
-package core.startup.mealtoktok.domain.auth.exception;
+package core.startup.mealtoktok.api.auth.exception;
 
 import core.startup.mealtoktok.common.exception.DomainException;
+import core.startup.mealtoktok.domain.auth.exception.AuthErrorCode;
 
 public class InvalidTokenException extends DomainException {
 

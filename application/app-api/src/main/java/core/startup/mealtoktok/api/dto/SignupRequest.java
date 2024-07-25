@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api.auth.request;
+package core.startup.mealtoktok.api.dto;
 
 import core.startup.mealtoktok.domain.auth.OAuthTokens;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;

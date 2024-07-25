@@ -1,6 +1,5 @@
 package core.startup.mealtoktok.domain.auth;
 
-import core.startup.mealtoktok.domain.auth.exception.InvalidTokenException;
 import core.startup.mealtoktok.domain.user.TargetUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,20 +22,8 @@ public class TokenManager {
                 .map(RefreshToken::refreshToken);
     }
 
-    public void ban(String accessToken) {
-        tokenRepository.ban(accessToken);
-    }
-
     public boolean isAlreadyLogin(String accessToken) {
         return tokenRepository.isAlreadyLogin(accessToken);
     }
-
-    public void validate(TargetUser targetUser, String givenRefreshToken) {
-        getRefreshToken(targetUser)
-                .filter(existRefreshToken -> existRefreshToken.equals(givenRefreshToken))
-                .orElseThrow(() -> InvalidTokenException.EXCEPTION);
-    }
-
-
 
 }

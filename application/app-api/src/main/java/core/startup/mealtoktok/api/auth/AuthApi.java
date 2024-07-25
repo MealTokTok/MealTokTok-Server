@@ -1,7 +1,7 @@
 package core.startup.mealtoktok.api.auth;
 
-import core.startup.mealtoktok.api.auth.request.SignupRequest;
-import core.startup.mealtoktok.api.auth.response.OAuthLogin;
+import core.startup.mealtoktok.api.dto.SignupRequest;
+import core.startup.mealtoktok.api.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
 import core.startup.mealtoktok.domain.auth.JwtTokens;
@@ -9,11 +9,13 @@ import core.startup.mealtoktok.domain.auth.OAuthTokens;
 import core.startup.mealtoktok.api.global.security.JwtTokenizer;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@Slf4j
 public class AuthApi implements AuthApiDocs {
 
     private final AuthService authService;
@@ -38,13 +40,13 @@ public class AuthApi implements AuthApiDocs {
     }
 
     @GetMapping("/oauth/login/link")
-    public Response<OAuthLogin> oauthLoginLink() {
-        OAuthLogin oAuthLogin = OAuthLogin.from(authService.getKakaoLoginLink());
-        return Response.success(oAuthLogin);
+    public Response<OAuthLoginResponse> oauthLoginLink() {
+        OAuthLoginResponse oAuthLoginResponse = OAuthLoginResponse.from(authService.getKakaoLoginLink());
+        return Response.success(oAuthLoginResponse);
     }
 
     @GetMapping("/login/oauth2/code/kakao")
-    public Response<Void> credentialTest(@RequestParam String code) {
+    public Response<Void> credentialTest(@RequestParam("code") String code) {
         authService.getCredentialTest(code);
         return Response.success("테스트 성공");
     }
