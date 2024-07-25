@@ -1,8 +1,5 @@
 package core.startup.mealtoktok.domain.dish;
 
-import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.domain.user.User;
-import core.startup.mealtoktok.domain.user.UserReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,13 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UpdateDishService {
 
-    private final UserReader userReader;
     private final DishReader dishReader;
     private final DishUpdater dishUpdater;
 
-    public void updateDish(TargetUser targetUser, TargetDish targetDish, DishInfo dishInfo) {
-        User user = userReader.read(targetUser);
-        //검증 로직 추가
+    public void updateDish(TargetDish targetDish, DishInfo dishInfo) {
         Dish dish = dishReader.read(targetDish);
         dishUpdater.update(dish, dishInfo);
     }

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
-public class CreateDishApi {
+@RequestMapping("/api/v1/admin")
+public class CreateDishApi implements CreateDishApiDocs{
 
     private final CreateDishService createDishService;
 
@@ -24,7 +24,7 @@ public class CreateDishApi {
                                      @RequestBody DishRequest request,
                                      @AuthenticationPrincipal User currentUser)
     {
-        createDishService.createDish(TargetUser.from(currentUser), TargetDishStore.from(storeId), TargetDishCategory.from(categoryId), request.toDishInfo());
+        createDishService.createDish(TargetDishStore.from(storeId), TargetDishCategory.from(categoryId), request.toDishInfo());
         return Response.success("반찬 생성 성공");
     }
 

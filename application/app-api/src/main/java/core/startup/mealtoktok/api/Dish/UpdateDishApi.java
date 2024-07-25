@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class UpdateDishApi {
+public class UpdateDishApi implements UpdateDishApiDocs{
 
     private final UpdateDishService updateDishService;
 
-    @PatchMapping(("dishes/{dishId}"))
+    @PatchMapping(("/admin/dishes/{dishId}"))
     public Response<Void> updateDish(@RequestParam("dishId") Long dishId,
                                      @RequestBody DishRequest request,
                                      @AuthenticationPrincipal User currentUser)
     {
-        updateDishService.updateDish(TargetUser.from(currentUser.getUserId()), TargetDish.from(dishId), request.toDishInfo());
+        updateDishService.updateDish(TargetDish.from(dishId), request.toDishInfo());
         return Response.success("반찬 수정 성공");
     }
 }

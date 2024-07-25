@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class ReadDishApi {
+public class ReadDishApi implements ReadDishApiDocs{
 
     private final ReadDishService readDishService;
 

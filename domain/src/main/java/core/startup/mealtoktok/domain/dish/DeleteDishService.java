@@ -14,12 +14,9 @@ public class DeleteDishService {
 
     private final DishReader dishReader;
     private final DishRemover dishRemover;
-    private final UserReader userReader;
 
-    public void deleteDish(TargetUser targetUser, TargetDish targetDish) {
-       //User user = userReader.read(targetUser);
+    public void deleteDish(TargetDish targetDish) {
         Dish dish = dishReader.read(targetDish);
-        //검증 로직
         dishRemover.remove(dish);
     }
 }
