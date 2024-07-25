@@ -1,7 +1,7 @@
 package core.startup.mealtoktok.api.auth;
 
-import core.startup.mealtoktok.api.auth.request.SignupRequest;
-import core.startup.mealtoktok.api.auth.response.OAuthLogin;
+import core.startup.mealtoktok.api.dto.SignupRequest;
+import core.startup.mealtoktok.api.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.OAuthTokens;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ public interface AuthApiDocs {
     Response<Void> login(OAuthTokens oAuthTokens, HttpServletResponse response);
 
     @Operation(summary = "OAuth 링크발급(백엔드 개발 테스트용입니다)")
-    Response<OAuthLogin> oauthLoginLink();
+    Response<OAuthLoginResponse> oauthLoginLink();
 
     @Operation(summary = "OAuth code를 통한 테스트(백엔드 개발 테스트용입니다)")
     Response<Void> credentialTest(@RequestParam String code);

@@ -14,8 +14,6 @@ dependencies {
 
     //aop
     implementation 'org.springframework.boot:spring-boot-starter-aop'
-
-    //spring-json
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
     //JWT

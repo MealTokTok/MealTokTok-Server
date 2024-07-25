@@ -12,9 +12,11 @@ public class UserReader {
     private final UserCacheManager userCacheManager;
 
     public User read(TargetUser targetUser) {
-        return userCacheManager.read(targetUser).orElseGet( () ->
-                userRepository.findById(targetUser)
-        );
+        return userCacheManager.read(targetUser).orElseGet( () ->{
+            User user = userRepository.findById(targetUser);
+            userCacheManager.cache(user);
+            return user;
+        });
     }
 
     public boolean isAlreadyRegistered(OAuthInfo oAuthInfo) {
