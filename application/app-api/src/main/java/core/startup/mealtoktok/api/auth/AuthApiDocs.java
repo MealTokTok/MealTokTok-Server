@@ -21,9 +21,9 @@ public interface AuthApiDocs {
     @Operation(summary = "로그인")
     Response<Void> login(OAuthTokens oAuthTokens, HttpServletResponse response);
 
-    @Operation(summary = "OAuth 링크발급(백엔드 개발 테스트용입니다)")
+    @Operation(summary = "OAuth 링크발급(백엔드 개발 로컬 테스트용입니다)")
     Response<OAuthLoginResponse> oauthLoginLink();
 
-    @Operation(summary = "OAuth code를 통한 테스트(백엔드 개발 테스트용입니다)")
-    Response<Void> credentialTest(@RequestParam String code, HttpServletResponse response);
+    @Operation(summary = "OAuth code를 통한 테스트(백엔드 개발 로컬 테스트용입니다)")
+    Response<Void> credentialTest(String code, HttpServletResponse response);
 }

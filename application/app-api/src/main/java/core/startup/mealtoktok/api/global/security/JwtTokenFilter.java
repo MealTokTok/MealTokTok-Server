@@ -29,22 +29,26 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        Optional<String> refreshToken = JwtTokenizer.extractRefreshToken(request);
+        try {
+            Optional<String> refreshToken = JwtTokenizer.extractRefreshToken(request);
 
-        if (refreshToken.isPresent()) {
-            TargetUser targetUser = JwtTokenizer.extractTargetUser(refreshToken.get());
-            validateRefreshToken(targetUser, refreshToken.get());
-            reIssueToken(targetUser, response);
-            log.info("userEntity - {} 리프레시 토큰 재발급", targetUser.userId());
-            return;
+            if (refreshToken.isPresent()) {
+                TargetUser targetUser = JwtTokenizer.extractTargetUser(refreshToken.get());
+                validateRefreshToken(targetUser, refreshToken.get());
+                reIssueToken(targetUser, response);
+                log.info("userEntity - {} 리프레시 토큰 재발급", targetUser.userId());
+                return;
+            }
+
+            JwtTokenizer.extractAccessToken(request)
+                    .filter(tokenManager::isAlreadyLogin)
+                    .map(JwtTokenizer::extractTargetUser)
+                    .map(userReader::read)
+                    .ifPresent(this::saveAuthentication);
+
+        } catch (Exception e) {
+            request.setAttribute("exception", e);
         }
-
-        JwtTokenizer.extractAccessToken(request)
-                .filter(tokenManager::isAlreadyLogin)
-                .map(JwtTokenizer::extractTargetUser)
-                .map(userReader::read)
-                .ifPresent(this::saveAuthentication);
-
         filterChain.doFilter(request, response);
     }
 
