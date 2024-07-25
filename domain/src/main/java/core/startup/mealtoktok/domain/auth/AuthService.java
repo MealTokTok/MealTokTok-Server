@@ -48,8 +48,7 @@ public class AuthService {
 
     public JwtTokens getCredentialTest(String code) {
         OAuthTokens authToken = oAuthClient.auth(CLIENT_ID, REDIRECT_URL, code);
-        JwtTokens jwtTokens = signUp(authToken, AddressWithCoordinate.of("충청북도 흥덕구 봉명동 2300-1", 36.629, 127.456));
-        return jwtTokens;
+        return signUp(authToken, AddressWithCoordinate.of("충청북도 흥덕구 봉명동 2300-1", 36.629, 127.456));
     }
 
 

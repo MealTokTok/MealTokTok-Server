@@ -7,6 +7,7 @@ import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
 import core.startup.mealtoktok.domain.user.TargetUser;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,7 +31,7 @@ public class JwtTokenizer implements TokenGenerator {
                 .setSubject(String.valueOf(targetUser.userId()))
                 .setIssuedAt(Calendar.getInstance().getTime())
                 .setExpiration(getTokenExpiration())
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -40,7 +41,7 @@ public class JwtTokenizer implements TokenGenerator {
         return Jwts.builder()
                 .setSubject(String.valueOf(targetUser.userId()))
                 .setIssuedAt(Calendar.getInstance().getTime())
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 

@@ -21,7 +21,6 @@ public class SecurityConstant {
             "/api/v1/auth/oauth/can-sign-up",
             "/api/v1/auth/oauth/sign-up",
             "/api/v1/auth/oauth/login",
-            "/api/v1/auth/oauth/login/link",
             "/api/v1/auth/login/oauth2/code/kakao"
     };
 

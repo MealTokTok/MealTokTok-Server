@@ -1,15 +1,15 @@
 package core.startup.mealtoktok.domain.user;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
     private Long userId;
     private UserInfo userInfo;

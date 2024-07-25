@@ -28,7 +28,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         resolver.resolveException(request, response, null, UnAuthorizedUserException.EXCEPTION);
     }
 
-    private static boolean isExceptionInSecurityFilter(HttpServletRequest request) {
+    private boolean isExceptionInSecurityFilter(HttpServletRequest request) {
         return request.getAttribute("exception") != null;
     }
 }
