@@ -20,18 +20,15 @@ public class CoreUserRepository implements UserRepository {
     private final JpaUserRepository jpaUserRepository;
 
     @Override
-    public TargetUser save(OAuthInfo oAuthInfo, UserInfo userInfo) {
-        UserEntity savedUser = jpaUserRepository.save(UserEntity.from(oAuthInfo, userInfo));
+    public TargetUser save(OAuthInfo oAuthInfo, String deviceToken, UserInfo userInfo) {
+        UserEntity savedUser = jpaUserRepository.save(UserEntity.from(oAuthInfo, deviceToken, userInfo));
         return TargetUser.from(savedUser.getUserId());
     }
 
     @Override
-    public TargetUser update(OAuthProfile profile) {
-        UserEntity userEntity = jpaUserRepository.findByOid(profile.getSub())
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-        userEntity.oAuthUpdate(profile);
-        return TargetUser.from(userEntity.getUserId());
+    public TargetUser save(User user) {
+        UserEntity savedUser = jpaUserRepository.save(UserEntity.from(user));
+        return TargetUser.from(savedUser.getUserId());
     }
 
     @Override

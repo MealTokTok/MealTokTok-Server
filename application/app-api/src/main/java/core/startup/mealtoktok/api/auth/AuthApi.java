@@ -26,15 +26,17 @@ public class AuthApi implements AuthApiDocs {
     }
 
     @GetMapping("/oauth/login")
-    public Response<Void> login(OAuthTokens oAuthTokens, HttpServletResponse response) {
-        JwtTokens jwtTokens = authService.login(oAuthTokens);
+    public Response<Void> login(OAuthTokens oAuthTokens,
+                                @RequestParam("device-token") String deviceToken,
+                                HttpServletResponse response) {
+        JwtTokens jwtTokens = authService.login(oAuthTokens, deviceToken);
         JwtTokenizer.setInHeader(response, jwtTokens.accessToken(), jwtTokens.refreshToken());
         return Response.success("로그인 성공");
     }
 
     @PostMapping("/oauth/sign-up")
-    public Response<Void> signUp(@RequestBody SignupRequest signupRequest, HttpServletResponse response) {
-        JwtTokens jwtTokens = authService.signUp(signupRequest.oAuthTokens(), signupRequest.toInfo());
+    public Response<Void> signUp(@RequestBody SignupRequest request, HttpServletResponse response) {
+        JwtTokens jwtTokens = authService.signUp(request.oAuthTokens(), request.deviceToken(), request.toInfo());
         JwtTokenizer.setInHeader(response, jwtTokens.accessToken(), jwtTokens.refreshToken());
         return Response.success("회원가입 성공");
     }

@@ -23,17 +23,19 @@ public class AuthService {
     }
 
     public JwtTokens signUp(OAuthTokens oAuthTokens,
+                            String deviceToken,
                             AddressWithCoordinate addressWithCoordinate) {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(oAuthTokens.idToken());
         OAuthProfile oAuthProfile = oAuthClient.getUserInfo(oAuthTokens.accessToken());
-        TargetUser targetUser = userAppender.append(oAuthInfo, UserInfo.of(oAuthProfile, addressWithCoordinate));
+        TargetUser targetUser = userAppender.append(oAuthInfo, deviceToken, UserInfo.of(oAuthProfile, addressWithCoordinate));
         return tokenGenerator.generate(targetUser);
     }
 
-    public JwtTokens login(OAuthTokens oAuthTokens) {
+    public JwtTokens login(OAuthTokens oAuthTokens, String deviceToken) {
         oAuthAuthenticator.authenticate(oAuthTokens.idToken());
         OAuthProfile oAuthProfile = oAuthClient.getUserInfo(oAuthTokens.accessToken());
-        TargetUser targetUser = userUpdater.update(oAuthProfile);
+        User user = userReader.read(oAuthProfile);
+        TargetUser targetUser = userUpdater.update(user, oAuthProfile, deviceToken);
         return tokenGenerator.generate(targetUser);
     }
 
@@ -48,7 +50,8 @@ public class AuthService {
 
     public JwtTokens getCredentialTest(String code) {
         OAuthTokens authToken = oAuthClient.auth(CLIENT_ID, REDIRECT_URL, code);
-        return signUp(authToken, AddressWithCoordinate.of("충청북도 흥덕구 봉명동 2300-1", 36.629, 127.456));
+        System.out.println("authToken = " + authToken);
+        return signUp(authToken, "deviceTokenTest", AddressWithCoordinate.of("충청북도 흥덕구 봉명동 2300-1", 36.629, 127.456));
     }
 
 

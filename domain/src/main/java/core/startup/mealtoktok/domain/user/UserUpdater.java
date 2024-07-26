@@ -10,7 +10,8 @@ public class UserUpdater {
 
     private final UserRepository userRepository;
 
-    public TargetUser update(OAuthProfile oAuthProfile) {
-        return userRepository.update(oAuthProfile);
+    public TargetUser update(User user, OAuthProfile oAuthProfile, String deviceToken) {
+        user.update(oAuthProfile, deviceToken);
+        return userRepository.save(user);
     }
 }

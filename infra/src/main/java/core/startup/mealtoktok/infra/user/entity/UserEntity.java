@@ -1,7 +1,6 @@
 package core.startup.mealtoktok.infra.user.entity;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
-import core.startup.mealtoktok.domain.auth.OAuthProfile;
 import core.startup.mealtoktok.domain.auth.OAuthProvider;
 import core.startup.mealtoktok.domain.user.*;
 import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
@@ -10,6 +9,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -53,7 +53,7 @@ public class UserEntity extends BaseTimeEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "device_token", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "device_token")
-    private Set<String> deviceTokens;
+    private Set<String> deviceTokens = new HashSet<>();
 
     public static UserEntity from(User user) {
         return UserEntity.builder()
@@ -79,7 +79,7 @@ public class UserEntity extends BaseTimeEntity {
                 .build();
     }
 
-    public static UserEntity from(OAuthInfo oAuthInfo, UserInfo userInfo) {
+    public static UserEntity from(OAuthInfo oAuthInfo, String deviceToken, UserInfo userInfo) {
         return UserEntity.builder()
                 .username(userInfo.username())
                 .nickname(userInfo.nickname())
@@ -90,6 +90,7 @@ public class UserEntity extends BaseTimeEntity {
                 .profileImageUrl(userInfo.profileImageUrl())
                 .provider(oAuthInfo.provider())
                 .oid(oAuthInfo.oid())
+                .deviceTokens(Set.of(deviceToken))
                 .latitude(userInfo.addressWithCoordinate().coordinate().latitude())
                 .longitude(userInfo.addressWithCoordinate().coordinate().longitude())
                 .city(userInfo.addressWithCoordinate().address().city())
@@ -111,22 +112,5 @@ public class UserEntity extends BaseTimeEntity {
                 .build();
     }
 
-    public void updateAddressInfo(AddressWithCoordinate addressWithCoordinate) {
-        this.latitude = addressWithCoordinate.coordinate().latitude();
-        this.longitude = addressWithCoordinate.coordinate().longitude();
-        this.city = addressWithCoordinate.address().city();
-        this.street = addressWithCoordinate.address().street();
-        this.detail = addressWithCoordinate.address().detail();
-    }
 
-    public void oAuthUpdate(OAuthProfile profile) {
-        this.username = profile.getName();
-        this.nickname = profile.getNickname();
-        this.profileImageUrl = profile.getPicture();
-        this.gender = Gender.valueOf(profile.getGender());
-        this.email = profile.getEmail();
-        this.birth = LocalDate.parse(profile.getBirthdate());
-        this.phoneNumber = profile.getPhoneNumber();
-
-    }
 }
