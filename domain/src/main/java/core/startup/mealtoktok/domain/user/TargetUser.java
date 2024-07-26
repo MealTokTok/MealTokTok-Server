@@ -7,4 +7,7 @@ public record TargetUser(
         return new TargetUser(userId);
     }
 
+    public static TargetUser from(User user) {
+        return new TargetUser(user.getUserId());
+    }
 }
