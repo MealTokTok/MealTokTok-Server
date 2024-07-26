@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.api.dish.response;
 
-import core.startup.mealtoktok.domain.dish.Dish;
+import core.startup.mealtoktok.domain.dishstore.Dish;
 
 public record DishResponse(
         Long dishId,

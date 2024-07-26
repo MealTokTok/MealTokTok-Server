@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.api.dish.request;
 
-import core.startup.mealtoktok.domain.dish.DishInfo;
+import core.startup.mealtoktok.domain.dishstore.DishInfo;
 
 public record DishRequest(
         String dishName,

@@ -2,9 +2,8 @@ package core.startup.mealtoktok.api.dish;
 
 import core.startup.mealtoktok.api.dish.request.DishRequest;
 import core.startup.mealtoktok.common.dto.Response;
-import core.startup.mealtoktok.domain.dish.TargetDish;
-import core.startup.mealtoktok.domain.dish.UpdateDishService;
-import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.domain.dishstore.TargetDish;
+import core.startup.mealtoktok.domain.dishstore.UpdateDishService;
 import core.startup.mealtoktok.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
