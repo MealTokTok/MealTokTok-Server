@@ -16,7 +16,7 @@ public class DeleteDishApi implements DeleteDishApiDocs{
     private final DeleteDishService deleteDishService;
 
     @DeleteMapping(("dishes/{dishId}"))
-    public Response<Void> deleteDish(@RequestParam("dishId") Long dishId,
+    public Response<Void> deleteDish(@PathVariable("dishId") Long dishId,
                                      @AuthenticationPrincipal User currentUser)
     {
         deleteDishService.deleteDish(TargetDish.from(dishId));

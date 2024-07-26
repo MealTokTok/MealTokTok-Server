@@ -18,8 +18,7 @@ import java.time.LocalTime;
 @Getter
 public class DishStoreEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long storeId;
 
     private String storeName;

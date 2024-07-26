@@ -21,15 +21,16 @@ public class ReadDishApi implements ReadDishApiDocs{
     private final ReadDishService readDishService;
 
     @GetMapping("/stores/{storeId}/categories/{categoryId}/dishes")
-    public Response<List<DishResponse>> readDishes(@RequestParam("storeId") Long storeId,
-                                                   @RequestParam("categoryId") Long categoryId,
+    public Response<List<DishResponse>> readDishes(@PathVariable("storeId") Long storeId,
+                                                   @PathVariable("categoryId") Long categoryId,
                                                    @AuthenticationPrincipal User currentUser) {
 
-        return Response.success(readDishService.readDishes(
+        List<DishResponse> dishResponses = readDishService.readDishes(
                         TargetUser.from(currentUser.getUserId()),
                         TargetDishStore.from(storeId),
                         TargetDishCategory.from(categoryId))
-                .stream().map(DishResponse::from)
-                .toList());
+                .stream().map(DishResponse::from).toList();
+
+        return Response.success(dishResponses);
     }
 }

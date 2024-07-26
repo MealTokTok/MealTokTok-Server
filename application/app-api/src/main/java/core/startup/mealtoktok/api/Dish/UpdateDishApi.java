@@ -18,7 +18,7 @@ public class UpdateDishApi implements UpdateDishApiDocs{
     private final UpdateDishService updateDishService;
 
     @PatchMapping(("/admin/dishes/{dishId}"))
-    public Response<Void> updateDish(@RequestParam("dishId") Long dishId,
+    public Response<Void> updateDish(@PathVariable("dishId") Long dishId,
                                      @RequestBody DishRequest request,
                                      @AuthenticationPrincipal User currentUser)
     {

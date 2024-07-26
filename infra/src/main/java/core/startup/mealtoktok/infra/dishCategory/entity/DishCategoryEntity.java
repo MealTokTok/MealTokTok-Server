@@ -15,8 +15,7 @@ import lombok.*;
 @Getter
 public class DishCategoryEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long categoryId;
 
     String categoryName;

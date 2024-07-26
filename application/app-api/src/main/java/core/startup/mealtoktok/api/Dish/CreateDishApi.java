@@ -19,8 +19,8 @@ public class CreateDishApi implements CreateDishApiDocs{
     private final CreateDishService createDishService;
 
     @PostMapping(("/stores/{storeId}/categories/{categoryId}/dishes"))
-    public Response<Void> createDish(@RequestParam("storeId") Long storeId,
-                                     @RequestParam("categoryId") Long categoryId,
+    public Response<Void> createDish(@PathVariable("storeId") Long storeId,
+                                     @PathVariable("categoryId") Long categoryId,
                                      @RequestBody DishRequest request,
                                      @AuthenticationPrincipal User currentUser)
     {

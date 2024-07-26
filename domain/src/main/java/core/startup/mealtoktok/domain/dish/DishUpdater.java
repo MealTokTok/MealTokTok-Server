@@ -1,6 +1,5 @@
 package core.startup.mealtoktok.domain.dish;
 
-import core.startup.mealtoktok.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

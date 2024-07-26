@@ -15,11 +15,12 @@ public class UpdateDishService {
     private final DishReader dishReader;
     private final DishStoreReader dishStoreReader;
     private final DishUpdater dishUpdater;
+    private final DishValidator dishValidator;
 
     public void updateDish(TargetDish targetDish, DishInfo dishInfo) {
         Dish dish = dishReader.read(targetDish);
         DishStore dishStore = dishStoreReader.read(TargetDishStore.from(dish.getDishStoreId()));
-        dishReader.checkNoDuplicateDishName(dishStore, dishInfo.dishName());
+        dishValidator.checkNoDuplicateDishName(dishStore, dishInfo.dishName());
         dishUpdater.update(dish, dishInfo);
     }
 }
