@@ -15,24 +15,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler(value = WebException.class)
-    public ResponseEntity<?> customError(WebException e, HttpServletRequest request) {
+    @ExceptionHandler(value = CustomException.class)
+    public ResponseEntity<?> customError(CustomException e, HttpServletRequest request) {
         return ResponseEntity
                 .status(e.getStatus())
                 .body(Response.error(e.getErrorCode().getErrorReason(), request.getRequestURI(), e.getMessage()));
     }
 
-    @ExceptionHandler(value = DomainException.class)
-    public ResponseEntity<?> domainError(DomainException e, HttpServletRequest request) {
-        return ResponseEntity
-                .status(e.getStatus())
-                .body(Response.error(e.getErrorCode().getErrorReason(), request.getRequestURI(), e.getMessage()));
-    }
-
-    @ExceptionHandler(value = InfraException.class)
-    public ResponseEntity<?> infraError(InfraException e, HttpServletRequest request) {
-        return ResponseEntity
-                .status(e.getStatus())
-                .body(Response.error(e.getErrorCode().getErrorReason(), request.getRequestURI(), e.getMessage()));
-    }
 }
