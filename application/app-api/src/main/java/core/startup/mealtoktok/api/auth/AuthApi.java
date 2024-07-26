@@ -43,7 +43,7 @@ public class AuthApi implements AuthApiDocs {
 
     @GetMapping("/oauth/login/link")
     public Response<OAuthLoginResponse> oauthLoginLink() {
-        OAuthLoginResponse oAuthLoginResponse = OAuthLoginResponse.from(authService.getKakaoLoginLink());
+        OAuthLoginResponse oAuthLoginResponse = OAuthLoginResponse.from(authService.getKakaoOAuthUrl());
         return Response.success(oAuthLoginResponse);
     }
 

@@ -39,18 +39,12 @@ public class AuthService {
         return tokenGenerator.generate(targetUser);
     }
 
-    public String getKakaoLoginLink() {
-        return BASE_URL +
-                String.format(
-                        KAKAO_OAUTH_QUERY_STRING,
-                        CLIENT_ID,
-                        REDIRECT_URL
-                );
+    public String getKakaoOAuthUrl() {
+        return OAuthClient.getKakaoOAuthUrl();
     }
 
     public JwtTokens getCredentialTest(String code) {
         OAuthTokens authToken = oAuthClient.auth(CLIENT_ID, REDIRECT_URL, code);
-        System.out.println("authToken = " + authToken);
         return signUp(authToken, "deviceTokenTest", AddressWithCoordinate.of("충청북도 흥덕구 봉명동 2300-1", 36.629, 127.456));
     }
 
