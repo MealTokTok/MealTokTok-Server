@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api.dto;
+package core.startup.mealtoktok.api.auth.dto;
 
 public record OAuthLoginResponse(
         String link
