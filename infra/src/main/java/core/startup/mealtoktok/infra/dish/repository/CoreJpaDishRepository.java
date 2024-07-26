@@ -1,17 +1,15 @@
 package core.startup.mealtoktok.infra.dish.repository;
 
-import core.startup.mealtoktok.domain.DishStore.DishStore;
+import core.startup.mealtoktok.domain.dish.DishStore;
 import core.startup.mealtoktok.domain.dish.Dish;
 import core.startup.mealtoktok.domain.dish.DishInfo;
 import core.startup.mealtoktok.domain.dish.DishRepository;
 import core.startup.mealtoktok.domain.dish.TargetDish;
-import core.startup.mealtoktok.domain.dishCategory.DishCategory;
+import core.startup.mealtoktok.domain.dish.DishCategory;
 import core.startup.mealtoktok.infra.dish.entity.DishEntity;
 import core.startup.mealtoktok.infra.dish.exception.DishNotFoundException;
-import core.startup.mealtoktok.infra.dishCategory.entity.DishCategoryEntity;
-import core.startup.mealtoktok.infra.dishCategory.repository.JpaDishCategoryRepository;
-import core.startup.mealtoktok.infra.dishStore.entity.DishStoreEntity;
-import core.startup.mealtoktok.infra.dishStore.repository.JpaDishStoreRepository;
+import core.startup.mealtoktok.infra.dish.entity.DishCategoryEntity;
+import core.startup.mealtoktok.infra.dish.entity.DishStoreEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

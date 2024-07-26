@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.DishStore;
+package core.startup.mealtoktok.domain.dish;
 
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import lombok.Builder;

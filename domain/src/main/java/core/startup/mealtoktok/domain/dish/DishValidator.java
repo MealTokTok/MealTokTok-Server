@@ -1,6 +1,5 @@
 package core.startup.mealtoktok.domain.dish;
 
-import core.startup.mealtoktok.domain.DishStore.DishStore;
 import core.startup.mealtoktok.domain.dish.exception.DishNameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

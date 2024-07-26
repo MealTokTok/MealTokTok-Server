@@ -1,7 +1,6 @@
-package core.startup.mealtoktok.infra.dishCategory.entity;
+package core.startup.mealtoktok.infra.dish.entity;
 
-import core.startup.mealtoktok.domain.dishCategory.DishCategory;
-import core.startup.mealtoktok.infra.dishStore.entity.DishStoreEntity;
+import core.startup.mealtoktok.domain.dish.DishCategory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

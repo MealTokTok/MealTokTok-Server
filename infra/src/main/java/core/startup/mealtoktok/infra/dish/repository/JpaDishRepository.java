@@ -1,7 +1,7 @@
 package core.startup.mealtoktok.infra.dish.repository;
 
 import core.startup.mealtoktok.infra.dish.entity.DishEntity;
-import core.startup.mealtoktok.infra.dishStore.entity.DishStoreEntity;
+import core.startup.mealtoktok.infra.dish.entity.DishStoreEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

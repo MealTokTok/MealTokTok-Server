@@ -1,13 +1,13 @@
-package core.startup.mealtoktok.infra.dishCategory.exception;
+package core.startup.mealtoktok.infra.dish.exception;
 
 import core.startup.mealtoktok.common.exception.InfraException;
-import core.startup.mealtoktok.domain.dishCategory.exception.DishCategoryErrorCode;
+import core.startup.mealtoktok.domain.dish.exception.DishErrorCode;
 
 public class DishCategoryNotFoundException extends InfraException {
 
     public static InfraException EXCEPTION = new DishCategoryNotFoundException();
 
     private DishCategoryNotFoundException() {
-        super(DishCategoryErrorCode.DISH_CATEGORY_NOT_FOUND);
+        super(DishErrorCode.DISH_CATEGORY_NOT_FOUND);
     }
 }

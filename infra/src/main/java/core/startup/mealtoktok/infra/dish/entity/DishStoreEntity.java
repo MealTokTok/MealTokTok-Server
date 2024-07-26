@@ -1,7 +1,7 @@
-package core.startup.mealtoktok.infra.dishStore.entity;
+package core.startup.mealtoktok.infra.dish.entity;
 
-import core.startup.mealtoktok.domain.DishStore.DishStore;
-import core.startup.mealtoktok.domain.DishStore.OperatingHour;
+import core.startup.mealtoktok.domain.dish.DishStore;
+import core.startup.mealtoktok.domain.dish.OperatingHour;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

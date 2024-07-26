@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.dishCategory;
+package core.startup.mealtoktok.domain.dish;
 
 public interface DishCategoryRepository {
 
