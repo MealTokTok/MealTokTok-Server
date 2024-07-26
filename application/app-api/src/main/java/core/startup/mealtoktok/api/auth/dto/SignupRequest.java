@@ -5,6 +5,7 @@ import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 
 public record SignupRequest(
         OAuthTokens oAuthTokens,
+        String deviceToken,
         AddressInfo addressInfo
 ) {
 

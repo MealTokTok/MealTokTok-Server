@@ -1,6 +1,7 @@
 package core.startup.mealtoktok.domain.user;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
+import core.startup.mealtoktok.domain.auth.OAuthProfile;
 import lombok.*;
 
 import java.util.Set;
@@ -15,6 +16,12 @@ public class User {
     private UserInfo userInfo;
     private OAuthInfo oAuthInfo;
     private UserRole userRole;
+    AddressWithCoordinate addressWithCoordinate;
     private Set<String> deviceTokens;
     private UserDateInfo userDateInfo;
+
+    public void update(OAuthProfile oAuthProfile, String deviceToken) {
+        this.userInfo = userInfo.updateBy(oAuthProfile);
+        this.deviceTokens.add(deviceToken);
+    }
 }

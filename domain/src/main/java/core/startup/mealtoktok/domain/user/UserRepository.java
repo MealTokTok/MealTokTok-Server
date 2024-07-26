@@ -1,7 +1,6 @@
 package core.startup.mealtoktok.domain.user;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
-import core.startup.mealtoktok.domain.auth.OAuthProfile;
 
 public interface UserRepository {
 
@@ -9,9 +8,9 @@ public interface UserRepository {
 
     User findByOAuthId(String email);
 
-    TargetUser save(OAuthInfo oAuthInfo, UserInfo userInfo);
+    TargetUser save(OAuthInfo oAuthInfo, String deviceToken, UserInfo userInfo);
 
-    TargetUser update(OAuthProfile oAuthProfile);
+    TargetUser save(User user);
 
     boolean existsByOAuthInfo(OAuthInfo oAuthInfo);
 }

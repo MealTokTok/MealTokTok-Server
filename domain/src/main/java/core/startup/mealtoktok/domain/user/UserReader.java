@@ -1,6 +1,7 @@
 package core.startup.mealtoktok.domain.user;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
+import core.startup.mealtoktok.domain.auth.OAuthProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,10 @@ public class UserReader {
             userCacheManager.cache(user);
             return user;
         });
+    }
+
+    public User read(OAuthProfile profile) {
+        return userRepository.findByOAuthId(profile.getSub());
     }
 
     public boolean isAlreadyRegistered(OAuthInfo oAuthInfo) {
