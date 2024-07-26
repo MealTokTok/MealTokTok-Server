@@ -1,7 +1,7 @@
 package core.startup.mealtoktok.api.auth;
 
-import core.startup.mealtoktok.api.dto.SignupRequest;
-import core.startup.mealtoktok.api.dto.OAuthLoginResponse;
+import core.startup.mealtoktok.api.auth.dto.SignupRequest;
+import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
 import core.startup.mealtoktok.domain.auth.JwtTokens;

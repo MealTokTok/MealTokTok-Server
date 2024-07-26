@@ -6,6 +6,8 @@ spring:
   jpa:
     open-in-view: false
 
+fcm:
+  secret-key: ${FCM_SECRET_KEY}
 ---
 spring:
   config:

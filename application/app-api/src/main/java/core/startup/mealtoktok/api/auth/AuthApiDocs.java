@@ -1,13 +1,12 @@
 package core.startup.mealtoktok.api.auth;
 
-import core.startup.mealtoktok.api.dto.SignupRequest;
-import core.startup.mealtoktok.api.dto.OAuthLoginResponse;
+import core.startup.mealtoktok.api.auth.dto.SignupRequest;
+import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.OAuthTokens;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "인증 API")
 public interface AuthApiDocs {
