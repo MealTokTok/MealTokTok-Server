@@ -1,13 +1,5 @@
 package core.startup.mealtoktok.api.global.security;
 
-import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
-import core.startup.mealtoktok.domain.auth.OIDCPayload;
-import core.startup.mealtoktok.domain.auth.OidcTokenParser;
-import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
-import io.jsonwebtoken.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -15,6 +7,17 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
+
+import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
+
+import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
+import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
+import core.startup.mealtoktok.domain.auth.OIDCPayload;
+import core.startup.mealtoktok.domain.auth.OidcTokenParser;
+
+import io.jsonwebtoken.*;
 
 @Slf4j
 @Component

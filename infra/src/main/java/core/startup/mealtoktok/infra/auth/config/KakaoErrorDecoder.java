@@ -4,6 +4,7 @@ import core.startup.mealtoktok.infra.auth.exception.OtherServerBadRequestExcepti
 import core.startup.mealtoktok.infra.auth.exception.OtherServerExpiredTokenException;
 import core.startup.mealtoktok.infra.auth.exception.OtherServerForbiddenException;
 import core.startup.mealtoktok.infra.auth.exception.OtherServerUnauthorizedException;
+
 import feign.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;

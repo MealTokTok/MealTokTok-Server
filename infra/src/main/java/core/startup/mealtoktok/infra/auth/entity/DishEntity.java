@@ -1,11 +1,13 @@
 package core.startup.mealtoktok.infra.auth.entity;
 
-import core.startup.mealtoktok.domain.dishstore.Dish;
-import core.startup.mealtoktok.domain.dishstore.DishInfo;
+import static jakarta.persistence.FetchType.LAZY;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 
-import static jakarta.persistence.FetchType.LAZY;
+import core.startup.mealtoktok.domain.dishstore.Dish;
+import core.startup.mealtoktok.domain.dishstore.DishInfo;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,7 +16,8 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 public class DishEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long dishId;
 
     String dishName;
@@ -22,17 +25,17 @@ public class DishEntity {
     String imgUrl;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="store_id")
+    @JoinColumn(name = "store_id")
     private DishStoreEntity dishStoreEntity;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="category_id")
+    @JoinColumn(name = "category_id")
     private DishCategoryEntity dishCategoryEntity;
 
-
-    public static DishEntity of(DishStoreEntity dishStoreEntity,
-                                DishCategoryEntity dishCategoryEntity,
-                                DishInfo dishInfo){
+    public static DishEntity of(
+            DishStoreEntity dishStoreEntity,
+            DishCategoryEntity dishCategoryEntity,
+            DishInfo dishInfo) {
         return DishEntity.builder()
                 .dishName(dishInfo.dishName())
                 .imgUrl(dishInfo.imgUrl())

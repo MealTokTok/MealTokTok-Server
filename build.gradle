@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.7'
     id 'io.spring.dependency-management' version '1.1.5'
-    id 'com.diffplug.spotless' version '6.21.0'
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 allprojects {
@@ -19,6 +19,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.diffplug.spotless'
 
     configurations {
         compileOnly {
@@ -40,6 +41,21 @@ subprojects {
     test() {
         useJUnitPlatform()
     }
+
+    spotless {
+        java {
+            googleJavaFormat().aosp()
+            importOrder('java', 'javax', 'jakarta', 'org', 'lombok', 'core')
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+    }
+
+    tasks.register("addGitPreCommitHook", Copy) {
+        from 'script/pre-commit'
+        into '.git/hooks'
+    }
 }
 
 bootJar {
@@ -56,20 +72,7 @@ project(':application') {
     }
 }
 
-spotless {
-    java {
-        googleJavaFormat()
-        removeUnusedImports()
-        trimTrailingWhitespace()
-        indentWithSpaces(4)
-        endWithNewline()
-    }
-}
 
-tasks.register("addGitPreCommitHook", Copy) {
-    from 'script/pre-commit'
-    into '.git/hooks'
-}
 
 
 

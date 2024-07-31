@@ -1,9 +1,6 @@
 package core.startup.mealtoktok.domain.auth;
 
-public record OAuthInfo(
-        OAuthProvider provider,
-        String oid
-) {
+public record OAuthInfo(OAuthProvider provider, String oid) {
 
     public static OAuthInfo kakao(OIDCPayload payload) {
         return new OAuthInfo(OAuthProvider.KAKAO, payload.sub());

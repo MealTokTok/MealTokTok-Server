@@ -1,11 +1,6 @@
 spring:
-  profiles:
-    group:
-      local: common
-      dev: common
   jpa:
     open-in-view: false
-
 fcm:
   secret-key: ${FCM_SECRET_KEY}
 ---

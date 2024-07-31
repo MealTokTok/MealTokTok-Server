@@ -1,17 +1,6 @@
 package core.startup.mealtoktok.api.global.security;
 
-import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
-import core.startup.mealtoktok.domain.auth.JwtTokens;
-import core.startup.mealtoktok.domain.auth.TokenGenerator;
-import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
-import core.startup.mealtoktok.domain.user.TargetUser;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Component;
+import static core.startup.mealtoktok.api.global.security.SecurityProperties.*;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -19,7 +8,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
-import static core.startup.mealtoktok.api.global.security.SecurityProperties.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Component;
+
+import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
+import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
+import core.startup.mealtoktok.domain.auth.JwtTokens;
+import core.startup.mealtoktok.domain.auth.TokenGenerator;
+import core.startup.mealtoktok.domain.user.TargetUser;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenizer implements TokenGenerator {
@@ -45,7 +48,8 @@ public class JwtTokenizer implements TokenGenerator {
                 .compact();
     }
 
-    public static void setInHeader(HttpServletResponse response, String accessToken, String refreshToken) {
+    public static void setInHeader(
+            HttpServletResponse response, String accessToken, String refreshToken) {
         response.setHeader(ACCESS_TOKEN_HEADER, accessToken);
         response.setHeader(REFRESH_TOKEN_HEADER, refreshToken);
     }
@@ -75,19 +79,21 @@ public class JwtTokenizer implements TokenGenerator {
 
     public static TargetUser extractTargetUser(String token) {
         try {
-            return TargetUser.from(Long.parseLong(Jwts.parserBuilder()
-                    .setSigningKey(getKeyFromSecretKey(SECRET_KEY))
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject()));
+            return TargetUser.from(
+                    Long.parseLong(
+                            Jwts.parserBuilder()
+                                    .setSigningKey(getKeyFromSecretKey(SECRET_KEY))
+                                    .build()
+                                    .parseClaimsJws(token)
+                                    .getBody()
+                                    .getSubject()));
         } catch (ExpiredJwtException e) {
             throw ExpiredTokenException.EXCEPTION;
         } catch (Exception e) {
             throw InvalidTokenException.EXCEPTION;
         }
-    };
-
+    }
+    ;
 
     @Override
     public JwtTokens generate(TargetUser targetUser) {

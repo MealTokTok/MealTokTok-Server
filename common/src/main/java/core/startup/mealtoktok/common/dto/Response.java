@@ -1,19 +1,20 @@
 package core.startup.mealtoktok.common.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import core.startup.mealtoktok.common.exception.ErrorReason;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import static com.fasterxml.jackson.annotation.JsonInclude.*;
 
 import java.time.LocalDateTime;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import core.startup.mealtoktok.common.exception.ErrorReason;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Getter
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
 public class Response<T> {
-
 
     private String path;
 
@@ -23,7 +24,6 @@ public class Response<T> {
     private T result;
 
     private LocalDateTime timeStamp;
-
 
     private Response(String responseCode, T result) {
         this.responseCode = responseCode;
@@ -57,5 +57,4 @@ public class Response<T> {
     public static Response<Void> error(ErrorReason errorReason, String path, String message) {
         return new Response<>(path, errorReason.errorCode(), message);
     }
-
 }

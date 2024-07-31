@@ -1,10 +1,12 @@
 package core.startup.mealtoktok.domain.auth;
 
-import core.startup.mealtoktok.domain.user.TargetUser;
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.domain.user.TargetUser;
 
 @Component
 @RequiredArgsConstructor
@@ -17,13 +19,10 @@ public class TokenManager {
     }
 
     public Optional<String> getRefreshToken(TargetUser targetUser) {
-        return tokenRepository
-                .getRefreshToken(targetUser)
-                .map(RefreshToken::refreshToken);
+        return tokenRepository.getRefreshToken(targetUser).map(RefreshToken::refreshToken);
     }
 
     public boolean isAlreadyLogin(String accessToken) {
         return tokenRepository.isAlreadyLogin(accessToken);
     }
-
 }

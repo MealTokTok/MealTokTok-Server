@@ -9,5 +9,3 @@ public class DishCategory {
     private Long categoryId;
     private String categoryName;
 }
-
-

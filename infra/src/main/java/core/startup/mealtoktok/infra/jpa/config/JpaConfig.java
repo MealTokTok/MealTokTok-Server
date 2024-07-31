@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaAuditing
 @EntityScan(basePackages = "core.startup.mealtoktok.infra")
 @EnableJpaRepositories(basePackages = "core.startup.mealtoktok.infra")
-public class JpaConfig {
-}
+public class JpaConfig {}

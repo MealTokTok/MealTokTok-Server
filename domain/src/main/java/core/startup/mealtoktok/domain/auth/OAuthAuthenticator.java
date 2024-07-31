@@ -1,10 +1,12 @@
 package core.startup.mealtoktok.domain.auth;
 
-import core.startup.mealtoktok.domain.auth.exception.NoMatchedKidException;
-import lombok.RequiredArgsConstructor;
+import static core.startup.mealtoktok.common.properties.OauthProperties.*;
+
 import org.springframework.stereotype.Component;
 
-import static core.startup.mealtoktok.common.properties.OauthProperties.*;
+import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.domain.auth.exception.NoMatchedKidException;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +18,8 @@ public class OAuthAuthenticator {
     public OAuthInfo authenticate(String idToken) {
         String kid = oidcTokenParser.getKid(idToken, BASE_URL, SERVICE_KEY);
         OIDCPublicKey matchedPublicKey = getMatchedPublicKey(kid);
-        OIDCPayload payload = oidcTokenParser.getPayload(idToken, matchedPublicKey.n(), matchedPublicKey.e());
+        OIDCPayload payload =
+                oidcTokenParser.getPayload(idToken, matchedPublicKey.n(), matchedPublicKey.e());
         return OAuthInfo.kakao(payload);
     }
 
@@ -26,5 +29,4 @@ public class OAuthAuthenticator {
                 .findFirst()
                 .orElseThrow(() -> NoMatchedKidException.EXCEPTION);
     }
-
 }
