@@ -4,18 +4,25 @@ import core.startup.mealtoktok.domain.auth.OAuthTokens;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 
 public record SignupRequest(
-        OAuthTokens oAuthTokens,
-        String deviceToken,
-        AddressInfo addressInfo
+    OAuthTokens oAuthTokens,
+    String deviceToken,
+    AddressInfoRequest addressInfoRequest
 ) {
 
-    public record AddressInfo(
-            String address,
-            Double latitude,
-            Double longitude
-    ) { }
+  public record AddressInfoRequest(
+      String address,
+      Double latitude,
+      Double longitude
+  ) {
 
-    public AddressWithCoordinate toInfo() {
-        return AddressWithCoordinate.of(addressInfo.address(), addressInfo.latitude(),  addressInfo.longitude());
+    public AddressWithCoordinate toAddressWithCoordinate() {
+      return AddressWithCoordinate.of(address, latitude, longitude);
     }
+  }
+
+  public AddressWithCoordinate toAddressWithCoordinate() {
+    return addressInfoRequest.toAddressWithCoordinate();
+  }
+
+
 }

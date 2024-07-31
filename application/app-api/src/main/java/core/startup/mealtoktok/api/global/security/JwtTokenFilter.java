@@ -70,6 +70,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 user, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("{} 유저 인증 성공", user.getUserInfo().profileImageUrl());
+        log.info("{} 유저 인증 성공", user.getUserProfile().profileImageUrl());
     }
 }
