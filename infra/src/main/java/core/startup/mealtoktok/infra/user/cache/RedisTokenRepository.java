@@ -1,15 +1,17 @@
 package core.startup.mealtoktok.infra.user.cache;
 
-import core.startup.mealtoktok.domain.auth.RefreshToken;
-import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.domain.auth.TokenRepository;
-import core.startup.mealtoktok.infra.user.config.RedisConfig;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import core.startup.mealtoktok.domain.auth.RefreshToken;
+import core.startup.mealtoktok.domain.auth.TokenRepository;
+import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.infra.user.config.RedisConfig;
 
 @Slf4j
 @Repository
@@ -41,7 +43,8 @@ public class RedisTokenRepository implements TokenRepository {
 
     @Override
     public boolean isAlreadyLogin(String token) {
-        return Boolean.FALSE.equals(banTokenRedisTemplate.opsForSet().isMember(RedisConfig.BAN_TOKEN_KEY, token));
+        return Boolean.FALSE.equals(
+                banTokenRedisTemplate.opsForSet().isMember(RedisConfig.BAN_TOKEN_KEY, token));
     }
 
     public String getKey(Long userId) {

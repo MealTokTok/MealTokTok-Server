@@ -1,12 +1,14 @@
 package core.startup.mealtoktok.domain.dishstore;
 
-import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.domain.user.UserReader;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.domain.user.UserReader;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +20,11 @@ public class ReadDishService {
     private final DishReader dishReader;
     private final UserReader userReader;
 
-    public List<Dish> readDishes(TargetUser targetUser, TargetDishStore targetDishStore, TargetDishCategory targetDishCategory){
-        //User user = userReader.read(targetUser);
+    public List<Dish> readDishes(
+            TargetUser targetUser,
+            TargetDishStore targetDishStore,
+            TargetDishCategory targetDishCategory) {
+        // User user = userReader.read(targetUser);
         DishStore dishStore = dishStoreReader.read(targetDishStore);
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
         return dishReader.readAll(dishStore, dishCategory);

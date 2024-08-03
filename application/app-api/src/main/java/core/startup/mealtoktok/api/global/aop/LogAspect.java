@@ -1,7 +1,13 @@
 package core.startup.mealtoktok.api.global.aop;
 
+import java.net.URLDecoder;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,30 +18,32 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.net.URLDecoder;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import core.startup.mealtoktok.domain.user.UserCacheManager;
 
 @Aspect
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class LogAspect {
 
-    @Pointcut("execution(* core.startup.mealtoktok.domain..*(..)) && !execution(* core.startup.mealtoktok.common..*(..))")
-    public void all() {
-    }
+    private final UserCacheManager userCacheManager;
 
-    @Pointcut("execution(* core.startup.mealtoktok.api..*Api.*(..)) && !execution(* core.startup.mealtoktok.api.HealthCheckApi..*(..))")
-    public void controller() {
-    }
+    @Pointcut(
+            "execution(* core.startup.mealtoktok.domain..*(..)) && execution(* core.startup.mealtoktok.infra..*(..))&& !execution(* core.startup.mealtoktok.common..*(..))")
+    public void all() {}
+
+    @Pointcut(
+            "execution(* core.startup.mealtoktok.api..*Api.*(..)) && !execution(* core.startup.mealtoktok.api.HealthCheckApi..*(..))")
+    public void controller() {}
 
     @Around("all()")
     public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         try {
-            Object result = joinPoint.proceed();
-            return result;
+            return joinPoint.proceed();
         } finally {
             long end = System.currentTimeMillis();
             long timeinMs = end - start;
@@ -45,7 +53,10 @@ public class LogAspect {
 
     @Around("controller()")
     public Object loggingBefore(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request =
+                ((ServletRequestAttributes)
+                                Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+                        .getRequest();
 
         String controllerName = joinPoint.getSignature().getDeclaringType().getName();
         String methodName = joinPoint.getSignature().getName();
@@ -65,7 +76,7 @@ public class LogAspect {
         }
 
         log.info("[{}] {}", params.get("http_method"), params.get("request_uri"));
-        log.info("method: {}.{}", params.get("controller") ,params.get("method"));
+        log.info("method: {}.{}", params.get("controller"), params.get("method"));
         log.info("params: {}", params.get("params"));
 
         Object result = joinPoint.proceed();

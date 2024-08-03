@@ -1,12 +1,14 @@
 package core.startup.mealtoktok.api.auth;
 
-import core.startup.mealtoktok.api.auth.dto.SignupRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
+import core.startup.mealtoktok.api.auth.dto.SignUpRequest;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.OAuthTokens;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Tag(name = "인증 API")
 public interface AuthApiDocs {
@@ -15,7 +17,7 @@ public interface AuthApiDocs {
     Response<Boolean> canRegistered(String oidcToken);
 
     @Operation(summary = "회원가입")
-    Response<Void> signUp(SignupRequest signupRequest, HttpServletResponse response);
+    Response<Void> signUp(SignUpRequest signupRequest, HttpServletResponse response);
 
     @Operation(summary = "로그인")
     Response<Void> login(OAuthTokens oAuthTokens, String deviceToken, HttpServletResponse response);

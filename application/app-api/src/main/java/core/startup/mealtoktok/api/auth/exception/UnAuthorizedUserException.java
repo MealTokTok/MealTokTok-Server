@@ -10,5 +10,4 @@ public class UnAuthorizedUserException extends WebException {
     private UnAuthorizedUserException() {
         super(AuthErrorCode.UNAUTHORIZED_USER);
     }
-
 }

@@ -5,5 +5,4 @@ public interface OidcTokenParser {
     String getKid(String token, String iss, String aud);
 
     OIDCPayload getPayload(String token, String modulus, String exponent);
-
 }

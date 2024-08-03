@@ -1,16 +1,19 @@
 package core.startup.mealtoktok.infra.notification;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.MulticastMessage;
-import com.google.firebase.messaging.Notification;
+import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import core.startup.mealtoktok.domain.alarm.Alarm;
 import core.startup.mealtoktok.domain.alarm.AlarmSender;
 import core.startup.mealtoktok.domain.user.User;
 import core.startup.mealtoktok.infra.notification.exception.AlarmSendFailException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.Notification;
 
 @Component
 @RequiredArgsConstructor
@@ -31,16 +34,12 @@ public class FcmAlarmSender implements AlarmSender {
     }
 
     private MulticastMessage makeMessage(User user, Alarm alarm) {
-        Notification notification = Notification.builder()
-                .setTitle(alarm.title())
-                .setBody(alarm.body())
-                .build();
+        Notification notification =
+                Notification.builder().setTitle(alarm.title()).setBody(alarm.body()).build();
 
         return MulticastMessage.builder()
                 .setNotification(notification)
                 .addAllTokens(user.getDeviceTokens())
                 .build();
     }
-
-
 }

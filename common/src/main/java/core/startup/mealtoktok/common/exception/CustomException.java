@@ -1,8 +1,9 @@
 package core.startup.mealtoktok.common.exception;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -22,5 +23,4 @@ public abstract class CustomException extends RuntimeException {
             return String.format("%s - %s", sourceLayer, errorCode.getErrorReason().message());
         }
     }
-
 }

@@ -1,8 +1,9 @@
 package core.startup.mealtoktok.domain.dishstore;
 
-import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import lombok.Builder;
 import lombok.Getter;
+
+import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 
 @Getter
 @Builder

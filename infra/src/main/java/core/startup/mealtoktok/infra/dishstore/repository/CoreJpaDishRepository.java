@@ -1,16 +1,18 @@
 package core.startup.mealtoktok.infra.dishstore.repository;
 
-import core.startup.mealtoktok.domain.dishstore.*;
-import core.startup.mealtoktok.infra.auth.entity.DishEntity;
-import core.startup.mealtoktok.infra.dishstore.exception.DishCategoryNotFoundException;
-import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
-import core.startup.mealtoktok.infra.auth.entity.DishCategoryEntity;
-import core.startup.mealtoktok.infra.auth.entity.DishStoreEntity;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.domain.dishstore.*;
+import core.startup.mealtoktok.infra.dishstore.entity.DishCategoryEntity;
+import core.startup.mealtoktok.infra.dishstore.entity.DishEntity;
+import core.startup.mealtoktok.infra.dishstore.entity.DishStoreEntity;
+import core.startup.mealtoktok.infra.dishstore.exception.DishCategoryNotFoundException;
+import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 
 @Repository
 @Transactional
@@ -23,16 +25,19 @@ public class CoreJpaDishRepository implements DishRepository {
 
     @Override
     public void save(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
-        DishStoreEntity dishStoreEntity = jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
-        DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(dishCategory.getCategoryId());
+        DishStoreEntity dishStoreEntity =
+                jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
+        DishCategoryEntity dishCategoryEntity =
+                jpaDishCategoryRepository.getReferenceById(dishCategory.getCategoryId());
         jpaDishRepository.save(DishEntity.of(dishStoreEntity, dishCategoryEntity, dishInfo));
     }
 
     @Override
     public Dish findCategoryById(TargetDish targetDish) {
-        return jpaDishRepository.findById(targetDish.dishId())
+        return jpaDishRepository
+                .findById(targetDish.dishId())
                 .map(DishEntity::toDomain)
-                .orElseThrow(()-> DishNotFoundException.EXCEPTION);
+                .orElseThrow(() -> DishNotFoundException.EXCEPTION);
     }
 
     @Override
@@ -43,8 +48,10 @@ public class CoreJpaDishRepository implements DishRepository {
 
     @Override
     public List<Dish> findAllByStoreAndCategory(DishStore dishStore, DishCategory dishCategory) {
-        return jpaDishRepository.findAllByStoreAndCategory(dishStore.getStoreId(), dishCategory.getCategoryId())
-                .stream().map(DishEntity::toDomain)
+        return jpaDishRepository
+                .findAllByStoreAndCategory(dishStore.getStoreId(), dishCategory.getCategoryId())
+                .stream()
+                .map(DishEntity::toDomain)
                 .toList();
     }
 
@@ -56,13 +63,15 @@ public class CoreJpaDishRepository implements DishRepository {
 
     @Override
     public boolean existsByDishStoreEntityAndDishName(DishStore dishStore, String dishName) {
-        DishStoreEntity dishStoreEntity = jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
+        DishStoreEntity dishStoreEntity =
+                jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
         return jpaDishRepository.existsByDishStoreEntityAndDishName(dishStoreEntity, dishName);
     }
 
     @Override
     public DishCategory findCategoryById(TargetDishCategory targetDishCategory) {
-        return jpaDishCategoryRepository.findById(targetDishCategory.categoryId())
+        return jpaDishCategoryRepository
+                .findById(targetDishCategory.categoryId())
                 .map(DishCategoryEntity::toDomain)
                 .orElseThrow(() -> DishCategoryNotFoundException.EXCEPTION);
     }

@@ -1,15 +1,17 @@
 package core.startup.mealtoktok.infra.user.cache;
 
+import java.util.Optional;
+
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import core.startup.mealtoktok.domain.user.TargetUser;
 import core.startup.mealtoktok.domain.user.User;
 import core.startup.mealtoktok.domain.user.UserCacheRepository;
 import core.startup.mealtoktok.infra.user.config.RedisConfig;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -20,7 +22,7 @@ public class RedisUserRepository implements UserCacheRepository {
 
     public void cache(User user) {
         String key = getKey(user.getUserId());
-        log.info("Set UserEntity from {} : {}", key, user.getUserInfo().username());
+        log.info("Set UserEntity from {} : {}", key, user.getUserProfile().getNickname());
         redisTemplate.opsForValue().setIfAbsent(key, user, RedisConfig.USER_CACHE_TTL);
     }
 
@@ -28,9 +30,12 @@ public class RedisUserRepository implements UserCacheRepository {
         String key = getKey(targetUser.userId());
         Optional<User> user = Optional.ofNullable(redisTemplate.opsForValue().get(key));
         user.ifPresentOrElse(
-                u -> log.info("Get User from Cache - {} : {}", key, u.getUserInfo().username()),
-                () -> log.info("No User Cache - {}", key)
-        );
+                u ->
+                        log.info(
+                                "Get User from Cache - {} : {}",
+                                key,
+                                u.getUserProfile().getUsername()),
+                () -> log.info("No User Cache - {}", key));
         return user;
     }
 
@@ -43,5 +48,4 @@ public class RedisUserRepository implements UserCacheRepository {
     public String getKey(Long userId) {
         return "USER:" + userId;
     }
-
 }

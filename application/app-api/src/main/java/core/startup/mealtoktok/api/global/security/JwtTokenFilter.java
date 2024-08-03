@@ -1,22 +1,25 @@
 package core.startup.mealtoktok.api.global.security;
 
-import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
-import core.startup.mealtoktok.domain.auth.RefreshToken;
-import core.startup.mealtoktok.domain.auth.TokenManager;
-import core.startup.mealtoktok.domain.user.*;
+import java.io.IOException;
+import java.util.Optional;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
+import core.startup.mealtoktok.domain.auth.RefreshToken;
+import core.startup.mealtoktok.domain.auth.TokenManager;
+import core.startup.mealtoktok.domain.user.*;
 
 @Slf4j
 @Component
@@ -27,7 +30,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final TokenManager tokenManager;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         try {
             Optional<String> refreshToken = JwtTokenizer.extractRefreshToken(request);
@@ -47,13 +52,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                     .ifPresent(this::saveAuthentication);
 
         } catch (Exception e) {
+            log.error(e.toString());
             request.setAttribute("exception", e);
         }
+
         filterChain.doFilter(request, response);
     }
 
     public void validateRefreshToken(TargetUser targetUser, String givenRefreshToken) {
-        tokenManager.getRefreshToken(targetUser)
+        tokenManager
+                .getRefreshToken(targetUser)
                 .filter(existRefreshToken -> existRefreshToken.equals(givenRefreshToken))
                 .orElseThrow(() -> InvalidTokenException.EXCEPTION);
     }
@@ -67,9 +75,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private void saveAuthentication(User user) {
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                user, null, null);
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(user, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("{} 유저 인증 성공", user.getUserInfo().profileImageUrl());
+        log.info("{} 유저 인증 성공", user.getUserProfile().getNickname());
     }
 }

@@ -1,9 +1,8 @@
 package core.startup.mealtoktok.domain.user;
 
-import core.startup.mealtoktok.domain.auth.OAuthInfo;
-import core.startup.mealtoktok.domain.auth.OAuthProfile;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -11,20 +10,23 @@ public class UserReader {
 
     private final UserRepository userRepository;
     private final UserCacheManager userCacheManager;
+    private final UserValidator userValidator;
 
     public User read(TargetUser targetUser) {
-        return userCacheManager.read(targetUser).orElseGet( () ->{
-            User user = userRepository.findById(targetUser);
-            userCacheManager.cache(user);
-            return user;
-        });
+        User user =
+                userCacheManager
+                        .read(targetUser)
+                        .orElseGet(
+                                () -> {
+                                    User findUser = userRepository.findById(targetUser);
+                                    userCacheManager.cache(findUser);
+                                    return findUser;
+                                });
+        userValidator.validate(user);
+        return user;
     }
 
-    public User read(OAuthProfile profile) {
-        return userRepository.findByOAuthId(profile.getSub());
-    }
-
-    public boolean isAlreadyRegistered(OAuthInfo oAuthInfo) {
-        return userRepository.existsByOAuthInfo(oAuthInfo);
+    public User read(String oid) {
+        return userRepository.findByOAuthId(oid);
     }
 }

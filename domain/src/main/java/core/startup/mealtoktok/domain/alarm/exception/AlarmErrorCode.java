@@ -1,9 +1,10 @@
 package core.startup.mealtoktok.domain.alarm.exception;
 
-import core.startup.mealtoktok.common.exception.BaseErrorCode;
-import core.startup.mealtoktok.common.exception.ErrorReason;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.common.exception.BaseErrorCode;
+import core.startup.mealtoktok.common.exception.ErrorReason;
 
 @Getter
 @RequiredArgsConstructor

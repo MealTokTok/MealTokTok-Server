@@ -8,9 +8,17 @@ public interface UserRepository {
 
     User findByOAuthId(String email);
 
-    TargetUser save(OAuthInfo oAuthInfo, String deviceToken, UserInfo userInfo);
+    TargetUser save(
+            OAuthInfo oAuthInfo,
+            String deviceToken,
+            UserProfile userProfile,
+            DeliveryAddress deliveryAddress);
 
-    TargetUser save(User user);
+    User update(User user);
 
     boolean existsByOAuthInfo(OAuthInfo oAuthInfo);
+
+    void delete(User user);
+
+    void deleteWithReason(User user, WithDrawReason withDrawReason);
 }

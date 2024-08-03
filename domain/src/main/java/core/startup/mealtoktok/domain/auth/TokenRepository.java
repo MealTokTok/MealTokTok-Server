@@ -1,8 +1,8 @@
 package core.startup.mealtoktok.domain.auth;
 
-import core.startup.mealtoktok.domain.user.TargetUser;
-
 import java.util.Optional;
+
+import core.startup.mealtoktok.domain.user.TargetUser;
 
 public interface TokenRepository {
 
@@ -13,6 +13,4 @@ public interface TokenRepository {
     void ban(String token);
 
     boolean isAlreadyLogin(String token);
-
-
 }

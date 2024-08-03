@@ -1,11 +1,6 @@
 spring:
-  profiles:
-    group:
-      local: common
-      dev: common
   jpa:
     open-in-view: false
-
 fcm:
   secret-key: ${FCM_SECRET_KEY}
 ---
@@ -20,7 +15,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         show-sql: true
