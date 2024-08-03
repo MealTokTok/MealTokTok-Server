@@ -22,7 +22,7 @@ public class RedisUserRepository implements UserCacheRepository {
 
     public void cache(User user) {
         String key = getKey(user.getUserId());
-        log.info("Set UserEntity from {} : {}", key, user.getUserProfile().username());
+        log.info("Set UserEntity from {} : {}", key, user.getUserProfile().getNickname());
         redisTemplate.opsForValue().setIfAbsent(key, user, RedisConfig.USER_CACHE_TTL);
     }
 
@@ -30,7 +30,11 @@ public class RedisUserRepository implements UserCacheRepository {
         String key = getKey(targetUser.userId());
         Optional<User> user = Optional.ofNullable(redisTemplate.opsForValue().get(key));
         user.ifPresentOrElse(
-                u -> log.info("Get User from Cache - {} : {}", key, u.getUserProfile().username()),
+                u ->
+                        log.info(
+                                "Get User from Cache - {} : {}",
+                                key,
+                                u.getUserProfile().getUsername()),
                 () -> log.info("No User Cache - {}", key));
         return user;
     }

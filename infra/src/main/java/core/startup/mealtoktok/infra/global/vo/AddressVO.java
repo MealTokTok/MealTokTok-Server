@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class AddressVO {
 
     private String address;
     private String detailAddress;
@@ -17,7 +17,7 @@ public class Address {
         return new core.startup.mealtoktok.domain.user.Address(address, detailAddress);
     }
 
-    public static Address from(core.startup.mealtoktok.domain.user.Address address) {
-        return new Address(address.address(), address.detailAddress());
+    public static AddressVO from(core.startup.mealtoktok.domain.user.Address address) {
+        return new AddressVO(address.address(), address.detailAddress());
     }
 }

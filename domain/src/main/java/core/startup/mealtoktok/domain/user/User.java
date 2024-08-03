@@ -24,7 +24,7 @@ public class User {
     private List<DeliveryAddress> deliveryAddresses;
 
     public void update(UserProfile userProfile, String deviceToken) {
-        this.userProfile = userProfile;
+        this.userProfile.update(userProfile);
         this.deviceTokens.add(deviceToken);
     }
 
@@ -42,5 +42,25 @@ public class User {
         }
 
         this.deliveryAddresses.add(deliveryAddress);
+    }
+
+    public void removeDeliveryAddress(TargetDeliveryAddress targetDeliveryAddress) {
+        this.deliveryAddresses.removeIf(
+                deliveryAddress ->
+                        deliveryAddress
+                                .deliveryAddressId()
+                                .equals(targetDeliveryAddress.deliveryAddressId()));
+    }
+
+    public void updateEmail(String email) {
+        this.userProfile.updateEmail(email);
+    }
+
+    public void updateNickname(String nickname) {
+        this.userProfile.updateNickname(nickname);
+    }
+
+    public boolean isRemoved() {
+        return userDateTime.removedAt() != null;
     }
 }

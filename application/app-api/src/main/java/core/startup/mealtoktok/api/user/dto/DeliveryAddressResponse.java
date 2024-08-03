@@ -4,10 +4,13 @@ import core.startup.mealtoktok.domain.user.Address;
 import core.startup.mealtoktok.domain.user.AddressStatus;
 import core.startup.mealtoktok.domain.user.DeliveryAddress;
 
-public record DeliveryAddressResponse(Address address, AddressStatus addressStatus) {
+public record DeliveryAddressResponse(
+        Long deliveryAddressId, Address address, AddressStatus addressStatus) {
 
     public static DeliveryAddressResponse from(DeliveryAddress deliveryAddress) {
         return new DeliveryAddressResponse(
-                deliveryAddress.addressWithCoordinate().address(), deliveryAddress.status());
+                deliveryAddress.deliveryAddressId(),
+                deliveryAddress.addressWithCoordinate().address(),
+                deliveryAddress.status());
     }
 }

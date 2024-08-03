@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -17,15 +18,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import core.startup.mealtoktok.domain.user.UserCacheManager;
 
 @Aspect
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class LogAspect {
 
+    private final UserCacheManager userCacheManager;
+
     @Pointcut(
-            "execution(* core.startup.mealtoktok.domain..*(..)) && !execution(* core.startup.mealtoktok.common..*(..))")
+            "execution(* core.startup.mealtoktok.domain..*(..)) && execution(* core.startup.mealtoktok.infra..*(..))&& !execution(* core.startup.mealtoktok.common..*(..))")
     public void all() {}
 
     @Pointcut(
@@ -36,8 +43,7 @@ public class LogAspect {
     public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         try {
-            Object result = joinPoint.proceed();
-            return result;
+            return joinPoint.proceed();
         } finally {
             long end = System.currentTimeMillis();
             long timeinMs = end - start;
@@ -48,7 +54,8 @@ public class LogAspect {
     @Around("controller()")
     public Object loggingBefore(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                ((ServletRequestAttributes)
+                                Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
                         .getRequest();
 
         String controllerName = joinPoint.getSignature().getDeclaringType().getName();

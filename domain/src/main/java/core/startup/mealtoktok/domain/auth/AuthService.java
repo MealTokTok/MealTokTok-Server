@@ -45,7 +45,7 @@ public class AuthService {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(oAuthTokens.idToken());
         UserProfile userProfile = oAuthClient.getUserProfile(oAuthTokens.accessToken());
         User user = userReader.read(oAuthInfo.oid());
-        TargetUser targetUser = userUpdater.update(user, userProfile, deviceToken);
+        TargetUser targetUser = userUpdater.oAuthUpdate(user, userProfile, deviceToken);
         return tokenGenerator.generate(targetUser);
     }
 

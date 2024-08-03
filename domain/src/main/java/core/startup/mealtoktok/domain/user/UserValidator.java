@@ -1,11 +1,12 @@
-package core.startup.mealtoktok.domain.auth;
+package core.startup.mealtoktok.domain.user;
 
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.domain.auth.OAuthInfo;
 import core.startup.mealtoktok.domain.auth.exception.AlreadyRegisteredUserException;
-import core.startup.mealtoktok.domain.user.UserRepository;
+import core.startup.mealtoktok.domain.user.exception.RemovedUserException;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +21,12 @@ public class UserValidator {
     public void validate(OAuthInfo oAuthInfo) {
         if (isAlreadyRegistered(oAuthInfo)) {
             throw AlreadyRegisteredUserException.EXCEPTION;
+        }
+    }
+
+    public void validate(User user) {
+        if (user.isRemoved()) {
+            throw RemovedUserException.EXCEPTION;
         }
     }
 }

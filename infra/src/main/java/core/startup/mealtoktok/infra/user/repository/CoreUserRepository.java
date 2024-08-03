@@ -11,7 +11,9 @@ import core.startup.mealtoktok.domain.user.TargetUser;
 import core.startup.mealtoktok.domain.user.User;
 import core.startup.mealtoktok.domain.user.UserProfile;
 import core.startup.mealtoktok.domain.user.UserRepository;
+import core.startup.mealtoktok.domain.user.WithDrawReason;
 import core.startup.mealtoktok.infra.user.entity.UserEntity;
+import core.startup.mealtoktok.infra.user.entity.WithDrawReasonEntity;
 import core.startup.mealtoktok.infra.user.exception.UserNotFoundException;
 
 @Repository
@@ -19,7 +21,8 @@ import core.startup.mealtoktok.infra.user.exception.UserNotFoundException;
 @RequiredArgsConstructor
 public class CoreUserRepository implements UserRepository {
 
-    private final JpaUserRepository jpaUserRepository;
+    private final UserJpaRepository userJpaRepository;
+    private final WithDrawReasonJpaRepository withDrawReasonJpaRepository;
 
     @Override
     public TargetUser save(
@@ -28,20 +31,23 @@ public class CoreUserRepository implements UserRepository {
             UserProfile userProfile,
             DeliveryAddress deliveryAddress) {
         UserEntity savedUser =
-                jpaUserRepository.save(UserEntity.from(oAuthInfo, deviceToken, userProfile));
-        savedUser.addDeliveryAddress(deliveryAddress);
+                userJpaRepository.save(UserEntity.from(oAuthInfo, deviceToken, userProfile));
         return TargetUser.from(savedUser.getUserId());
     }
 
     @Override
-    public TargetUser save(User user) {
-        UserEntity savedUser = jpaUserRepository.save(UserEntity.from(user));
-        return TargetUser.from(savedUser.getUserId());
+    public User update(User user) {
+        UserEntity userEntity =
+                userJpaRepository
+                        .findById(user.getUserId())
+                        .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        userEntity.update(user).toDomain();
+        return userJpaRepository.save(userEntity).toDomain();
     }
 
     @Override
     public User findById(TargetUser targetUser) {
-        return jpaUserRepository
+        return userJpaRepository
                 .findById(targetUser.userId())
                 .map(UserEntity::toDomain)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
@@ -49,7 +55,7 @@ public class CoreUserRepository implements UserRepository {
 
     @Override
     public User findByOAuthId(String oid) {
-        return jpaUserRepository
+        return userJpaRepository
                 .findByOid(oid)
                 .map(UserEntity::toDomain)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
@@ -57,6 +63,17 @@ public class CoreUserRepository implements UserRepository {
 
     @Override
     public boolean existsByOAuthInfo(OAuthInfo oAuthInfo) {
-        return jpaUserRepository.existsByProviderAndOid(oAuthInfo.provider(), oAuthInfo.oid());
+        return userJpaRepository.existsByProviderAndOid(oAuthInfo.provider(), oAuthInfo.oid());
+    }
+
+    @Override
+    public void delete(User user) {
+        userJpaRepository.delete(UserEntity.from(user));
+    }
+
+    @Override
+    public void deleteWithReason(User user, WithDrawReason withDrawReason) {
+        delete(user);
+        withDrawReasonJpaRepository.save(WithDrawReasonEntity.from(withDrawReason));
     }
 }

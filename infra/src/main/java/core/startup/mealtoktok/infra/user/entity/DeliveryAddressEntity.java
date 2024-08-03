@@ -20,6 +20,7 @@ import org.locationtech.jts.geom.Point;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -28,18 +29,19 @@ import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
 import core.startup.mealtoktok.domain.user.DeliveryAddress;
 import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.infra.global.vo.Address;
+import core.startup.mealtoktok.infra.global.vo.AddressVO;
 
 @Entity
 @Builder
 @AllArgsConstructor
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "delivery_address")
 public class DeliveryAddressEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long addressWithCoordinateId;
+    private Long deliveryAddressId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -52,14 +54,15 @@ public class DeliveryAddressEntity {
     @Enumerated(EnumType.STRING)
     private AddressStatus status;
 
-    @Embedded private Address address;
+    @Embedded private AddressVO address;
 
     public static DeliveryAddressEntity from(UserEntity user, DeliveryAddress deliveryAddress) {
         return DeliveryAddressEntity.builder()
+                .deliveryAddressId(deliveryAddress.deliveryAddressId())
                 .user(user)
                 .coordinate(convertToPoint(deliveryAddress.addressWithCoordinate().coordinate()))
                 .status(deliveryAddress.status())
-                .address(Address.from(deliveryAddress.addressWithCoordinate().address()))
+                .address(AddressVO.from(deliveryAddress.addressWithCoordinate().address()))
                 .build();
     }
 
@@ -69,12 +72,13 @@ public class DeliveryAddressEntity {
                 .user(UserEntity.from(targetUser))
                 .coordinate(convertToPoint(deliveryAddress.addressWithCoordinate().coordinate()))
                 .status(deliveryAddress.status())
-                .address(Address.from(deliveryAddress.addressWithCoordinate().address()))
+                .address(AddressVO.from(deliveryAddress.addressWithCoordinate().address()))
                 .build();
     }
 
     public DeliveryAddress toDomain() {
-        return DeliveryAddress.configure(
+        return DeliveryAddress.of(
+                deliveryAddressId,
                 AddressWithCoordinate.of(
                         address.toDomain(), Coordinate.of(coordinate.getX(), coordinate.getY())),
                 status);

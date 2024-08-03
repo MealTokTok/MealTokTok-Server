@@ -19,7 +19,7 @@ import core.startup.mealtoktok.domain.dishstore.DishStore;
 import core.startup.mealtoktok.domain.dishstore.OperatingHour;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
-import core.startup.mealtoktok.infra.global.vo.Address;
+import core.startup.mealtoktok.infra.global.vo.AddressVO;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,7 +39,7 @@ public class DishStoreEntity {
     @Column(columnDefinition = "POINT SRID 4326")
     private Point coordinate;
 
-    @Embedded private Address address;
+    @Embedded private AddressVO address;
 
     private LocalTime openTime;
     private LocalTime closeTime;
@@ -63,7 +63,7 @@ public class DishStoreEntity {
                 .storeName(dishStore.getStoreName())
                 .phoneNumber(dishStore.getPhoneNumber())
                 .coordinate(convertToPoint(dishStore.getAddressWithCoordinate().coordinate()))
-                .address(Address.from(dishStore.getAddressWithCoordinate().address()))
+                .address(AddressVO.from(dishStore.getAddressWithCoordinate().address()))
                 .openTime(dishStore.getOperatingHour().openTime())
                 .closeTime(dishStore.getOperatingHour().closeTime())
                 .build();

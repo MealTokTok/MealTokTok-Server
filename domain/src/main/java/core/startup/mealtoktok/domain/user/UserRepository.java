@@ -14,7 +14,11 @@ public interface UserRepository {
             UserProfile userProfile,
             DeliveryAddress deliveryAddress);
 
-    TargetUser save(User user);
+    User update(User user);
 
     boolean existsByOAuthInfo(OAuthInfo oAuthInfo);
+
+    void delete(User user);
+
+    void deleteWithReason(User user, WithDrawReason withDrawReason);
 }

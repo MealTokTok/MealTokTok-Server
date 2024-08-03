@@ -12,6 +12,7 @@ public class UserService {
 
     private final UserReader userReader;
     private final UserUpdater userUpdater;
+    private final userRemover userRemover;
 
     public TargetUser addDeliveryAddress(
             TargetUser targetUser, AddressWithCoordinate addressWithCoordinate) {
@@ -23,5 +24,27 @@ public class UserService {
     public List<DeliveryAddress> getDeliveryAddresses(TargetUser targetUser) {
         User user = userReader.read(targetUser);
         return user.getDeliveryAddresses();
+    }
+
+    public TargetUser removeDeliveryAddress(
+            TargetUser targetUser, TargetDeliveryAddress targetDeliveryAddress) {
+        User user = userReader.read(targetUser);
+        userUpdater.removeDeliveryAddress(user, targetDeliveryAddress);
+        return targetUser;
+    }
+
+    public void withdraw(TargetUser targetUser, String reason) {
+        User user = userReader.read(targetUser);
+        userRemover.remove(user, reason);
+    }
+
+    public TargetUser changeNickname(TargetUser targetUser, String nickname) {
+        User user = userReader.read(targetUser);
+        return userUpdater.updateNickname(user, nickname);
+    }
+
+    public TargetUser changeEmail(TargetUser targetUser, String email) {
+        User user = userReader.read(targetUser);
+        return userUpdater.updateEmail(user, email);
     }
 }
