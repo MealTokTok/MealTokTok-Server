@@ -28,8 +28,8 @@ public class CoreUserRepository implements UserRepository {
             UserProfile userProfile,
             DeliveryAddress deliveryAddress) {
         UserEntity savedUser =
-                jpaUserRepository.save(
-                        UserEntity.from(oAuthInfo, deviceToken, userProfile, deliveryAddress));
+                jpaUserRepository.save(UserEntity.from(oAuthInfo, deviceToken, userProfile));
+        savedUser.addDeliveryAddress(deliveryAddress);
         return TargetUser.from(savedUser.getUserId());
     }
 

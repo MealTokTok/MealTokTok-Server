@@ -11,13 +11,7 @@ public record DeliveryAddress(AddressWithCoordinate addressWithCoordinate, Addre
     }
 
     public static DeliveryAddress configure(
-            Double latitude,
-            Double longitude,
-            AddressStatus status,
-            String city,
-            String street,
-            String detail) {
-        return new DeliveryAddress(
-                AddressWithCoordinate.of(latitude, longitude, city, street, detail), status);
+            AddressWithCoordinate addressWithCoordinate, AddressStatus status) {
+        return new DeliveryAddress(addressWithCoordinate, status);
     }
 }

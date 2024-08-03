@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
-import core.startup.mealtoktok.api.auth.dto.SignupRequest;
+import core.startup.mealtoktok.api.auth.dto.SignUpRequest;
 import core.startup.mealtoktok.api.global.security.JwtTokenizer;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
@@ -39,7 +39,7 @@ public class AuthApi implements AuthApiDocs {
     }
 
     @PostMapping("/oauth/sign-up")
-    public Response<Void> signUp(@RequestBody SignupRequest request, HttpServletResponse response) {
+    public Response<Void> signUp(@RequestBody SignUpRequest request, HttpServletResponse response) {
         JwtTokens jwtTokens =
                 authService.signUp(
                         request.oAuthTokens(),

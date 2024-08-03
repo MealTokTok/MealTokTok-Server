@@ -28,7 +28,7 @@ public class User {
         this.deviceTokens.add(deviceToken);
     }
 
-    public void addAddress(DeliveryAddress deliveryAddress) {
+    public void addDeliveryAddress(DeliveryAddress deliveryAddress) {
         if (this.deliveryAddresses.stream()
                 .anyMatch(
                         awc ->

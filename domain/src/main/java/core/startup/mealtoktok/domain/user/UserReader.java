@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.auth.OAuthInfo;
-
 @Component
 @RequiredArgsConstructor
 public class UserReader {
@@ -26,9 +24,5 @@ public class UserReader {
 
     public User read(String oid) {
         return userRepository.findByOAuthId(oid);
-    }
-
-    public boolean isAlreadyRegistered(OAuthInfo oAuthInfo) {
-        return userRepository.existsByOAuthInfo(oAuthInfo);
     }
 }

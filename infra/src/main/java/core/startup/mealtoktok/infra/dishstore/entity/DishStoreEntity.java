@@ -1,17 +1,25 @@
-package core.startup.mealtoktok.infra.auth.entity;
+package core.startup.mealtoktok.infra.dishstore.entity;
+
+import static core.startup.mealtoktok.infra.global.util.CoordinateConvertor.convertToPoint;
 
 import java.time.LocalTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import org.locationtech.jts.geom.Point;
 
 import lombok.*;
 
 import core.startup.mealtoktok.domain.dishstore.DishStore;
 import core.startup.mealtoktok.domain.dishstore.OperatingHour;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
+import core.startup.mealtoktok.domain.user.Coordinate;
+import core.startup.mealtoktok.infra.global.vo.Address;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,11 +36,10 @@ public class DishStoreEntity {
 
     private String phoneNumber;
 
-    private Double latitude;
-    private Double longitude;
-    private String city;
-    private String street;
-    private String detail;
+    @Column(columnDefinition = "POINT SRID 4326")
+    private Point coordinate;
+
+    @Embedded private Address address;
 
     private LocalTime openTime;
     private LocalTime closeTime;
@@ -43,7 +50,9 @@ public class DishStoreEntity {
                 .storeName(storeName)
                 .phoneNumber(phoneNumber)
                 .addressWithCoordinate(
-                        AddressWithCoordinate.of(latitude, longitude, city, street, detail))
+                        AddressWithCoordinate.of(
+                                address.toDomain(),
+                                Coordinate.of(coordinate.getX(), coordinate.getY())))
                 .operatingHour(OperatingHour.of(openTime, closeTime))
                 .build();
     }
@@ -53,11 +62,8 @@ public class DishStoreEntity {
                 .storeId(dishStore.getStoreId())
                 .storeName(dishStore.getStoreName())
                 .phoneNumber(dishStore.getPhoneNumber())
-                .latitude(dishStore.getAddressWithCoordinate().coordinate().latitude())
-                .longitude(dishStore.getAddressWithCoordinate().coordinate().longitude())
-                .city(dishStore.getAddressWithCoordinate().address().city())
-                .street(dishStore.getAddressWithCoordinate().address().street())
-                .detail(dishStore.getAddressWithCoordinate().address().detail())
+                .coordinate(convertToPoint(dishStore.getAddressWithCoordinate().coordinate()))
+                .address(Address.from(dishStore.getAddressWithCoordinate().address()))
                 .openTime(dishStore.getOperatingHour().openTime())
                 .closeTime(dishStore.getOperatingHour().closeTime())
                 .build();

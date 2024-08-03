@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.domain.dishstore.DishStore;
 import core.startup.mealtoktok.domain.dishstore.DishStoreRepository;
 import core.startup.mealtoktok.domain.dishstore.TargetDishStore;
-import core.startup.mealtoktok.infra.auth.entity.DishStoreEntity;
+import core.startup.mealtoktok.infra.dishstore.entity.DishStoreEntity;
 import core.startup.mealtoktok.infra.dishstore.exception.DishStoreNotFoundException;
 
 @Repository

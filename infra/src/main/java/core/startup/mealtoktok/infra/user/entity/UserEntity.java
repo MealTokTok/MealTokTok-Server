@@ -58,6 +58,10 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name = "device_token")
     private Set<String> deviceTokens = new HashSet<>();
 
+    public static UserEntity from(TargetUser targetUser) {
+        return UserEntity.builder().userId(targetUser.userId()).build();
+    }
+
     public static UserEntity from(User user) {
         return UserEntity.builder()
                 .userId(user.getUserId())
@@ -73,7 +77,10 @@ public class UserEntity extends BaseTimeEntity {
                 .birth(user.getUserProfile().birth())
                 .deliveryAddresses(
                         user.getDeliveryAddresses().stream()
-                                .map(DeliveryAddressEntity::from)
+                                .map(
+                                        deliveryAddress ->
+                                                DeliveryAddressEntity.from(
+                                                        TargetUser.from(user), deliveryAddress))
                                 .toList())
                 .deviceTokens(user.getDeviceTokens())
                 .createdAt(user.getUserDateTime().createdAt())
@@ -82,27 +89,21 @@ public class UserEntity extends BaseTimeEntity {
     }
 
     public static UserEntity from(
-            OAuthInfo oAuthInfo,
-            String deviceToken,
-            UserProfile userProfile,
-            DeliveryAddress deliveryAddress) {
-        UserEntity userEntity =
-                UserEntity.builder()
-                        .username(userProfile.username())
-                        .nickname(userProfile.nickname())
-                        .gender(userProfile.gender())
-                        .phoneNumber(userProfile.phoneNumber())
-                        .birth(userProfile.birth())
-                        .email(userProfile.email())
-                        .profileImageUrl(userProfile.profileImageUrl())
-                        .provider(oAuthInfo.provider())
-                        .oid(oAuthInfo.oid())
-                        .deviceTokens(Set.of(deviceToken))
-                        .userRole(UserRole.USER)
-                        .build();
+            OAuthInfo oAuthInfo, String deviceToken, UserProfile userProfile) {
 
-        userEntity.deliveryAddresses.add(DeliveryAddressEntity.from(deliveryAddress));
-        return userEntity;
+        return UserEntity.builder()
+                .username(userProfile.username())
+                .nickname(userProfile.nickname())
+                .gender(userProfile.gender())
+                .phoneNumber(userProfile.phoneNumber())
+                .birth(userProfile.birth())
+                .email(userProfile.email())
+                .profileImageUrl(userProfile.profileImageUrl())
+                .provider(oAuthInfo.provider())
+                .oid(oAuthInfo.oid())
+                .deviceTokens(Set.of(deviceToken))
+                .userRole(UserRole.USER)
+                .build();
     }
 
     public User toDomain() {
@@ -124,5 +125,9 @@ public class UserEntity extends BaseTimeEntity {
                 .oAuthInfo(OAuthInfo.of(provider, oid))
                 .userDateTime(UserDateTime.of(createdAt, modifiedAt))
                 .build();
+    }
+
+    public void addDeliveryAddress(DeliveryAddress deliveryAddress) {
+        deliveryAddresses.add(DeliveryAddressEntity.from(this, deliveryAddress));
     }
 }

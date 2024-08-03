@@ -13,15 +13,16 @@ import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
 
 import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
-import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
 import core.startup.mealtoktok.domain.auth.OIDCPayload;
 import core.startup.mealtoktok.domain.auth.OidcTokenParser;
+import core.startup.mealtoktok.domain.auth.exception.OidcTokenInvalidException;
 
 import io.jsonwebtoken.*;
 
 @Slf4j
 @Component
 public class JwtOIDCTokenProvider implements OidcTokenParser {
+
     private final String KID = "kid";
 
     public String getKid(String token, String iss, String aud) {
@@ -47,7 +48,7 @@ public class JwtOIDCTokenProvider implements OidcTokenParser {
             throw ExpiredTokenException.EXCEPTION;
         } catch (Exception e) {
             log.error(e.toString());
-            throw InvalidTokenException.EXCEPTION;
+            throw OidcTokenInvalidException.EXCEPTION;
         }
     }
 
@@ -62,13 +63,15 @@ public class JwtOIDCTokenProvider implements OidcTokenParser {
             throw ExpiredTokenException.EXCEPTION;
         } catch (Exception e) {
             log.error(e.toString());
-            throw InvalidTokenException.EXCEPTION;
+            throw OidcTokenInvalidException.EXCEPTION;
         }
     }
 
     private String getUnsignedToken(String token) {
         String[] splitToken = token.split("\\.");
-        if (splitToken.length != 3) throw InvalidTokenException.EXCEPTION;
+        if (splitToken.length != 3) {
+            throw OidcTokenInvalidException.EXCEPTION;
+        }
         return splitToken[0] + "." + splitToken[1] + ".";
     }
 

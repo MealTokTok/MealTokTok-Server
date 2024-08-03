@@ -18,11 +18,11 @@ public class AuthService {
     private final TokenGenerator tokenGenerator;
     private final UserAppender userAppender;
     private final UserUpdater userUpdater;
+    private final UserValidator userValidator;
 
     public boolean canRegistered(String idToken) {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(idToken);
-
-        return !userReader.isAlreadyRegistered(oAuthInfo);
+        return !userValidator.isAlreadyRegistered(oAuthInfo);
     }
 
     public JwtTokens signUp(
@@ -31,6 +31,7 @@ public class AuthService {
             AddressWithCoordinate addressWithCoordinate) {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(oAuthTokens.idToken());
         UserProfile userProfile = oAuthClient.getUserProfile(oAuthTokens.accessToken());
+        userValidator.validate(oAuthInfo);
         TargetUser targetUser =
                 userAppender.append(
                         oAuthInfo,
@@ -57,6 +58,9 @@ public class AuthService {
         return signUp(
                 authToken,
                 "deviceTokenTest",
-                AddressWithCoordinate.of("충청북도 흥덕구 봉명동 2300-1", 36.629, 127.456));
+                AddressWithCoordinate.of(
+                        Address.of("충청북도 청주시 서원구 충대로 1", "충청북도 청주시 흥덕구 853-18"),
+                        4536.629,
+                        127.456));
     }
 }

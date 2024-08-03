@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.auth.entity;
+package core.startup.mealtoktok.infra.dishstore.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

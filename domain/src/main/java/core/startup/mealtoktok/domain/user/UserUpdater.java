@@ -9,14 +9,16 @@ import lombok.RequiredArgsConstructor;
 public class UserUpdater {
 
     private final UserRepository userRepository;
+    private final UserCacheManager userCacheManager;
 
     public TargetUser update(User user, UserProfile userProfile, String deviceToken) {
         user.update(userProfile, deviceToken);
         return userRepository.save(user);
     }
 
-    public TargetUser addAddress(User user, DeliveryAddress deliveryAddress) {
-        user.addAddress(deliveryAddress);
+    public TargetUser addDeliveryAddress(User user, DeliveryAddress deliveryAddress) {
+        user.addDeliveryAddress(deliveryAddress);
+        userCacheManager.refresh(user);
         return userRepository.save(user);
     }
 }

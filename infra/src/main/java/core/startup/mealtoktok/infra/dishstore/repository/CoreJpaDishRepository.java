@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.domain.dishstore.*;
-import core.startup.mealtoktok.infra.auth.entity.DishCategoryEntity;
-import core.startup.mealtoktok.infra.auth.entity.DishEntity;
-import core.startup.mealtoktok.infra.auth.entity.DishStoreEntity;
+import core.startup.mealtoktok.infra.dishstore.entity.DishCategoryEntity;
+import core.startup.mealtoktok.infra.dishstore.entity.DishEntity;
+import core.startup.mealtoktok.infra.dishstore.entity.DishStoreEntity;
 import core.startup.mealtoktok.infra.dishstore.exception.DishCategoryNotFoundException;
 import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 
