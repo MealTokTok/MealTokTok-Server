@@ -13,7 +13,7 @@ public class DishReader {
     private final DishRepository dishRepository;
 
     public Dish read(TargetDish targetDish) {
-        return dishRepository.findCategoryById(targetDish);
+        return dishRepository.findDishById(targetDish);
     }
 
     public List<Dish> readAll(DishStore dishStore, DishCategory dishCategory) {

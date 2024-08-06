@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.infra.dishstore.entity;
 
+import core.startup.mealtoktok.domain.dishstore.DishCategoryInfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,5 +25,16 @@ public class DishCategoryEntity {
 
     public DishCategory toDomain() {
         return DishCategory.builder().categoryId(categoryId).categoryName(categoryName).build();
+    }
+
+    public static DishCategoryEntity from(DishCategoryInfo dishCategoryInfo){
+        return DishCategoryEntity.builder()
+                .categoryName(dishCategoryInfo.categoryName())
+                .build();
+
+    }
+
+    public void update(DishCategoryInfo dishCategoryInfo) {
+        this.categoryName = dishCategoryInfo.categoryName();
     }
 }

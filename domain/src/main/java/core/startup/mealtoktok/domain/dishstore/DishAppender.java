@@ -13,6 +13,6 @@ public class DishAppender {
 
     public void append(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
         dishValidator.validateName(dishStore, dishInfo.dishName());
-        dishRepository.save(dishStore, dishCategory, dishInfo);
+        dishRepository.saveDishCategory(dishStore, dishCategory, dishInfo);
     }
 }

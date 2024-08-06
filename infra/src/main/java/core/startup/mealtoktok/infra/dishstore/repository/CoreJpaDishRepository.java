@@ -24,7 +24,7 @@ public class CoreJpaDishRepository implements DishRepository {
     private final JpaDishCategoryRepository jpaDishCategoryRepository;
 
     @Override
-    public void save(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
+    public void saveDishCategory(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
         DishStoreEntity dishStoreEntity =
                 jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
         DishCategoryEntity dishCategoryEntity =
@@ -33,7 +33,7 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
-    public Dish findCategoryById(TargetDish targetDish) {
+    public Dish findDishById(TargetDish targetDish) {
         return jpaDishRepository
                 .findById(targetDish.dishId())
                 .map(DishEntity::toDomain)
@@ -41,7 +41,7 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
-    public void delete(Dish dish) {
+    public void deleteDishCategory(Dish dish) {
         DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
         jpaDishRepository.delete(dishEntity);
     }
@@ -56,7 +56,7 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
-    public void update(Dish dish, DishInfo dishInfo) {
+    public void updateDishCategory(Dish dish, DishInfo dishInfo) {
         DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
         dishEntity.update(dishInfo);
     }
@@ -69,10 +69,42 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
-    public DishCategory findCategoryById(TargetDishCategory targetDishCategory) {
+    public DishCategory findDishById(TargetDishCategory targetDishCategory) {
         return jpaDishCategoryRepository
                 .findById(targetDishCategory.categoryId())
                 .map(DishCategoryEntity::toDomain)
                 .orElseThrow(() -> DishCategoryNotFoundException.EXCEPTION);
+    }
+
+    @Override
+    public void saveDishCategory(DishCategoryInfo dishCategoryInfo) {
+        jpaDishCategoryRepository.save(DishCategoryEntity.from(dishCategoryInfo));
+    }
+
+    @Override
+    public boolean existsByDishCategoryName(String dishCategoryName) {
+        return jpaDishCategoryRepository.existsByCategoryName(dishCategoryName);
+    }
+
+    @Override
+    public void updateDishCategory(DishCategory dishCategory, DishCategoryInfo dishCategoryInfo) {
+        DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(
+                dishCategory.getCategoryId());
+        dishCategoryEntity.update(dishCategoryInfo);
+    }
+
+    @Override
+    public void deleteDishCategory(DishCategory dishCategory) {
+        DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(
+                dishCategory.getCategoryId());
+        jpaDishCategoryRepository.delete(dishCategoryEntity);
+    }
+
+    @Override
+    public List<DishCategory> readAllCategories() {
+        return jpaDishCategoryRepository.findAll().
+                stream()
+                .map(DishCategoryEntity::toDomain)
+                .toList();
     }
 }
