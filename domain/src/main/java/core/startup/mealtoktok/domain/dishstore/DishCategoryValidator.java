@@ -1,8 +1,10 @@
 package core.startup.mealtoktok.domain.dishstore;
 
-import core.startup.mealtoktok.domain.dishstore.exception.DishCategoryNameAlreadyExistsException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.domain.dishstore.exception.DishCategoryNameAlreadyExistsException;
 
 @Component
 @RequiredArgsConstructor

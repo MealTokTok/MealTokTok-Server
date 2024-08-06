@@ -1,9 +1,11 @@
 package core.startup.mealtoktok.domain.dishstore;
 
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +31,7 @@ public class DishCategoryService {
     }
 
     public void updateDishCategory(
-            TargetDishCategory targetDishCategory,
-            DishCategoryInfo dishCategoryInfo) {
+            TargetDishCategory targetDishCategory, DishCategoryInfo dishCategoryInfo) {
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
         dishCategoryUpdater.update(dishCategory, dishCategoryInfo);
     }

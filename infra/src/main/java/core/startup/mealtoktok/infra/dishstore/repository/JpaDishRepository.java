@@ -1,12 +1,12 @@
 package core.startup.mealtoktok.infra.dishstore.repository;
 
-import core.startup.mealtoktok.infra.dishstore.entity.DishEntity;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import core.startup.mealtoktok.infra.dishstore.entity.DishEntity;
 import core.startup.mealtoktok.infra.dishstore.entity.DishStoreEntity;
 
 public interface JpaDishRepository extends JpaRepository<DishEntity, Long> {

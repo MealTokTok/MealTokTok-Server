@@ -24,7 +24,8 @@ public class CoreJpaDishRepository implements DishRepository {
     private final JpaDishCategoryRepository jpaDishCategoryRepository;
 
     @Override
-    public void saveDishCategory(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
+    public void saveDishCategory(
+            DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
         DishStoreEntity dishStoreEntity =
                 jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
         DishCategoryEntity dishCategoryEntity =
@@ -88,22 +89,21 @@ public class CoreJpaDishRepository implements DishRepository {
 
     @Override
     public void updateDishCategory(DishCategory dishCategory, DishCategoryInfo dishCategoryInfo) {
-        DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(
-                dishCategory.getCategoryId());
+        DishCategoryEntity dishCategoryEntity =
+                jpaDishCategoryRepository.getReferenceById(dishCategory.getCategoryId());
         dishCategoryEntity.update(dishCategoryInfo);
     }
 
     @Override
     public void deleteDishCategory(DishCategory dishCategory) {
-        DishCategoryEntity dishCategoryEntity = jpaDishCategoryRepository.getReferenceById(
-                dishCategory.getCategoryId());
+        DishCategoryEntity dishCategoryEntity =
+                jpaDishCategoryRepository.getReferenceById(dishCategory.getCategoryId());
         jpaDishCategoryRepository.delete(dishCategoryEntity);
     }
 
     @Override
     public List<DishCategory> readAllCategories() {
-        return jpaDishCategoryRepository.findAll().
-                stream()
+        return jpaDishCategoryRepository.findAll().stream()
                 .map(DishCategoryEntity::toDomain)
                 .toList();
     }

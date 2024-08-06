@@ -5,7 +5,6 @@ import core.startup.mealtoktok.domain.dishstore.DishCategory;
 public record DishCategoryResponse(Long categoryId, String categoryName) {
     public static DishCategoryResponse from(DishCategory dishCategory) {
         return new DishCategoryResponse(
-                dishCategory.getCategoryId(),
-                dishCategory.getCategoryName());
+                dishCategory.getCategoryId(), dishCategory.getCategoryName());
     }
 }
