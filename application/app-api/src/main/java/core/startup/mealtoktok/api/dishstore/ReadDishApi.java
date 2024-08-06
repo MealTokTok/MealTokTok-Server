@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api.dish;
+package core.startup.mealtoktok.api.dishstore;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.api.dish.response.DishResponse;
+import core.startup.mealtoktok.api.dishstore.response.DishResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.dishstore.ReadDishService;
 import core.startup.mealtoktok.domain.dishstore.TargetDishCategory;

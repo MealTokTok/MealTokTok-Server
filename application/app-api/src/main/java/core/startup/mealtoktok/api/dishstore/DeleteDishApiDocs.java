@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api.dish;
+package core.startup.mealtoktok.api.dishstore;
 
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.User;

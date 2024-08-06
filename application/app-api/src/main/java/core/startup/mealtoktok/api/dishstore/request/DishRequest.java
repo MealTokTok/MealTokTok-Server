@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api.dish.request;
+package core.startup.mealtoktok.api.dishstore.request;
 
 import core.startup.mealtoktok.domain.dishstore.DishInfo;
 

@@ -1,8 +1,8 @@
-package core.startup.mealtoktok.api.dish;
+package core.startup.mealtoktok.api.dishstore;
 
 import java.util.List;
 
-import core.startup.mealtoktok.api.dish.response.DishResponse;
+import core.startup.mealtoktok.api.dishstore.response.DishResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.User;
 

@@ -1,11 +1,11 @@
-package core.startup.mealtoktok.api.dish;
+package core.startup.mealtoktok.api.dishstore;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.api.dish.request.DishRequest;
+import core.startup.mealtoktok.api.dishstore.request.DishRequest;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.dishstore.CreateDishService;
 import core.startup.mealtoktok.domain.dishstore.TargetDishCategory;
