@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class DishRemover {
+public class DishCategoryRemover {
 
     private final DishRepository dishRepository;
 
-    public void remove(Dish dish) {
-        dishRepository.deleteDishCategory(dish);
+    public void remove(DishCategory dishCategory) {
+        dishRepository.deleteDishCategory(dishCategory);
     }
 }

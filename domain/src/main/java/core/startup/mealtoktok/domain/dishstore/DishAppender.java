@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DishAppender {
 
+    private final DishValidator dishValidator;
     private final DishRepository dishRepository;
 
     public void append(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
-        dishRepository.save(dishStore, dishCategory, dishInfo);
+        dishValidator.validateName(dishStore, dishInfo.dishName());
+        dishRepository.saveDishCategory(dishStore, dishCategory, dishInfo);
     }
 }

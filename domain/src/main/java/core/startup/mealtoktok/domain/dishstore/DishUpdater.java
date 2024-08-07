@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class DishUpdater {
 
+    private final DishValidator dishValidator;
     private final DishRepository dishRepository;
 
-    public void update(Dish dish, DishInfo dishInfo) {
-        dishRepository.update(dish, dishInfo);
+    public void update(DishStore dishStore, Dish dish, DishInfo dishInfo) {
+        dishValidator.validateName(dishStore, dishInfo.dishName());
+        dishRepository.updateDishCategory(dish, dishInfo);
     }
 }
