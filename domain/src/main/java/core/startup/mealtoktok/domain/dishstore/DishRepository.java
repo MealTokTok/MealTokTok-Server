@@ -26,5 +26,5 @@ public interface DishRepository {
 
     void deleteDishCategory(DishCategory dishCategory);
 
-    List<DishCategory> readAllCategories();
+    List<DishCategory> findAllCategories();
 }

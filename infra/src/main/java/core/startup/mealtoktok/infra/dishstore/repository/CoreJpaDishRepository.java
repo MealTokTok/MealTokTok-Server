@@ -102,7 +102,7 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
-    public List<DishCategory> readAllCategories() {
+    public List<DishCategory> findAllCategories() {
         return jpaDishCategoryRepository.findAll().stream()
                 .map(DishCategoryEntity::toDomain)
                 .toList();

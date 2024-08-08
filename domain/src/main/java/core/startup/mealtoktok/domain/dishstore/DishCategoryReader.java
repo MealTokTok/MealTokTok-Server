@@ -17,6 +17,6 @@ public class DishCategoryReader {
     }
 
     public List<DishCategory> readAll() {
-        return dishRepository.readAllCategories();
+        return dishRepository.findAllCategories();
     }
 }
