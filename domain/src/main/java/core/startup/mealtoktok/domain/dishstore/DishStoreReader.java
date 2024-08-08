@@ -1,5 +1,7 @@
 package core.startup.mealtoktok.domain.dishstore;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -12,5 +14,9 @@ public class DishStoreReader {
 
     public DishStore read(TargetDishStore targetStore) {
         return dishStoreRepository.findById(targetStore);
+    }
+
+    public List<DishStore> readAll() {
+        return dishStoreRepository.findAll();
     }
 }

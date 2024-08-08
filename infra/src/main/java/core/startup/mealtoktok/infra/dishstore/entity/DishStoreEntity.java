@@ -16,6 +16,7 @@ import org.locationtech.jts.geom.Point;
 import lombok.*;
 
 import core.startup.mealtoktok.domain.dishstore.DishStore;
+import core.startup.mealtoktok.domain.dishstore.DishStoreInfo;
 import core.startup.mealtoktok.domain.dishstore.OperatingHour;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
@@ -57,15 +58,23 @@ public class DishStoreEntity {
                 .build();
     }
 
-    public static DishStoreEntity from(DishStore dishStore) {
+    public static DishStoreEntity from(DishStoreInfo dishStoreInfo) {
         return DishStoreEntity.builder()
-                .storeId(dishStore.getStoreId())
-                .storeName(dishStore.getStoreName())
-                .phoneNumber(dishStore.getPhoneNumber())
-                .coordinate(convertToPoint(dishStore.getAddressWithCoordinate().coordinate()))
-                .address(AddressVO.from(dishStore.getAddressWithCoordinate().address()))
-                .openTime(dishStore.getOperatingHour().openTime())
-                .closeTime(dishStore.getOperatingHour().closeTime())
+                .storeName(dishStoreInfo.storeName())
+                .phoneNumber(dishStoreInfo.phoneNumber())
+                .coordinate(convertToPoint(dishStoreInfo.addressWithCoordinate().coordinate()))
+                .address(AddressVO.from(dishStoreInfo.addressWithCoordinate().address()))
+                .openTime(dishStoreInfo.operatingHour().openTime())
+                .closeTime(dishStoreInfo.operatingHour().closeTime())
                 .build();
+    }
+
+    public void update(DishStoreInfo dishStoreInfo) {
+        this.storeName = dishStoreInfo.storeName();
+        this.phoneNumber = dishStoreInfo.phoneNumber();
+        this.coordinate = convertToPoint(dishStoreInfo.addressWithCoordinate().coordinate());
+        this.address = AddressVO.from(dishStoreInfo.addressWithCoordinate().address());
+        this.openTime = dishStoreInfo.operatingHour().openTime();
+        this.closeTime = dishStoreInfo.operatingHour().closeTime();
     }
 }
