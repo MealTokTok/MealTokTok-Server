@@ -25,7 +25,7 @@ import core.startup.mealtoktok.domain.dishstore.TargetDishStore;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class DishStoreApi {
+public class DishStoreApi implements DishStoreApiDocs {
 
     private final DishStoreService dishStoreService;
 
