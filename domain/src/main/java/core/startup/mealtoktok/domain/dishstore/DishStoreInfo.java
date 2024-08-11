@@ -24,4 +24,12 @@ public record DishStoreInfo(
                 AddressWithCoordinate.of(address, latitude, longitude),
                 OperatingHour.of(openTime, closeTime));
     }
+
+    public static DishStoreInfo of(
+            String storeName,
+            String phoneNumber,
+            AddressWithCoordinate addressWithCoordinate,
+            OperatingHour operatingHour) {
+        return new DishStoreInfo(storeName, phoneNumber, addressWithCoordinate, operatingHour);
+    }
 }

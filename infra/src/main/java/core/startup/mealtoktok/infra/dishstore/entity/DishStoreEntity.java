@@ -48,13 +48,14 @@ public class DishStoreEntity {
     public DishStore toDomain() {
         return DishStore.builder()
                 .storeId(storeId)
-                .storeName(storeName)
-                .phoneNumber(phoneNumber)
-                .addressWithCoordinate(
-                        AddressWithCoordinate.of(
-                                address.toDomain(),
-                                Coordinate.of(coordinate.getX(), coordinate.getY())))
-                .operatingHour(OperatingHour.of(openTime, closeTime))
+                .dishStoreInfo(
+                        DishStoreInfo.of(
+                                storeName,
+                                phoneNumber,
+                                AddressWithCoordinate.of(
+                                        address.toDomain(),
+                                        Coordinate.of(coordinate.getX(), coordinate.getY())),
+                                OperatingHour.of(openTime, closeTime)))
                 .build();
     }
 

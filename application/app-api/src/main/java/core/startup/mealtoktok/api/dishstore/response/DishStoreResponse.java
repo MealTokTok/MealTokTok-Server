@@ -15,12 +15,12 @@ public record DishStoreResponse(
         LocalTime closeTime) {
     public static DishStoreResponse from(DishStore dishStore) {
         return new DishStoreResponse(
-                dishStore.getStoreName(),
-                dishStore.getPhoneNumber(),
-                dishStore.getAddressWithCoordinate().address(),
-                dishStore.getAddressWithCoordinate().coordinate().longitude(),
-                dishStore.getAddressWithCoordinate().coordinate().longitude(),
-                dishStore.getOperatingHour().openTime(),
-                dishStore.getOperatingHour().closeTime());
+                dishStore.getDishStoreInfo().storeName(),
+                dishStore.getDishStoreInfo().phoneNumber(),
+                dishStore.getDishStoreInfo().addressWithCoordinate().address(),
+                dishStore.getDishStoreInfo().addressWithCoordinate().coordinate().latitude(),
+                dishStore.getDishStoreInfo().addressWithCoordinate().coordinate().longitude(),
+                dishStore.getDishStoreInfo().operatingHour().openTime(),
+                dishStore.getDishStoreInfo().operatingHour().closeTime());
     }
 }
