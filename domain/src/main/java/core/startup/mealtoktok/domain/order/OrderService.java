@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.alarm.AlarmSender;
 import core.startup.mealtoktok.domain.mealdelivery.FullDiningManager;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryReader;
@@ -23,7 +22,6 @@ public class OrderService {
     private final MealDeliveryReserver mealDeliveryReserver;
     private final MealDeliveryReader mealDeliveryReader;
     private final FullDiningManager fullDiningManager;
-    private final AlarmSender alarmSender;
 
     @Transactional
     public TargetOrder orderMeals(Orderer orderer, OrderContent orderContent) {

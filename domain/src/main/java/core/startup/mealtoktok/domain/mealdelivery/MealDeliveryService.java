@@ -42,6 +42,7 @@ public class MealDeliveryService {
     public void changeCollectingState(
             TargetFullDining targetFullDining, CollectingState collectingState) {
         fullDiningManager.collectRequest(targetFullDining, collectingState);
+        // TODO :알림 발송 alarmSender.send(targetFullDining, collectingState);
     }
 
     public int countCollectRequestContainers(Orderer orderer) {
