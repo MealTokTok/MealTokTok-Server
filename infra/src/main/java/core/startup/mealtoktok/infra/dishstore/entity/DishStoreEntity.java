@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import org.locationtech.jts.geom.Point;
 
@@ -18,15 +19,16 @@ import lombok.*;
 import core.startup.mealtoktok.domain.dishstore.DishStore;
 import core.startup.mealtoktok.domain.dishstore.DishStoreInfo;
 import core.startup.mealtoktok.domain.dishstore.OperatingHour;
+import core.startup.mealtoktok.domain.user.Address;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
-import core.startup.mealtoktok.infra.global.vo.AddressVO;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
+@Table(name = "dish_store")
 public class DishStoreEntity {
 
     @Id
@@ -40,7 +42,7 @@ public class DishStoreEntity {
     @Column(columnDefinition = "POINT SRID 4326")
     private Point coordinate;
 
-    @Embedded private AddressVO address;
+    @Embedded private Address address;
 
     private LocalTime openTime;
     private LocalTime closeTime;
@@ -53,7 +55,7 @@ public class DishStoreEntity {
                                 storeName,
                                 phoneNumber,
                                 AddressWithCoordinate.of(
-                                        address.toDomain(),
+                                        address,
                                         Coordinate.of(coordinate.getX(), coordinate.getY())),
                                 OperatingHour.of(openTime, closeTime)))
                 .build();
@@ -64,7 +66,7 @@ public class DishStoreEntity {
                 .storeName(dishStoreInfo.storeName())
                 .phoneNumber(dishStoreInfo.phoneNumber())
                 .coordinate(convertToPoint(dishStoreInfo.addressWithCoordinate().coordinate()))
-                .address(AddressVO.from(dishStoreInfo.addressWithCoordinate().address()))
+                .address(dishStoreInfo.addressWithCoordinate().address())
                 .openTime(dishStoreInfo.operatingHour().openTime())
                 .closeTime(dishStoreInfo.operatingHour().closeTime())
                 .build();
@@ -74,7 +76,7 @@ public class DishStoreEntity {
         this.storeName = dishStoreInfo.storeName();
         this.phoneNumber = dishStoreInfo.phoneNumber();
         this.coordinate = convertToPoint(dishStoreInfo.addressWithCoordinate().coordinate());
-        this.address = AddressVO.from(dishStoreInfo.addressWithCoordinate().address());
+        this.address = dishStoreInfo.addressWithCoordinate().address();
         this.openTime = dishStoreInfo.operatingHour().openTime();
         this.closeTime = dishStoreInfo.operatingHour().closeTime();
     }

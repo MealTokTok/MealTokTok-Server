@@ -29,4 +29,8 @@ public class UserValidator {
             throw RemovedUserException.EXCEPTION;
         }
     }
+
+    public boolean isDuplicated(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
 }

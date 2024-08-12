@@ -21,4 +21,6 @@ public interface UserRepository {
     void delete(User user);
 
     void deleteWithReason(User user, WithDrawReason withDrawReason);
+
+    boolean existsByNickname(String nickname);
 }

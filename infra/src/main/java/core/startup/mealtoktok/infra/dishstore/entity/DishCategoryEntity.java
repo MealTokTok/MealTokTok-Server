@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import lombok.*;
 
@@ -14,6 +15,7 @@ import core.startup.mealtoktok.domain.dishstore.DishCategoryInfo;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(name = "dish_category")
 @Getter
 public class DishCategoryEntity {
 

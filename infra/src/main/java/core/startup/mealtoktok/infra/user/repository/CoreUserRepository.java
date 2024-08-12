@@ -67,6 +67,11 @@ public class CoreUserRepository implements UserRepository {
     }
 
     @Override
+    public boolean existsByNickname(String nickname) {
+        return userJpaRepository.existsByUserProfileNickname(nickname);
+    }
+
+    @Override
     public void delete(User user) {
         userJpaRepository.delete(UserEntity.from(user));
     }

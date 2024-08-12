@@ -24,12 +24,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import core.startup.mealtoktok.domain.user.Address;
 import core.startup.mealtoktok.domain.user.AddressStatus;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
 import core.startup.mealtoktok.domain.user.DeliveryAddress;
 import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.infra.global.vo.AddressVO;
 
 @Entity
 @Builder
@@ -54,7 +54,7 @@ public class DeliveryAddressEntity {
     @Enumerated(EnumType.STRING)
     private AddressStatus status;
 
-    @Embedded private AddressVO address;
+    @Embedded private Address address;
 
     public static DeliveryAddressEntity from(UserEntity user, DeliveryAddress deliveryAddress) {
         return DeliveryAddressEntity.builder()
@@ -62,7 +62,7 @@ public class DeliveryAddressEntity {
                 .user(user)
                 .coordinate(convertToPoint(deliveryAddress.addressWithCoordinate().coordinate()))
                 .status(deliveryAddress.status())
-                .address(AddressVO.from(deliveryAddress.addressWithCoordinate().address()))
+                .address(deliveryAddress.addressWithCoordinate().address())
                 .build();
     }
 
@@ -72,7 +72,7 @@ public class DeliveryAddressEntity {
                 .user(UserEntity.from(targetUser))
                 .coordinate(convertToPoint(deliveryAddress.addressWithCoordinate().coordinate()))
                 .status(deliveryAddress.status())
-                .address(AddressVO.from(deliveryAddress.addressWithCoordinate().address()))
+                .address(deliveryAddress.addressWithCoordinate().address())
                 .build();
     }
 
@@ -80,7 +80,7 @@ public class DeliveryAddressEntity {
         return DeliveryAddress.of(
                 deliveryAddressId,
                 AddressWithCoordinate.of(
-                        address.toDomain(), Coordinate.of(coordinate.getX(), coordinate.getY())),
+                        address, Coordinate.of(coordinate.getX(), coordinate.getY())),
                 status);
     }
 }

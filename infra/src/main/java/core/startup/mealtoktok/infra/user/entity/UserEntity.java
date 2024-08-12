@@ -80,7 +80,6 @@ public class UserEntity extends BaseTimeEntity {
                                 .toList())
                 .deviceTokens(user.getDeviceTokens())
                 .createdAt(user.getUserDateTime().createdAt())
-                .modifiedAt(user.getUserDateTime().modifiedAt())
                 .build();
     }
 
@@ -105,7 +104,7 @@ public class UserEntity extends BaseTimeEntity {
                 .deliveryAddresses(
                         deliveryAddresses.stream().map(DeliveryAddressEntity::toDomain).toList())
                 .oAuthInfo(OAuthInfo.of(provider, oid))
-                .userDateTime(UserDateTime.of(createdAt, modifiedAt, removedAt))
+                .userDateTime(UserDateTime.of(createdAt, removedAt))
                 .build();
     }
 

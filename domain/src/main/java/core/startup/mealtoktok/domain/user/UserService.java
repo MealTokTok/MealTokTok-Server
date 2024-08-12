@@ -13,6 +13,7 @@ public class UserService {
     private final UserReader userReader;
     private final UserUpdater userUpdater;
     private final userRemover userRemover;
+    private final UserValidator userValidator;
 
     public TargetUser addDeliveryAddress(
             TargetUser targetUser, AddressWithCoordinate addressWithCoordinate) {
@@ -46,5 +47,9 @@ public class UserService {
     public TargetUser changeEmail(TargetUser targetUser, String email) {
         User user = userReader.read(targetUser);
         return userUpdater.updateEmail(user, email);
+    }
+
+    public boolean checkNicknameDuplicate(String nickname) {
+        return userValidator.isDuplicated(nickname);
     }
 }

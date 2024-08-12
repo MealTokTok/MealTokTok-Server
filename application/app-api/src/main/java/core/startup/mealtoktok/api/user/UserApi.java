@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest.AddressInfoRequest;
+import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
 import core.startup.mealtoktok.api.user.dto.DeliveryAddressResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.TargetDeliveryAddress;
@@ -26,6 +27,12 @@ import core.startup.mealtoktok.domain.user.UserService;
 public class UserApi implements UserApiDocs {
 
     private final UserService userService;
+
+    @GetMapping("/nickname/change-available")
+    public Response<AvailabilityResponse> checkNicknameDuplicate(String nickname) {
+        boolean isDuplicated = userService.checkNicknameDuplicate(nickname);
+        return Response.success(AvailabilityResponse.from(!isDuplicated));
+    }
 
     @PatchMapping("/{userId}/nickname")
     public Response<TargetUser> changeNickname(@PathVariable Long userId, String nickname) {

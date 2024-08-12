@@ -14,6 +14,7 @@ import core.startup.mealtoktok.domain.dishstore.DishInfo;
 @AllArgsConstructor
 @Builder
 @Getter
+@Table(name = "dish")
 public class DishEntity {
 
     @Id
