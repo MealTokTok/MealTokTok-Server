@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import core.startup.mealtoktok.domain.user.WithDrawReason;
 
 @Entity
+@Table(name = "withdraw_reason")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WithDrawReasonEntity {
 

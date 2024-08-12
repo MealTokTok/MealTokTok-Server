@@ -3,6 +3,7 @@ package core.startup.mealtoktok.api.user;
 import java.util.List;
 
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest.AddressInfoRequest;
+import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
 import core.startup.mealtoktok.api.user.dto.DeliveryAddressResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.TargetUser;
@@ -12,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "회원 API")
 public interface UserApiDocs {
+
+    Response<AvailabilityResponse> checkNicknameDuplicate(String nickname);
 
     @Operation(summary = "닉네임 변경")
     Response<TargetUser> changeNickname(Long userId, String nickname);

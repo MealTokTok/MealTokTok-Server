@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest;
 import core.startup.mealtoktok.api.global.security.JwtTokenizer;
+import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
 import core.startup.mealtoktok.domain.auth.JwtTokens;
@@ -24,8 +25,8 @@ public class AuthApi implements AuthApiDocs {
     private final AuthService authService;
 
     @GetMapping("/oauth/can-sign-up")
-    public Response<Boolean> canRegistered(@RequestParam String idToken) {
-        return Response.success(authService.canRegistered(idToken));
+    public Response<AvailabilityResponse> canRegistered(@RequestParam String idToken) {
+        return Response.success(AvailabilityResponse.from(authService.canRegistered(idToken)));
     }
 
     @GetMapping("/oauth/login")

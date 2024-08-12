@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest;
+import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.OAuthTokens;
 
@@ -14,7 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface AuthApiDocs {
 
     @Operation(summary = "id_token을 통해 회원가입 여부 확인")
-    Response<Boolean> canRegistered(String oidcToken);
+    Response<AvailabilityResponse> canRegistered(String oidcToken);
 
     @Operation(summary = "회원가입")
     Response<Void> signUp(SignUpRequest signupRequest, HttpServletResponse response);
