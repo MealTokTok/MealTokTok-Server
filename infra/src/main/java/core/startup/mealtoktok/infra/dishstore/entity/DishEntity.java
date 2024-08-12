@@ -1,7 +1,5 @@
 package core.startup.mealtoktok.infra.dishstore.entity;
 
-import static jakarta.persistence.FetchType.LAZY;
-
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -19,29 +17,22 @@ public class DishEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long dishId;
+    private Long dishId;
 
-    String dishName;
+    private String dishName;
 
-    String imgUrl;
+    private String imgUrl;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "store_id")
-    private DishStoreEntity dishStoreEntity;
+    private Long dishStoreId;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "category_id")
-    private DishCategoryEntity dishCategoryEntity;
+    private Long dishCategoryId;
 
-    public static DishEntity of(
-            DishStoreEntity dishStoreEntity,
-            DishCategoryEntity dishCategoryEntity,
-            DishInfo dishInfo) {
+    public static DishEntity of(Long dishStoreId, Long dishCategoryId, DishInfo dishInfo) {
         return DishEntity.builder()
                 .dishName(dishInfo.dishName())
                 .imgUrl(dishInfo.imgUrl())
-                .dishStoreEntity(dishStoreEntity)
-                .dishCategoryEntity(dishCategoryEntity)
+                .dishStoreId(dishStoreId)
+                .dishCategoryId(dishCategoryId)
                 .build();
     }
 
@@ -50,8 +41,8 @@ public class DishEntity {
                 .dishId(dishId)
                 .dishName(dishName)
                 .imgUrl(imgUrl)
-                .dishStoreId(dishStoreEntity.getStoreId())
-                .dishCategoryId(dishCategoryEntity.getCategoryId())
+                .dishStoreId(dishStoreId)
+                .dishCategoryId(dishCategoryId)
                 .build();
     }
 

@@ -12,7 +12,6 @@ import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.dishstore.ReadDishService;
 import core.startup.mealtoktok.domain.dishstore.TargetDishCategory;
 import core.startup.mealtoktok.domain.dishstore.TargetDishStore;
-import core.startup.mealtoktok.domain.user.TargetUser;
 import core.startup.mealtoktok.domain.user.User;
 
 @RestController
@@ -31,9 +30,7 @@ public class ReadDishApi implements ReadDishApiDocs {
         List<DishResponse> dishResponses =
                 readDishService
                         .readDishes(
-                                TargetUser.from(currentUser.getUserId()),
-                                TargetDishStore.from(storeId),
-                                TargetDishCategory.from(categoryId))
+                                TargetDishStore.from(storeId), TargetDishCategory.from(categoryId))
                         .stream()
                         .map(DishResponse::from)
                         .toList();

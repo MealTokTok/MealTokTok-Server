@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.domain.dishstore.*;
 import core.startup.mealtoktok.infra.dishstore.entity.DishCategoryEntity;
 import core.startup.mealtoktok.infra.dishstore.entity.DishEntity;
-import core.startup.mealtoktok.infra.dishstore.entity.DishStoreEntity;
 import core.startup.mealtoktok.infra.dishstore.exception.DishCategoryNotFoundException;
 import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 
@@ -20,17 +19,13 @@ import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 public class CoreJpaDishRepository implements DishRepository {
 
     private final JpaDishRepository jpaDishRepository;
-    private final JpaDishStoreRepository jpaDishStoreRepository;
     private final JpaDishCategoryRepository jpaDishCategoryRepository;
 
     @Override
     public void saveDishCategory(
             DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
-        DishStoreEntity dishStoreEntity =
-                jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
-        DishCategoryEntity dishCategoryEntity =
-                jpaDishCategoryRepository.getReferenceById(dishCategory.getCategoryId());
-        jpaDishRepository.save(DishEntity.of(dishStoreEntity, dishCategoryEntity, dishInfo));
+        jpaDishRepository.save(
+                DishEntity.of(dishStore.getStoreId(), dishCategory.getCategoryId(), dishInfo));
     }
 
     @Override
@@ -63,10 +58,8 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
-    public boolean existsByDishStoreEntityAndDishName(DishStore dishStore, String dishName) {
-        DishStoreEntity dishStoreEntity =
-                jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
-        return jpaDishRepository.existsByDishStoreEntityAndDishName(dishStoreEntity, dishName);
+    public boolean existsByDishStoreIdAndDishName(DishStore dishStore, String dishName) {
+        return jpaDishRepository.existsByDishStoreIdAndDishName(dishStore.getStoreId(), dishName);
     }
 
     @Override
