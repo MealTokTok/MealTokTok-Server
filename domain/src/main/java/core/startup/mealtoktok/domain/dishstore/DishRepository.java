@@ -14,7 +14,7 @@ public interface DishRepository {
 
     void updateDishCategory(Dish dish, DishInfo dishInfo);
 
-    boolean existsByDishStoreEntityAndDishName(DishStore dishStore, String dishName);
+    boolean existsByDishStoreIdAndDishName(DishStore dishStore, String dishName);
 
     DishCategory findDishById(TargetDishCategory targetDishCategory);
 

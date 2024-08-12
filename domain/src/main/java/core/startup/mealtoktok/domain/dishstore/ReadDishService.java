@@ -7,9 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.user.TargetUser;
-import core.startup.mealtoktok.domain.user.UserReader;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -18,13 +15,9 @@ public class ReadDishService {
     private final DishStoreReader dishStoreReader;
     private final DishCategoryReader dishCategoryReader;
     private final DishReader dishReader;
-    private final UserReader userReader;
 
     public List<Dish> readDishes(
-            TargetUser targetUser,
-            TargetDishStore targetDishStore,
-            TargetDishCategory targetDishCategory) {
-        // User user = userReader.read(targetUser);
+            TargetDishStore targetDishStore, TargetDishCategory targetDishCategory) {
         DishStore dishStore = dishStoreReader.read(targetDishStore);
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
         return dishReader.readAll(dishStore, dishCategory);

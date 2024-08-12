@@ -13,7 +13,7 @@ public class DishValidator {
     private final DishRepository dishRepository;
 
     public void validateName(DishStore dishStore, String dishName) {
-        if (dishRepository.existsByDishStoreEntityAndDishName(dishStore, dishName)) {
+        if (dishRepository.existsByDishStoreIdAndDishName(dishStore, dishName)) {
             throw DishNameAlreadyExistsException.EXCEPTION;
         }
     }
