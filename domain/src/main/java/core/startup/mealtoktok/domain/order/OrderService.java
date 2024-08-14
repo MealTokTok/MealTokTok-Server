@@ -28,7 +28,7 @@ public class OrderService {
         orderValidator.validate(orderContent);
         TargetOrder targetOrder = orderAppender.append(orderer, orderContent);
         List<MealDelivery> mealDeliveries =
-                mealDeliveryReserver.reserve(targetOrder, orderContent.orderedMeals());
+                mealDeliveryReserver.reserve(orderContent.toMealDeliveries(targetOrder));
         fullDiningManager.reserve(mealDeliveries);
         return targetOrder;
     }

@@ -19,9 +19,8 @@ import lombok.NoArgsConstructor;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryDateTime;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
-import core.startup.mealtoktok.domain.order.OrderedMeal;
+import core.startup.mealtoktok.domain.mealdelivery.OrderedMeal;
 import core.startup.mealtoktok.domain.order.ReservedTime;
-import core.startup.mealtoktok.domain.order.TargetOrder;
 
 @Entity
 @Table(name = "meal_delivery")
@@ -53,7 +52,7 @@ public class MealDeliveryEntity {
 
     public static MealDeliveryEntity from(MealDelivery mealDelivery) {
         return MealDeliveryEntity.builder()
-                .orderId(mealDelivery.getTargetOrder().orderId())
+                .orderId(mealDelivery.getOrderId())
                 .mealId(mealDelivery.getOrderedMeal().mealId())
                 .includeRice(mealDelivery.getOrderedMeal().includeRice())
                 .reservedDate(mealDelivery.getOrderedMeal().reservedSchedule().reservedDate())
@@ -68,7 +67,7 @@ public class MealDeliveryEntity {
     public MealDelivery toDomain() {
         return MealDelivery.builder()
                 .mealDeliveryId(mealDeliveryId)
-                .targetOrder(TargetOrder.from(orderId))
+                .orderId(orderId)
                 .orderedMeal(
                         OrderedMeal.create(
                                 mealId,

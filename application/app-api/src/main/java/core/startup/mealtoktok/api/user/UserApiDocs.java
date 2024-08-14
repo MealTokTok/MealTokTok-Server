@@ -5,6 +5,7 @@ import java.util.List;
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest.AddressInfoRequest;
 import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
 import core.startup.mealtoktok.api.user.dto.DeliveryAddressResponse;
+import core.startup.mealtoktok.api.user.dto.UserResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.TargetUser;
 
@@ -14,6 +15,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "회원 API")
 public interface UserApiDocs {
 
+    @Operation(summary = "유저 정보 조회")
+    Response<UserResponse> getUser(Long userId);
+
+    @Operation(summary = "닉네임 중복 확인")
     Response<AvailabilityResponse> checkNicknameDuplicate(String nickname);
 
     @Operation(summary = "닉네임 변경")
