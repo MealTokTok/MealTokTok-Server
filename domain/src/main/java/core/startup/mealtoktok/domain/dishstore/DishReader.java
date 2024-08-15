@@ -19,4 +19,8 @@ public class DishReader {
     public List<Dish> readAll(DishStore dishStore, DishCategory dishCategory) {
         return dishRepository.findAllByStoreAndCategory(dishStore, dishCategory);
     }
+
+    public boolean existsById(Long dishId) {
+        return dishRepository.existsById(dishId);
+    }
 }

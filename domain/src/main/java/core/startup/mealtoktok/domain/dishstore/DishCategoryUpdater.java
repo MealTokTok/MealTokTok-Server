@@ -12,7 +12,7 @@ public class DishCategoryUpdater {
     private final DishRepository dishRepository;
 
     public void update(DishCategory dishCategory, DishCategoryInfo dishCategoryInfo) {
-        dishCategoryValidator.validate(dishCategoryInfo.categoryName());
+        dishCategoryValidator.validate(dishCategory, dishCategoryInfo.categoryName());
         dishRepository.updateDishCategory(dishCategory, dishCategoryInfo);
     }
 }

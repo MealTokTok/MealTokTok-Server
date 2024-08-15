@@ -6,11 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+
+import core.startup.mealtoktok.domain.meal.MealDish;
 
 @Entity
 @Table(name = "meal_dish")
@@ -31,8 +32,11 @@ public class MealDishEntity {
         return MealDishEntity.builder().mealId(mealId).dishId(dishId).build();
     }
 
-    public void update(Long mealId, Long dishId) {
-        this.mealId = mealId;
+    public MealDish toDomain() {
+        return MealDish.builder().mealDishId(MealDishId).mealId(mealId).dishId(dishId).build();
+    }
+
+    public void update(Long dishId) {
         this.dishId = dishId;
     }
 }

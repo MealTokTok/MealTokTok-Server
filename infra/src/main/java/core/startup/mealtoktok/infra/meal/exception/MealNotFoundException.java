@@ -11,4 +11,3 @@ public class MealNotFoundException extends InfraException {
         super(MealErrorCode.MEAL_NOT_FOUND);
     }
 }
-

@@ -14,7 +14,7 @@ public class DishUpdater {
     private final DishRepository dishRepository;
 
     public void update(DishStore dishStore, Dish dish, DishInfo dishInfo) {
-        dishValidator.validateName(dishStore, dishInfo.dishName());
+        dishValidator.validateName(dishStore, dish, dishInfo.dishName());
         dishRepository.updateDishCategory(dish, dishInfo);
     }
 }

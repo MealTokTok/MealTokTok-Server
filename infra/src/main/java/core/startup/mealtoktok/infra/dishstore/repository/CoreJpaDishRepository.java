@@ -63,6 +63,13 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
+    public boolean existsByNameExcludingTargetDish(
+            DishStore dishStore, Dish dish, String dishName) {
+        return jpaDishRepository.existsByDishStoreIdAndDishNameAndDishIdNot(
+                dishStore.getStoreId(), dishName, dish.getDishId());
+    }
+
+    @Override
     public DishCategory findDishById(TargetDishCategory targetDishCategory) {
         return jpaDishCategoryRepository
                 .findById(targetDishCategory.categoryId())
@@ -78,6 +85,13 @@ public class CoreJpaDishRepository implements DishRepository {
     @Override
     public boolean existsByDishCategoryName(String dishCategoryName) {
         return jpaDishCategoryRepository.existsByCategoryName(dishCategoryName);
+    }
+
+    @Override
+    public boolean existsByNameExcludingTargetCategory(
+            DishCategory dishCategory, String dishCategoryName) {
+        return jpaDishCategoryRepository.existsByCategoryNameAndCategoryIdNot(
+                dishCategoryName, dishCategory.getCategoryId());
     }
 
     @Override
@@ -99,5 +113,10 @@ public class CoreJpaDishRepository implements DishRepository {
         return jpaDishCategoryRepository.findAll().stream()
                 .map(DishCategoryEntity::toDomain)
                 .toList();
+    }
+
+    @Override
+    public boolean existsById(Long dishId) {
+        return jpaDishRepository.existsById(dishId);
     }
 }

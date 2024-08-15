@@ -18,4 +18,7 @@ public interface JpaDishRepository extends JpaRepository<DishEntity, Long> {
             @Param("storeId") Long storeId, @Param("categoryId") Long categoryId);
 
     boolean existsByDishStoreIdAndDishName(Long dishStoreId, String dishName);
+
+    boolean existsByDishStoreIdAndDishNameAndDishIdNot(
+            Long dishStoreId, String dishName, Long dishId);
 }

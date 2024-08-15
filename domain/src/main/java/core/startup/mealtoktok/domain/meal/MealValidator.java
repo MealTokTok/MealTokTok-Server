@@ -1,22 +1,70 @@
 package core.startup.mealtoktok.domain.meal;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.domain.dishstore.DishReader;
+import core.startup.mealtoktok.domain.meal.exception.InvalidDishCountException;
+import core.startup.mealtoktok.domain.meal.exception.MealNameAlreadyExitsException;
+import core.startup.mealtoktok.domain.meal.exception.MealNotFoundException;
+import core.startup.mealtoktok.domain.meal.exception.MealOwnerNotMatchException;
 
 @Component
 @RequiredArgsConstructor
 public class MealValidator {
 
     private final MealRepository mealRepository;
+    private final DishReader dishReader;
 
-    public void validate(MealDishes mealDishes) {
-        if (mealRepository.exitsByMealName(mealDishes.mealInfo().mealName())) {
-            throw new IllegalArgumentException("이미 존재하는 도시락 이름입니다.");
+    public void validate(MealContent mealContent) {
+        checkMealNameExists(mealContent.mealInfo().mealName());
+        checkDishCount(mealContent.dishIds());
+        checkDishesExist(mealContent.dishIds());
+    }
+
+    public void validate(MealOwner mealOwner, Meal meal, MealContent mealContent) {
+        checkOwnership(meal, mealOwner);
+        checkMealNameExistsExcludingTarget(meal, mealContent.mealInfo().mealName());
+        checkDishCount(mealContent.dishIds());
+    }
+
+    public void validate(MealOwner mealOwner, Meal meal) {
+        checkOwnership(meal, mealOwner);
+    }
+
+    private void checkMealNameExists(String mealName) {
+        if (mealRepository.exitsByMealName(mealName)) {
+            throw MealNameAlreadyExitsException.EXCEPTION;
         }
+    }
 
-        if (mealDishes.dishIds().size() != 4) {
-            throw new IllegalArgumentException("도시락은 4개의 반찬을 가지고 있어야 합니다.");
+    private void checkMealNameExistsExcludingTarget(Meal meal, String mealName) {
+        if (mealRepository.exitsByNameExcludingTargetMeal(meal, mealName)) {
+            throw MealNameAlreadyExitsException.EXCEPTION;
+        }
+    }
+
+    private void checkDishCount(List<Long> dishIds) {
+        if (dishIds.size() != 4) {
+            throw InvalidDishCountException.EXCEPTION;
+        }
+    }
+
+    private void checkDishesExist(List<Long> dishIds) {
+        dishIds.forEach(
+                dishId -> {
+                    if (!dishReader.existsById(dishId)) {
+                        throw MealNotFoundException.EXCEPTION;
+                    }
+                });
+    }
+
+    private void checkOwnership(Meal meal, MealOwner mealOwner) {
+        if (!meal.isOwnedBy(meal, mealOwner)) {
+            throw MealOwnerNotMatchException.EXCEPTION;
         }
     }
 }

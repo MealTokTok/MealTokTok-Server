@@ -7,4 +7,6 @@ import core.startup.mealtoktok.infra.dishstore.entity.DishStoreEntity;
 public interface JpaDishStoreRepository extends JpaRepository<DishStoreEntity, Long> {
 
     boolean existsByStoreName(String dishStoreName);
+
+    boolean existsByStoreNameAndStoreIdNot(String dishStoreName, Long storeId);
 }

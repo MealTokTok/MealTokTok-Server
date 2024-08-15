@@ -12,7 +12,9 @@ public interface DishStoreRepository {
 
     void delete(TargetDishStore targetDishStore);
 
-    void update(TargetDishStore targetDishStore, DishStoreInfo dishStoreInfo);
+    void update(DishStore dishStore, DishStoreInfo dishStoreInfo);
 
     List<DishStore> findAll();
+
+    boolean existsByNameExcludingTargetStore(DishStore dishStore, String dishStoreName);
 }
