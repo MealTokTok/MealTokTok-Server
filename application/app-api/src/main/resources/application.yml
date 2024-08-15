@@ -30,7 +30,7 @@ spring:
       on-profile: local
 jwt:
   access-token:
-    expiration: 2592000 #3일
+    expiration: 25920000
 
 ---
 spring:
@@ -39,4 +39,4 @@ spring:
       on-profile: dev
 jwt:
   access-token:
-    expiration: 2592000 #3일
+    expiration: 25920000

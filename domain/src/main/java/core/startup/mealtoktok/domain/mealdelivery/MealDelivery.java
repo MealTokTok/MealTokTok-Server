@@ -7,16 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import core.startup.mealtoktok.domain.order.OrderedMeal;
-import core.startup.mealtoktok.domain.order.TargetOrder;
-
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class MealDelivery {
 
     private Long mealDeliveryId;
-    private TargetOrder targetOrder;
+    private Long orderId;
     private OrderedMeal orderedMeal;
     private DeliveryState deliveryState;
     private DeliveryDateTime deliveryDateTime;
@@ -32,9 +29,9 @@ public class MealDelivery {
         this.deliveryState = DeliveryState.DELIVERED;
     }
 
-    public static MealDelivery create(TargetOrder targetOrder, OrderedMeal orderedMeal) {
+    public static MealDelivery create(Long orderId, OrderedMeal orderedMeal) {
         return new MealDelivery(
-                null, targetOrder, orderedMeal, DeliveryState.PENDING, DeliveryDateTime.init());
+                null, orderId, orderedMeal, DeliveryState.PENDING, DeliveryDateTime.init());
     }
 
     public boolean hasFullDiningOption() {

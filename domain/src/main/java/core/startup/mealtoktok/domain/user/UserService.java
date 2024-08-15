@@ -15,6 +15,10 @@ public class UserService {
     private final userRemover userRemover;
     private final UserValidator userValidator;
 
+    public User getUser(TargetUser targetUser) {
+        return userReader.read(targetUser);
+    }
+
     public TargetUser addDeliveryAddress(
             TargetUser targetUser, AddressWithCoordinate addressWithCoordinate) {
         User user = userReader.read(targetUser);
