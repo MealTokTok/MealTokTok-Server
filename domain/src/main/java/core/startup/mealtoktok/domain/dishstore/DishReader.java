@@ -20,7 +20,7 @@ public class DishReader {
         return dishRepository.findAllByStoreAndCategory(dishStore, dishCategory);
     }
 
-    public boolean existsById(Long dishId) {
-        return dishRepository.existsById(dishId);
+    public List<Dish> search(DishStore dishStore, String keyword) {
+        return dishRepository.findAllByStoreAndKeyword(dishStore, keyword);
     }
 }

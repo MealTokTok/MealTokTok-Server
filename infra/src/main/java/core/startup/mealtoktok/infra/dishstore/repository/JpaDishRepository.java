@@ -21,4 +21,8 @@ public interface JpaDishRepository extends JpaRepository<DishEntity, Long> {
 
     boolean existsByDishStoreIdAndDishNameAndDishIdNot(
             Long dishStoreId, String dishName, Long dishId);
+
+    @Query(
+            "SELECT d FROM DishEntity d WHERE d.dishStoreId = :storeId AND d.dishName LIKE %:keyword%")
+    List<DishEntity> findByStoreIdAndDishName(@Param("storeId")Long storeId, @Param("keyword") String keyword);
 }

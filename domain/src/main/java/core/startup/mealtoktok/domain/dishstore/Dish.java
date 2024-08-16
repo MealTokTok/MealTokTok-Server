@@ -12,6 +12,7 @@ public class Dish {
     private String dishName;
     private String imgUrl;
     private Money dishPrice;
+    private boolean isSoldOut;
     private Long dishStoreId;
     private Long dishCategoryId;
 }

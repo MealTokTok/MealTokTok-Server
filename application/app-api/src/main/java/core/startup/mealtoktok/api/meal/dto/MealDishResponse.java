@@ -5,13 +5,14 @@ import java.util.List;
 import core.startup.mealtoktok.api.dishstore.response.DishResponse;
 import core.startup.mealtoktok.domain.meal.MealAndDishes;
 
-public record MealDishResponse(Long mealId, String mealName, List<DishResponse> dishResponses) {
+public record MealDishResponse(MealResponse meal, List<DishResponse> dishes) {
 
     public static MealDishResponse from(MealAndDishes mealAndDishes) {
-        Long mealId = mealAndDishes.meal().mealId();
-        String mealName = mealAndDishes.meal().mealInfo().mealName();
+        MealResponse mealResponse = MealResponse.from(mealAndDishes.meal());
         List<DishResponse> dishResponses =
-                mealAndDishes.dishes().stream().map(DishResponse::from).toList();
-        return new MealDishResponse(mealId, mealName, dishResponses);
+                mealAndDishes.dishes().stream()
+                        .map(DishResponse::from)
+                        .toList();
+        return new MealDishResponse(mealResponse, dishResponses);
     }
 }

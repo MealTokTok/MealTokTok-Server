@@ -7,9 +7,10 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.domain.dishstore.DishReader;
+import core.startup.mealtoktok.domain.dishstore.TargetDish;
+import core.startup.mealtoktok.domain.meal.exception.DishSoldOutException;
 import core.startup.mealtoktok.domain.meal.exception.InvalidDishCountException;
 import core.startup.mealtoktok.domain.meal.exception.MealNameAlreadyExitsException;
-import core.startup.mealtoktok.domain.meal.exception.MealNotFoundException;
 import core.startup.mealtoktok.domain.meal.exception.MealOwnerNotMatchException;
 
 @Component
@@ -22,7 +23,7 @@ public class MealValidator {
     public void validate(MealContent mealContent) {
         checkMealNameExists(mealContent.mealInfo().mealName());
         checkDishCount(mealContent.dishIds());
-        checkDishesExist(mealContent.dishIds());
+        checkDishSoldOut(mealContent.dishIds());
     }
 
     public void validate(MealOwner mealOwner, Meal meal, MealContent mealContent) {
@@ -53,11 +54,11 @@ public class MealValidator {
         }
     }
 
-    private void checkDishesExist(List<Long> dishIds) {
+    private void checkDishSoldOut(List<Long> dishIds) {
         dishIds.forEach(
                 dishId -> {
-                    if (!dishReader.existsById(dishId)) {
-                        throw MealNotFoundException.EXCEPTION;
+                    if (dishReader.read(TargetDish.from(dishId)).isSoldOut()) {
+                        throw DishSoldOutException.EXCEPTION;
                     }
                 });
     }

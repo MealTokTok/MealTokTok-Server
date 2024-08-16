@@ -32,5 +32,5 @@ public interface DishRepository {
 
     List<DishCategory> findAllCategories();
 
-    boolean existsById(Long dishId);
+    List<Dish> findAllByStoreAndKeyword(DishStore dishStore, String keyword);
 }

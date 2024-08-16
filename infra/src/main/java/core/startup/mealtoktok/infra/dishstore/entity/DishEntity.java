@@ -28,6 +28,8 @@ public class DishEntity {
     @Convert(converter = MoneyConverter.class)
     private Money dishPrice;
 
+    private boolean isSoldOut;
+
     private Long dishStoreId;
 
     private Long dishCategoryId;
@@ -37,6 +39,7 @@ public class DishEntity {
                 .dishName(dishInfo.dishName())
                 .imgUrl(dishInfo.imgUrl())
                 .dishPrice(dishInfo.dishPrice())
+                .isSoldOut(dishInfo.isSoldOut())
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
                 .build();
@@ -48,6 +51,7 @@ public class DishEntity {
                 .dishName(dishName)
                 .imgUrl(imgUrl)
                 .dishPrice(dishPrice)
+                .isSoldOut(isSoldOut)
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
                 .build();
@@ -57,5 +61,6 @@ public class DishEntity {
         this.dishName = dishInfo.dishName();
         this.imgUrl = dishInfo.imgUrl();
         this.dishPrice = dishInfo.dishPrice();
+        this.isSoldOut = dishInfo.isSoldOut();
     }
 }

@@ -3,6 +3,7 @@ package core.startup.mealtoktok.infra.meal.repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.util.stream.IntStream;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,20 +65,19 @@ public class CoreJpaMealRepository implements MealRepository {
     public void update(Meal meal, List<MealDish> mealDishes, MealContent mealContent) {
         jpaMealRepository.getReferenceById(meal.mealId()).update(mealContent.mealInfo());
 
-        mealDishes.forEach(
-                mealDish -> {
-                    jpaMealDishRepository
-                            .getReferenceByMealId(mealDish.mealDishId())
-                            .forEach(
-                                    mealDishEntity -> {
-                                        mealDishEntity.update(mealDish.dishId());
-                                    });
+        List<MealDishEntity> mealDishEntities = jpaMealDishRepository.getReferenceByMealId(meal.mealId());
+
+        IntStream.range(0, mealDishEntities.size())
+                .forEach(i -> {
+                    MealDishEntity mealDishEntity = mealDishEntities.get(i);
+                    Long dishId = mealContent.dishIds().get(i);
+                    mealDishEntity.update(dishId);
                 });
     }
 
     @Override
     public void delete(Meal meal, List<MealDish> mealDishes) {
-        jpaMealDishRepository.deleteById(meal.mealId());
+        jpaMealRepository.deleteById(meal.mealId());
         mealDishes.forEach(mealDish -> jpaMealDishRepository.deleteById(mealDish.mealDishId()));
     }
 

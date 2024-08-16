@@ -116,7 +116,9 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
-    public boolean existsById(Long dishId) {
-        return jpaDishRepository.existsById(dishId);
+    public List<Dish> findAllByStoreAndKeyword(DishStore dishStore, String keyword) {
+        return jpaDishRepository.findByStoreIdAndDishName(dishStore.getStoreId(), keyword).stream()
+                .map(DishEntity::toDomain)
+                .toList();
     }
 }

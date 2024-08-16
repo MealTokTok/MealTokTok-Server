@@ -26,7 +26,7 @@ import core.startup.mealtoktok.domain.user.User;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class MealApi {
+public class MealApi implements MealApiDocs {
 
     private final MealService mealService;
 
