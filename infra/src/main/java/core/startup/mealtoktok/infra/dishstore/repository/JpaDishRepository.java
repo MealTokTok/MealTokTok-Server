@@ -24,5 +24,6 @@ public interface JpaDishRepository extends JpaRepository<DishEntity, Long> {
 
     @Query(
             "SELECT d FROM DishEntity d WHERE d.dishStoreId = :storeId AND d.dishName LIKE %:keyword%")
-    List<DishEntity> findByStoreIdAndDishName(@Param("storeId")Long storeId, @Param("keyword") String keyword);
+    List<DishEntity> findByStoreIdAndDishName(
+            @Param("storeId") Long storeId, @Param("keyword") String keyword);
 }

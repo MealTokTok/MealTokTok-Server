@@ -1,6 +1,5 @@
 package core.startup.mealtoktok.api.meal;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 
 import core.startup.mealtoktok.api.meal.dto.MealDishResponse;
@@ -9,6 +8,8 @@ import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.User;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @Tag(name = "도시락 API")
 public interface MealApiDocs {
 

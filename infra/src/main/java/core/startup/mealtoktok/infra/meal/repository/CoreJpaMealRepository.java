@@ -2,8 +2,8 @@ package core.startup.mealtoktok.infra.meal.repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import java.util.stream.IntStream;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,14 +65,16 @@ public class CoreJpaMealRepository implements MealRepository {
     public void update(Meal meal, List<MealDish> mealDishes, MealContent mealContent) {
         jpaMealRepository.getReferenceById(meal.mealId()).update(mealContent.mealInfo());
 
-        List<MealDishEntity> mealDishEntities = jpaMealDishRepository.getReferenceByMealId(meal.mealId());
+        List<MealDishEntity> mealDishEntities =
+                jpaMealDishRepository.getReferenceByMealId(meal.mealId());
 
         IntStream.range(0, mealDishEntities.size())
-                .forEach(i -> {
-                    MealDishEntity mealDishEntity = mealDishEntities.get(i);
-                    Long dishId = mealContent.dishIds().get(i);
-                    mealDishEntity.update(dishId);
-                });
+                .forEach(
+                        i -> {
+                            MealDishEntity mealDishEntity = mealDishEntities.get(i);
+                            Long dishId = mealContent.dishIds().get(i);
+                            mealDishEntity.update(dishId);
+                        });
     }
 
     @Override

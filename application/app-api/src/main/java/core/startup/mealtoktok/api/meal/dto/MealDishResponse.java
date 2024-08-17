@@ -10,9 +10,7 @@ public record MealDishResponse(MealResponse meal, List<DishResponse> dishes) {
     public static MealDishResponse from(MealAndDishes mealAndDishes) {
         MealResponse mealResponse = MealResponse.from(mealAndDishes.meal());
         List<DishResponse> dishResponses =
-                mealAndDishes.dishes().stream()
-                        .map(DishResponse::from)
-                        .toList();
+                mealAndDishes.dishes().stream().map(DishResponse::from).toList();
         return new MealDishResponse(mealResponse, dishResponses);
     }
 }
