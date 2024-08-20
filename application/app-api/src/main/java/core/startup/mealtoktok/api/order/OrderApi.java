@@ -55,7 +55,8 @@ public class OrderApi implements OrderApiDocs {
     }
 
     @GetMapping("/{orderId}/state")
-    public Response<OrderResponse> orderState(User currentUser, @PathVariable Long orderId) {
+    public Response<OrderResponse> orderState(
+            @AuthenticationPrincipal User currentUser, @PathVariable Long orderId) {
         orderService.getOrderState(Orderer.from(currentUser), TargetOrder.from(orderId));
         return null;
     }
