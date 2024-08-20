@@ -2,7 +2,7 @@ package core.startup.mealtoktok.domain.order;
 
 public enum OrderState {
     PENDING,
-    PREPARING,
-    ORDERED,
-    CANCELED
+    PAYMENT_COMPLETED,
+    PAYMENT_CANCELED,
+    DELIVERY_COMPLETED,
 }

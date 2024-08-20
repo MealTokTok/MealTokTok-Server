@@ -1,8 +1,17 @@
 spring:
   jpa:
     open-in-view: false
+  cloud:
+    gcp:
+      storage:
+        url: https://storage.googleapis.com/${BUCKET_NAME}/
+        credentials:
+          encoded-key: ${GCS_KEY}
+        project-id: ${GCP_PROJECT_ID}
+        bucket: ${BUCKET_NAME}
 fcm:
   secret-key: ${FCM_SECRET_KEY}
+
 ---
 spring:
   config:
@@ -15,7 +24,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show-sql: true
@@ -44,7 +53,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show-sql: true

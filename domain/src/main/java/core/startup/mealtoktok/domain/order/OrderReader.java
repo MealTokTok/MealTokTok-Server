@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.common.dto.Cursor;
+import core.startup.mealtoktok.common.dto.SliceResult;
+
 @Component
 @RequiredArgsConstructor
 public class OrderReader {
@@ -18,5 +21,10 @@ public class OrderReader {
 
     public Order read(TargetOrder targetOrder) {
         return orderRepository.find(targetOrder);
+    }
+
+    public SliceResult<Order> read(Orderer orderer, OrderSearchCond cond, Cursor cursor) {
+
+        return orderRepository.findByCondition(orderer, cond, cursor);
     }
 }
