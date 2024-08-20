@@ -9,8 +9,8 @@ public record DeliveryAddressResponse(
 
     public static DeliveryAddressResponse from(DeliveryAddress deliveryAddress) {
         return new DeliveryAddressResponse(
-                deliveryAddress.deliveryAddressId(),
-                deliveryAddress.addressWithCoordinate().address(),
-                deliveryAddress.status());
+                deliveryAddress.getDeliveryAddressId(),
+                deliveryAddress.getAddressWithCoordinate().address(),
+                deliveryAddress.getStatus());
     }
 }

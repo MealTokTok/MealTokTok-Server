@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
-import core.startup.mealtoktok.domain.order.Orderer;
+import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 import core.startup.mealtoktok.infra.mealdelivery.entity.FullDiningEntity;
 
 public interface FullDiningJpaRepository extends JpaRepository<FullDiningEntity, Long> {
@@ -18,20 +18,20 @@ public interface FullDiningJpaRepository extends JpaRepository<FullDiningEntity,
             select fd from FullDiningEntity fd
             join MealDeliveryEntity md on fd.mealDeliveryId = md.mealDeliveryId
             join OrderEntity od on md.orderId = od.orderId
-            where od.orderer = :orderer
+            where od.orderer.userId = :#{#recipient.userId()}
             and md.deliveryState = :deliveryState
             and md.deliveryCompleteTime >= :validDateTime
             """)
     List<FullDiningEntity> findByOrdererAndDeliveryStateAndValidPeriod(
-            Orderer orderer, DeliveryState deliveryState, LocalDateTime validDateTime);
+            Recipient recipient, DeliveryState deliveryState, LocalDateTime validDateTime);
 
     @Query(
             """
               select count(fd) from FullDiningEntity fd
               join MealDeliveryEntity md on fd.mealDeliveryId = md.mealDeliveryId
               join OrderEntity od on md.orderId = od.orderId
-              where od.orderer = :orderer
+              where od.orderer = :#{#recipient.userId()}
               and fd.collectingState = :collectingState
             """)
-    long countByOrdererAndCollectingState(Orderer orderer, CollectingState collectingState);
+    long countByOrdererAndCollectingState(Recipient recipient, CollectingState collectingState);
 }

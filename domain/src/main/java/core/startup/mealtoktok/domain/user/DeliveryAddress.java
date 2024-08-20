@@ -1,7 +1,18 @@
 package core.startup.mealtoktok.domain.user;
 
-public record DeliveryAddress(
-        Long deliveryAddressId, AddressWithCoordinate addressWithCoordinate, AddressStatus status) {
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class DeliveryAddress {
+
+    private Long deliveryAddressId;
+    private AddressWithCoordinate addressWithCoordinate;
+    private AddressStatus status;
 
     public static DeliveryAddress configure(AddressWithCoordinate addressWithCoordinate) {
         return new DeliveryAddress(null, addressWithCoordinate, AddressStatus.CONFIGURED);
@@ -16,5 +27,17 @@ public record DeliveryAddress(
             AddressWithCoordinate addressWithCoordinate,
             AddressStatus status) {
         return new DeliveryAddress(deliveryAddressId, addressWithCoordinate, status);
+    }
+
+    public void configure() {
+        this.status = AddressStatus.CONFIGURED;
+    }
+
+    public void unConfigure() {
+        this.status = AddressStatus.NOT_CONFIGURED;
+    }
+
+    public boolean isConfigured() {
+        return status.equals(AddressStatus.CONFIGURED);
     }
 }

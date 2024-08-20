@@ -3,8 +3,8 @@ package core.startup.mealtoktok.domain.mealdelivery;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import core.startup.mealtoktok.domain.order.Orderer;
-import core.startup.mealtoktok.domain.order.TargetOrder;
+import core.startup.mealtoktok.common.dto.Cursor;
+import core.startup.mealtoktok.common.dto.SliceResult;
 
 public interface MealDeliveryRepository {
 
@@ -12,15 +12,18 @@ public interface MealDeliveryRepository {
 
     List<MealDelivery> saveAll(List<MealDelivery> mealDeliveries);
 
-    List<MealDelivery> findAll(TargetOrder targetOrder);
+    List<MealDelivery> findAll(Long orderId);
 
-    MealDelivery findByOrdererAndDeliveryState(Orderer orderer, DeliveryState deliveryState);
+    MealDelivery findByOrdererAndDeliveryState(Recipient recipient, DeliveryState deliveryState);
 
     MealDelivery findByDeliveryStateAndTime(
-            Orderer orderer,
+            Recipient recipient,
             DeliveryState deliveryState,
             LocalDateTime startTime,
             LocalDateTime endTime);
 
     MealDelivery find(TargetMealDelivery targetMealDelivery);
+
+    SliceResult<MealDelivery> findByCondition(
+            Recipient recipient, MealDeliverySearchCond cond, Cursor cursor);
 }
