@@ -1,8 +1,5 @@
 package core.startup.mealtoktok.infra.order.entity;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,10 +16,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import core.startup.mealtoktok.domain.order.Order;
-import core.startup.mealtoktok.domain.order.OrderPrice;
 import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.OrderType;
-import core.startup.mealtoktok.domain.order.Orderer;
 import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
 
 @Entity
@@ -45,24 +40,17 @@ public class OrderEntity extends BaseTimeEntity {
 
     private String specialInstruction;
 
-    @Embedded
-    @AttributeOverride(name = "userId", column = @Column(name = "orderer_id"))
-    private Orderer orderer;
+    @Embedded private OrdererVO orderer;
 
-    @Embedded
-    @Convert(converter = MoneyConverter.class, attributeName = "mealPrice")
-    @Convert(converter = MoneyConverter.class, attributeName = "deliveryPrice")
-    @Convert(converter = MoneyConverter.class, attributeName = "fullServicePrice")
-    @Convert(converter = MoneyConverter.class, attributeName = "totalPrice")
-    private OrderPrice orderPrice;
+    @Embedded private OrderPriceVO orderPrice;
 
     public static OrderEntity from(Order order) {
         return OrderEntity.builder()
                 .orderType(order.getOrderType())
                 .orderState(order.getOrderState())
                 .specialInstruction(order.getSpecialInstruction())
-                .orderer(order.getOrderer())
-                .orderPrice(order.getOrderPrice())
+                .orderer(OrdererVO.from(order.getOrderer()))
+                .orderPrice(OrderPriceVO.from(order.getOrderPrice()))
                 .createdAt(order.getOrderTime())
                 .build();
     }
@@ -73,8 +61,8 @@ public class OrderEntity extends BaseTimeEntity {
                 .orderType(orderType)
                 .specialInstruction(specialInstruction)
                 .orderState(orderState)
-                .orderer(orderer)
-                .orderPrice(orderPrice)
+                .orderer(orderer.toDomain())
+                .orderPrice(orderPrice.toDomain())
                 .orderTime(createdAt)
                 .build();
     }

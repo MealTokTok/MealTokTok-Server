@@ -36,13 +36,14 @@ public class CoreUserRepository implements UserRepository {
     }
 
     @Override
-    public User update(User user) {
+    public TargetUser update(User user) {
         UserEntity userEntity =
                 userJpaRepository
                         .findById(user.getUserId())
                         .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         userEntity.update(user).toDomain();
-        return userJpaRepository.save(userEntity).toDomain();
+        UserEntity saved = userJpaRepository.save(userEntity);
+        return TargetUser.from(saved.getUserId());
     }
 
     @Override

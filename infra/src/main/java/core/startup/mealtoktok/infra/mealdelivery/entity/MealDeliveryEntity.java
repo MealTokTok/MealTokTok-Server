@@ -21,13 +21,14 @@ import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.OrderedMeal;
 import core.startup.mealtoktok.domain.order.ReservedTime;
+import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
 
 @Entity
 @Table(name = "meal_delivery")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class MealDeliveryEntity {
+public class MealDeliveryEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,9 +4,12 @@ import java.util.List;
 
 import core.startup.mealtoktok.api.mealdelivery.dto.FullDiningResponse;
 import core.startup.mealtoktok.api.mealdelivery.dto.MealDeliveryResponse;
+import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.Response;
+import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
+import core.startup.mealtoktok.domain.mealdelivery.MealDeliverySearchCond;
 import core.startup.mealtoktok.domain.user.User;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +20,10 @@ public interface MealDeliveryApiDocs {
 
     @Operation(summary = "배송 중인 도시락 조회")
     Response<MealDeliveryResponse> deliveringMeal(User currentUser);
+
+    @Operation(summary = "도시락 배송 목록 검색")
+    Response<SliceResult<MealDeliveryResponse>> searchMealDeliveries(
+            User currentUser, MealDeliverySearchCond cond, Cursor cursor);
 
     @Operation(summary = "도시락 배송 단건 조회")
     Response<MealDeliveryResponse> mealDelivery(Long mealDeliveryId);

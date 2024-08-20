@@ -1,7 +1,5 @@
 package core.startup.mealtoktok.api.order;
 
-import java.util.List;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +13,12 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.api.order.dto.MealOrderRequest;
 import core.startup.mealtoktok.api.order.dto.OrderDetailResponse;
 import core.startup.mealtoktok.api.order.dto.OrderResponse;
+import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.Response;
+import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.order.Order;
 import core.startup.mealtoktok.domain.order.OrderDetail;
+import core.startup.mealtoktok.domain.order.OrderSearchCond;
 import core.startup.mealtoktok.domain.order.OrderService;
 import core.startup.mealtoktok.domain.order.Orderer;
 import core.startup.mealtoktok.domain.order.TargetOrder;
@@ -38,9 +39,11 @@ public class OrderApi implements OrderApiDocs {
     }
 
     @GetMapping
-    public Response<List<OrderResponse>> orderList(@AuthenticationPrincipal User currentUser) {
-        List<Order> orderList = orderService.getOrderList(Orderer.from(currentUser));
-        return Response.success(orderList.parallelStream().map(OrderResponse::from).toList());
+    public Response<SliceResult<OrderResponse>> searchOrders(
+            @AuthenticationPrincipal User currentUser, OrderSearchCond cond, Cursor cursor) {
+        SliceResult<Order> orderSliceResult =
+                orderService.searchOrders(Orderer.from(currentUser), cond, cursor);
+        return Response.success(orderSliceResult.map(OrderResponse::from));
     }
 
     @GetMapping("/{orderId}")
@@ -49,5 +52,11 @@ public class OrderApi implements OrderApiDocs {
         OrderDetail orderDetail =
                 orderService.getOrderDetail(Orderer.from(currentUser), TargetOrder.from(orderId));
         return Response.success(OrderDetailResponse.from(orderDetail));
+    }
+
+    @GetMapping("/{orderId}/state")
+    public Response<OrderResponse> orderState(User currentUser, @PathVariable Long orderId) {
+        orderService.getOrderState(Orderer.from(currentUser), TargetOrder.from(orderId));
+        return null;
     }
 }

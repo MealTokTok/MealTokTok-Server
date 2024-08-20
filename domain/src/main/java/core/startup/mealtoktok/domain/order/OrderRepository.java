@@ -2,6 +2,9 @@ package core.startup.mealtoktok.domain.order;
 
 import java.util.List;
 
+import core.startup.mealtoktok.common.dto.Cursor;
+import core.startup.mealtoktok.common.dto.SliceResult;
+
 public interface OrderRepository {
 
     TargetOrder save(Order order);
@@ -9,4 +12,6 @@ public interface OrderRepository {
     List<Order> findAll(Orderer orderer);
 
     Order find(TargetOrder targetOrder);
+
+    SliceResult<Order> findByCondition(Orderer orderer, OrderSearchCond cond, Cursor cursor);
 }

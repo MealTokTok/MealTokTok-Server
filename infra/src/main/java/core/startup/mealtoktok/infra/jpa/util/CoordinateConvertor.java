@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.global.util;
+package core.startup.mealtoktok.infra.jpa.util;
 
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;

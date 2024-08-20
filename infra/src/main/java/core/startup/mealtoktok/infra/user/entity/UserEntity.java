@@ -56,6 +56,7 @@ public class UserEntity extends BaseTimeEntity {
             orphanRemoval = true)
     private List<DeliveryAddressEntity> deliveryAddresses = new ArrayList<>();
 
+    @Builder.Default
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "device_token", joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> deviceTokens = new HashSet<>();
@@ -114,15 +115,35 @@ public class UserEntity extends BaseTimeEntity {
         this.oid = user.getOAuthInfo().oid();
         this.userProfile = UserProfileVO.from(user.getUserProfile());
         this.deviceTokens = user.getDeviceTokens();
+        updateDeliveryAddress(user);
+        return this;
+    }
+
+    private void updateDeliveryAddress(User user) {
+        updateExistingDeliveryAddresses(user);
         removeNonExistingDeliveryAddresses(user);
         addNewDeliveryAddresses(user);
-        return this;
+    }
+
+    private void updateExistingDeliveryAddresses(User user) {
+        this.deliveryAddresses.forEach(
+                deliveryAddressEntity ->
+                        user.getDeliveryAddresses().stream()
+                                .filter(
+                                        deliveryAddress ->
+                                                deliveryAddress
+                                                        .getDeliveryAddressId()
+                                                        .equals(
+                                                                deliveryAddressEntity
+                                                                        .getDeliveryAddressId()))
+                                .findFirst()
+                                .ifPresent(deliveryAddressEntity::update));
     }
 
     private void addNewDeliveryAddresses(User user) {
         this.deliveryAddresses.addAll(
                 user.getDeliveryAddresses().stream()
-                        .filter(deliveryAddress -> deliveryAddress.deliveryAddressId() == null)
+                        .filter(deliveryAddress -> deliveryAddress.getDeliveryAddressId() == null)
                         .map(deliveryAddress -> DeliveryAddressEntity.from(this, deliveryAddress))
                         .toList());
     }
@@ -130,7 +151,7 @@ public class UserEntity extends BaseTimeEntity {
     private void removeNonExistingDeliveryAddresses(User user) {
         Set<Long> userDeliveryAddressIds =
                 user.getDeliveryAddresses().stream()
-                        .map(DeliveryAddress::deliveryAddressId)
+                        .map(DeliveryAddress::getDeliveryAddressId)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toSet());
 

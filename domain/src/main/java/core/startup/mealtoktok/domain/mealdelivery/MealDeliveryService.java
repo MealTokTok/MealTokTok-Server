@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.order.Orderer;
+import core.startup.mealtoktok.common.dto.Cursor;
+import core.startup.mealtoktok.common.dto.SliceResult;
+import core.startup.mealtoktok.domain.mealdelivery.exception.NextMealDeliveryNotFound;
 
 @Service
 @RequiredArgsConstructor
@@ -19,13 +21,13 @@ public class MealDeliveryService {
     private final MealDeliveryUpdater mealDeliveryUpdater;
     private final FullDiningManager fullDiningManager;
 
-    public MealDelivery getDeliveringMeal(Orderer orderer) {
-        return mealDeliveryReader.read(orderer, DeliveryState.DELIVERING);
+    public MealDelivery getDeliveringMeal(Recipient recipient) {
+        return mealDeliveryReader.read(recipient, DeliveryState.DELIVERING);
     }
 
-    public MealDelivery getRecentDeliveredMeal(Orderer orderer) {
+    public MealDelivery getRecentDeliveredMeal(Recipient recipient) {
         return mealDeliveryReader.read(
-                orderer, DeliveryState.DELIVERED, LocalDateTime.now().minusHours(1));
+                recipient, DeliveryState.DELIVERED, LocalDateTime.now().minusHours(1));
     }
 
     public MealDelivery getMealDelivery(TargetMealDelivery targetMealDelivery) {
@@ -45,12 +47,26 @@ public class MealDeliveryService {
         // TODO :알림 발송 alarmSender.send(targetFullDining, collectingState);
     }
 
-    public int countCollectRequestContainers(Orderer orderer) {
+    public int countCollectRequestContainers(Recipient recipient) {
         return fullDiningManager.countReturnableContainers(
-                orderer, CollectingState.COLLECT_REQUESTED);
+                recipient, CollectingState.COLLECT_REQUESTED);
     }
 
-    public List<FullDining> getFullDinings(Orderer orderer) {
-        return fullDiningManager.getFullDinings(orderer, DeliveryState.DELIVERED, VALID_DATE_TIME);
+    public List<FullDining> getFullDinings(Recipient recipient) {
+        return fullDiningManager.getFullDinings(
+                recipient, DeliveryState.DELIVERED, VALID_DATE_TIME);
+    }
+
+    public SliceResult<MealDelivery> searchMealDeliveries(
+            Recipient recipient, MealDeliverySearchCond cond, Cursor cursor) {
+        return mealDeliveryReader.read(recipient, cond, cursor);
+    }
+
+    public MealDelivery getNextDeliveryMeal(Long orderId) {
+        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId);
+        return mealDeliveries.stream()
+                .filter(mealDelivery -> mealDelivery.getDeliveryState() == DeliveryState.PENDING)
+                .findFirst()
+                .orElseThrow(() -> NextMealDeliveryNotFound.EXCEPTION);
     }
 }

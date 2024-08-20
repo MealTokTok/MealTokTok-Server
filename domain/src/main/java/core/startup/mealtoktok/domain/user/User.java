@@ -28,19 +28,37 @@ public class User {
         this.deviceTokens.add(deviceToken);
     }
 
+    public DeliveryAddress findDeliveryAddress(TargetDeliveryAddress targetDeliveryAddress) {
+        return this.deliveryAddresses.stream()
+                .filter(targetDeliveryAddress::isTarget)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("주소지를 찾을 수 없습니다."));
+    }
+
+    public DeliveryAddress fetchConfiguredDeliveryAddress() {
+        return this.deliveryAddresses.stream()
+                .filter(DeliveryAddress::isConfigured)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("설정된 기본 주소지를 찾을 수 없습니다."));
+    }
+
+    public void configureDeliveryAddress(TargetDeliveryAddress targetDeliveryAddress) {
+        fetchConfiguredDeliveryAddress().unConfigure();
+        findDeliveryAddress(targetDeliveryAddress).configure();
+    }
+
     public void addDeliveryAddress(DeliveryAddress deliveryAddress) {
         if (this.deliveryAddresses.stream()
                 .anyMatch(
-                        awc ->
-                                awc.addressWithCoordinate()
+                        da ->
+                                da.getAddressWithCoordinate()
                                         .coordinate()
                                         .equals(
                                                 deliveryAddress
-                                                        .addressWithCoordinate()
+                                                        .getAddressWithCoordinate()
                                                         .coordinate()))) {
             throw AlreadyExistAddressException.EXCEPTION;
         }
-
         this.deliveryAddresses.add(deliveryAddress);
     }
 
@@ -48,7 +66,7 @@ public class User {
         this.deliveryAddresses.removeIf(
                 deliveryAddress ->
                         deliveryAddress
-                                .deliveryAddressId()
+                                .getDeliveryAddressId()
                                 .equals(targetDeliveryAddress.deliveryAddressId()));
     }
 
