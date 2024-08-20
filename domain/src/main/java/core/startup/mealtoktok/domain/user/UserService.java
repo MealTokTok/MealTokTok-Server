@@ -1,7 +1,5 @@
 package core.startup.mealtoktok.domain.user;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -15,45 +13,35 @@ public class UserService {
     private final userRemover userRemover;
     private final UserValidator userValidator;
 
-    public User getUser(TargetUser targetUser) {
-        return userReader.read(targetUser);
-    }
-
     public TargetUser addDeliveryAddress(
-            TargetUser targetUser, AddressWithCoordinate addressWithCoordinate) {
-        User user = userReader.read(targetUser);
+            User currentUser, AddressWithCoordinate addressWithCoordinate) {
         return userUpdater.addDeliveryAddress(
-                user, DeliveryAddress.notConfigure(addressWithCoordinate));
-    }
-
-    public List<DeliveryAddress> getDeliveryAddresses(TargetUser targetUser) {
-        User user = userReader.read(targetUser);
-        return user.getDeliveryAddresses();
+                currentUser, DeliveryAddress.notConfigure(addressWithCoordinate));
     }
 
     public TargetUser removeDeliveryAddress(
-            TargetUser targetUser, TargetDeliveryAddress targetDeliveryAddress) {
-        User user = userReader.read(targetUser);
-        userUpdater.removeDeliveryAddress(user, targetDeliveryAddress);
-        return targetUser;
+            User currentUser, TargetDeliveryAddress targetDeliveryAddress) {
+        return userUpdater.removeDeliveryAddress(currentUser, targetDeliveryAddress);
     }
 
-    public void withdraw(TargetUser targetUser, String reason) {
-        User user = userReader.read(targetUser);
-        userRemover.remove(user, reason);
+    public void withdraw(User currentUser, String reason) {
+        userRemover.remove(currentUser, reason);
     }
 
-    public TargetUser changeNickname(TargetUser targetUser, String nickname) {
-        User user = userReader.read(targetUser);
-        return userUpdater.updateNickname(user, nickname);
+    public TargetUser changeNickname(User currentUser, String nickname) {
+        return userUpdater.updateNickname(currentUser, nickname);
     }
 
-    public TargetUser changeEmail(TargetUser targetUser, String email) {
-        User user = userReader.read(targetUser);
-        return userUpdater.updateEmail(user, email);
+    public TargetUser changeEmail(User currentUser, String email) {
+        return userUpdater.updateEmail(currentUser, email);
     }
 
     public boolean checkNicknameDuplicate(String nickname) {
         return userValidator.isDuplicated(nickname);
+    }
+
+    public TargetUser configureDeliveryAddress(
+            User currentUser, TargetDeliveryAddress targetDeliveryAddress) {
+        return userUpdater.configureDeliveryAddress(currentUser, targetDeliveryAddress);
     }
 }

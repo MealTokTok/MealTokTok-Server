@@ -9,36 +9,36 @@ import lombok.RequiredArgsConstructor;
 public class UserUpdater {
 
     private final UserRepository userRepository;
-    private final UserCacheManager userCacheManager;
 
     public TargetUser oAuthUpdate(User user, UserProfile userProfile, String deviceToken) {
         user.update(userProfile, deviceToken);
-        return updateAndRefreshCache(user);
+        return userRepository.update(user);
     }
 
     public TargetUser addDeliveryAddress(User user, DeliveryAddress deliveryAddress) {
         user.addDeliveryAddress(deliveryAddress);
-        return updateAndRefreshCache(user);
+        return userRepository.update(user);
     }
 
-    public void removeDeliveryAddress(User user, TargetDeliveryAddress targetDeliveryAddress) {
+    public TargetUser removeDeliveryAddress(
+            User user, TargetDeliveryAddress targetDeliveryAddress) {
         user.removeDeliveryAddress(targetDeliveryAddress);
-        updateAndRefreshCache(user);
+        return userRepository.update(user);
     }
 
     public TargetUser updateEmail(User user, String email) {
         user.updateEmail(email);
-        return updateAndRefreshCache(user);
+        return userRepository.update(user);
     }
 
     public TargetUser updateNickname(User user, String nickname) {
         user.updateNickname(nickname);
-        return updateAndRefreshCache(user);
+        return userRepository.update(user);
     }
 
-    private TargetUser updateAndRefreshCache(User user) {
-        User updatedUser = userRepository.update(user);
-        userCacheManager.refresh(updatedUser);
-        return TargetUser.from(updatedUser.getUserId());
+    public TargetUser configureDeliveryAddress(
+            User user, TargetDeliveryAddress targetDeliveryAddress) {
+        user.configureDeliveryAddress(targetDeliveryAddress);
+        return userRepository.update(user);
     }
 }
