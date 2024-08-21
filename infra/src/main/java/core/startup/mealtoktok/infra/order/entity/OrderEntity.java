@@ -44,6 +44,10 @@ public class OrderEntity extends BaseTimeEntity {
 
     @Embedded private OrderPriceVO orderPrice;
 
+    private Integer totalMealDeliveryCount;
+
+    private Integer remainingMealDeliveryCount;
+
     public static OrderEntity from(Order order) {
         return OrderEntity.builder()
                 .orderType(order.getOrderType())
@@ -51,6 +55,8 @@ public class OrderEntity extends BaseTimeEntity {
                 .specialInstruction(order.getSpecialInstruction())
                 .orderer(OrdererVO.from(order.getOrderer()))
                 .orderPrice(OrderPriceVO.from(order.getOrderPrice()))
+                .totalMealDeliveryCount(order.getTotalMealDeliveryCount())
+                .remainingMealDeliveryCount(order.getRemainingMealDeliveryCount())
                 .createdAt(order.getOrderTime())
                 .build();
     }
@@ -63,7 +69,14 @@ public class OrderEntity extends BaseTimeEntity {
                 .orderState(orderState)
                 .orderer(orderer.toDomain())
                 .orderPrice(orderPrice.toDomain())
+                .totalMealDeliveryCount(totalMealDeliveryCount)
+                .remainingMealDeliveryCount(remainingMealDeliveryCount)
                 .orderTime(createdAt)
                 .build();
+    }
+
+    public void update(Order order) {
+        this.orderState = order.getOrderState();
+        this.remainingMealDeliveryCount = order.getRemainingMealDeliveryCount();
     }
 }

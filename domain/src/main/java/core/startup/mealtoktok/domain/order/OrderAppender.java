@@ -16,7 +16,8 @@ public class OrderAppender {
                         orderer,
                         orderContent.orderType(),
                         orderContent.specialInstruction(),
-                        orderContent.orderPrice());
+                        orderContent.orderPrice(),
+                        orderContent.orderedMeals().size());
         return orderRepository.save(order);
     }
 }

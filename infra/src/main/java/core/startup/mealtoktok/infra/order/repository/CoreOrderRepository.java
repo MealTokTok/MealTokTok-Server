@@ -56,4 +56,13 @@ public class CoreOrderRepository implements OrderRepository {
         return SliceResult.of(
                 orderEntities.map(OrderEntity::toDomain).toList(), orderEntities.hasNext());
     }
+
+    @Override
+    public void update(Order order) {
+        OrderEntity orderEntity =
+                orderJpaRepository
+                        .findById(order.getOrderId())
+                        .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+        orderEntity.update(order);
+    }
 }

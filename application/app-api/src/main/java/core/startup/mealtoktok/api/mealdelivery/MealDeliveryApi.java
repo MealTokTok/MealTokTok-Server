@@ -79,8 +79,15 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
     @PatchMapping("/{mealDeliveryId}/{deliveryState}")
     public Response<Void> changeDeliveryState(
             @PathVariable Long mealDeliveryId, @PathVariable DeliveryState deliveryState) {
-        mealDeliveryService.changeDeliveryState(
-                TargetMealDelivery.from(mealDeliveryId), deliveryState);
+
+        switch (deliveryState) {
+            case DELIVERING ->
+                    mealDeliveryService.startMealDelivery(TargetMealDelivery.from(mealDeliveryId));
+            case DELIVERED ->
+                    mealDeliveryService.completeMealDelivery(
+                            TargetMealDelivery.from(mealDeliveryId));
+        }
+
         return Response.success("배송 상태 변경 성공");
     }
 
