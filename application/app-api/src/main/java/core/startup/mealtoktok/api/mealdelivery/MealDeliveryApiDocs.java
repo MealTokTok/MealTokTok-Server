@@ -45,6 +45,6 @@ public interface MealDeliveryApiDocs {
     @Operation(summary = "풀대접 서비스 수거 요청된 다회용기 갯수 조회")
     Response<Integer> countCollectRequestContainers(User currentUser);
 
-    @Operation(summary = "풀대접 서비스 다회용기 납부 목록 조회")
+    @Operation(summary = "풀대접 서비스 7일 이내의 다회용기 납부 목록 조회")
     Response<List<FullDiningResponse>> fullDinings(User currentUser);
 }

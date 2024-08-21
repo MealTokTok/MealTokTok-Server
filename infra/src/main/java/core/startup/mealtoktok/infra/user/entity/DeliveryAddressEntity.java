@@ -29,6 +29,7 @@ import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
 import core.startup.mealtoktok.domain.user.DeliveryAddress;
 import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.infra.global.entity.AddressVO;
 
 @Entity
 @Builder

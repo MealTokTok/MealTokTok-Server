@@ -1,7 +1,7 @@
 package core.startup.mealtoktok.infra.order.repository;
 
-import static core.startup.mealtoktok.infra.order.entity.QOrderEntity.*;
-import static core.startup.mealtoktok.infra.user.entity.QUserEntity.*;
+import static core.startup.mealtoktok.infra.order.entity.QOrderEntity.orderEntity;
+import static core.startup.mealtoktok.infra.user.entity.QUserEntity.userEntity;
 
 import java.util.List;
 

@@ -13,7 +13,12 @@ public record OrderContent(
 
     public List<MealDelivery> toMealDeliveries(TargetOrder targetOrder) {
         return orderedMeals.stream()
-                .map(orderedMeal -> MealDelivery.create(targetOrder.orderId(), orderedMeal))
+                .map(
+                        orderedMeal ->
+                                MealDelivery.create(
+                                        targetOrder.orderId(),
+                                        orderType.toOrderTypeForDelivery(),
+                                        orderedMeal))
                 .toList();
     }
 }

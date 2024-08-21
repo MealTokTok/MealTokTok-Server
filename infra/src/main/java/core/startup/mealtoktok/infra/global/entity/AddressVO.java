@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.user.entity;
+package core.startup.mealtoktok.infra.global.entity;
 
 import jakarta.persistence.Embeddable;
 

@@ -15,23 +15,23 @@ public interface FullDiningJpaRepository extends JpaRepository<FullDiningEntity,
 
     @Query(
             """
-            select fd from FullDiningEntity fd
-            join MealDeliveryEntity md on fd.mealDeliveryId = md.mealDeliveryId
-            join OrderEntity od on md.orderId = od.orderId
-            where od.orderer.userId = :#{#recipient.userId()}
-            and md.deliveryState = :deliveryState
-            and md.deliveryCompleteTime >= :validDateTime
-            """)
+                    select fd from FullDiningEntity fd
+                    join MealDeliveryEntity md on fd.mealDeliveryId = md.mealDeliveryId
+                    join OrderEntity od on md.orderId = od.orderId
+                    where od.orderer.userId = :#{#recipient.userId()}
+                    and md.deliveryState = :deliveryState
+                    and md.deliveryDateTime.deliveryCompleteTime >= :validDateTime
+                    """)
     List<FullDiningEntity> findByOrdererAndDeliveryStateAndValidPeriod(
             Recipient recipient, DeliveryState deliveryState, LocalDateTime validDateTime);
 
     @Query(
             """
-              select count(fd) from FullDiningEntity fd
-              join MealDeliveryEntity md on fd.mealDeliveryId = md.mealDeliveryId
-              join OrderEntity od on md.orderId = od.orderId
-              where od.orderer = :#{#recipient.userId()}
-              and fd.collectingState = :collectingState
-            """)
+                      select count(fd) from FullDiningEntity fd
+                      join MealDeliveryEntity md on fd.mealDeliveryId = md.mealDeliveryId
+                      join OrderEntity od on md.orderId = od.orderId
+                      where od.orderer = :#{#recipient.userId()}
+                      and fd.collectingState = :collectingState
+                    """)
     long countByOrdererAndCollectingState(Recipient recipient, CollectingState collectingState);
 }

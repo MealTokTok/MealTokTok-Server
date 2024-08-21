@@ -81,6 +81,9 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
             @PathVariable Long mealDeliveryId, @PathVariable DeliveryState deliveryState) {
 
         switch (deliveryState) {
+            case DELIVERY_REQUESTED ->
+                    mealDeliveryService.reserveMealDelivery(
+                            TargetMealDelivery.from(mealDeliveryId));
             case DELIVERING ->
                     mealDeliveryService.startMealDelivery(TargetMealDelivery.from(mealDeliveryId));
             case DELIVERED ->

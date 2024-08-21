@@ -3,6 +3,8 @@ package core.startup.mealtoktok.infra.mealdelivery.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -48,8 +50,7 @@ public class MealDeliveryEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private DeliveryState deliveryState;
 
-    private LocalDateTime deliveryStartTime;
-    private LocalDateTime deliveryCompleteTime;
+    @Embedded private DeliveryDateTimeVO deliveryDateTime;
 
     public static MealDeliveryEntity from(MealDelivery mealDelivery) {
         return MealDeliveryEntity.builder()
@@ -60,8 +61,7 @@ public class MealDeliveryEntity extends BaseTimeEntity {
                 .reservedTime(mealDelivery.getOrderedMeal().reservedSchedule().reservedTime())
                 .hasFullDiningOption(mealDelivery.getOrderedMeal().hasFullDiningOption())
                 .deliveryState(mealDelivery.getDeliveryState())
-                .deliveryStartTime(mealDelivery.getDeliveryDateTime().deliveryStartTime())
-                .deliveryCompleteTime(mealDelivery.getDeliveryDateTime().deliveryCompleteTime())
+                .deliveryDateTime(DeliveryDateTimeVO.from(mealDelivery.getDeliveryDateTime()))
                 .build();
     }
 
@@ -77,13 +77,36 @@ public class MealDeliveryEntity extends BaseTimeEntity {
                                 includeRice,
                                 hasFullDiningOption))
                 .deliveryState(deliveryState)
-                .deliveryDateTime(DeliveryDateTime.of(deliveryStartTime, deliveryCompleteTime))
+                .deliveryDateTime(deliveryDateTime.toDomain())
                 .build();
     }
 
     public void update(MealDelivery mealDelivery) {
         this.deliveryState = mealDelivery.getDeliveryState();
-        this.deliveryStartTime = mealDelivery.getDeliveryDateTime().deliveryStartTime();
-        this.deliveryCompleteTime = mealDelivery.getDeliveryDateTime().deliveryCompleteTime();
+        this.deliveryDateTime = DeliveryDateTimeVO.from(mealDelivery.getDeliveryDateTime());
+    }
+
+    @Embeddable
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    public static class DeliveryDateTimeVO {
+
+        private LocalDateTime deliveryRequestTime;
+        private LocalDateTime deliveryStartTime;
+        private LocalDateTime deliveryCompleteTime;
+
+        public static DeliveryDateTimeVO from(DeliveryDateTime deliveryDateTime) {
+            return DeliveryDateTimeVO.builder()
+                    .deliveryRequestTime(deliveryDateTime.getDeliveryRequestTime())
+                    .deliveryStartTime(deliveryDateTime.getDeliveryStartTime())
+                    .deliveryCompleteTime(deliveryDateTime.getDeliveryCompleteTime())
+                    .build();
+        }
+
+        public DeliveryDateTime toDomain() {
+            return DeliveryDateTime.of(
+                    deliveryRequestTime, deliveryStartTime, deliveryCompleteTime);
+        }
     }
 }

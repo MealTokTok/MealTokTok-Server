@@ -35,6 +35,12 @@ public class MealDeliveryService {
         return mealDeliveryReader.read(targetMealDelivery);
     }
 
+    public void reserveMealDelivery(TargetMealDelivery targetMealDelivery) {
+        MealDelivery mealDelivery = mealDeliveryReader.read(targetMealDelivery);
+        mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERY_REQUESTED);
+        // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERY_RESERVED);
+    }
+
     public void startMealDelivery(TargetMealDelivery targetMealDelivery) {
         MealDelivery mealDelivery = mealDeliveryReader.read(targetMealDelivery);
         mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERING);

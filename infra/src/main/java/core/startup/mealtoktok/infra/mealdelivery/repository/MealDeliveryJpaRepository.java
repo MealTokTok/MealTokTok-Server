@@ -18,24 +18,24 @@ public interface MealDeliveryJpaRepository
 
     @Query(
             """
-            SELECT mealDelivery
-            FROM MealDeliveryEntity mealDelivery
-            JOIN OrderEntity oe on oe.orderId = mealDelivery.orderId
-            WHERE oe.orderer.userId = :#{#recipient.userId()}
-            AND mealDelivery.deliveryState = :deliveryState
-            """)
+                    SELECT mealDelivery
+                    FROM MealDeliveryEntity mealDelivery
+                    JOIN OrderEntity oe on oe.orderId = mealDelivery.orderId
+                    WHERE oe.orderer.userId = :#{#recipient.userId()}
+                    AND mealDelivery.deliveryState = :deliveryState
+                    """)
     Optional<MealDeliveryEntity> findByOrdererAndDeliveryState(
             Recipient recipient, DeliveryState deliveryState);
 
     @Query(
             """
-            SELECT mealDelivery
-            FROM MealDeliveryEntity mealDelivery
-            JOIN OrderEntity oe on oe.orderId = mealDelivery.orderId
-            WHERE oe.orderer.userId = :#{#recipient.userId()}
-            AND mealDelivery.deliveryState = :deliveryState
-            AND mealDelivery.deliveryCompleteTime between :startTime and :endTime
-            """)
+                    SELECT mealDelivery
+                    FROM MealDeliveryEntity mealDelivery
+                    JOIN OrderEntity oe on oe.orderId = mealDelivery.orderId
+                    WHERE oe.orderer.userId = :#{#recipient.userId()}
+                    AND mealDelivery.deliveryState = :deliveryState
+                    AND mealDelivery.deliveryDateTime.deliveryCompleteTime between :startTime and :endTime
+                    """)
     Optional<MealDeliveryEntity> findByOrdererAndDeliveryStateAndTime(
             Recipient recipient,
             DeliveryState deliveryState,

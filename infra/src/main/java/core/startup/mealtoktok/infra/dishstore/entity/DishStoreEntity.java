@@ -21,7 +21,7 @@ import core.startup.mealtoktok.domain.dishstore.DishStoreInfo;
 import core.startup.mealtoktok.domain.dishstore.OperatingHour;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
-import core.startup.mealtoktok.infra.user.entity.AddressVO;
+import core.startup.mealtoktok.infra.global.entity.AddressVO;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

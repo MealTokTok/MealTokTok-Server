@@ -1,7 +1,5 @@
 package core.startup.mealtoktok.domain.mealdelivery;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +12,9 @@ public class MealDeliveryUpdater {
 
     public void changeDeliveryState(MealDelivery mealDelivery, DeliveryState deliveryState) {
         switch (deliveryState) {
-            case DELIVERING -> mealDelivery.startDelivery(LocalDateTime.now());
-            case DELIVERED -> mealDelivery.completeDelivery(LocalDateTime.now());
+            case DELIVERY_REQUESTED -> mealDelivery.deliveryRequest();
+            case DELIVERING -> mealDelivery.startDelivery();
+            case DELIVERED -> mealDelivery.completeDelivery();
         }
         mealDeliveryRepository.update(mealDelivery);
     }
