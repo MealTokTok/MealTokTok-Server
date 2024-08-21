@@ -14,4 +14,6 @@ public interface OrderRepository {
     Order find(TargetOrder targetOrder);
 
     SliceResult<Order> findByCondition(Orderer orderer, OrderSearchCond cond, Cursor cursor);
+
+    void update(Order order);
 }

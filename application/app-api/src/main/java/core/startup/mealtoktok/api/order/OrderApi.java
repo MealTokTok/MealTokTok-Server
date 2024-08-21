@@ -20,6 +20,7 @@ import core.startup.mealtoktok.domain.order.Order;
 import core.startup.mealtoktok.domain.order.OrderDetail;
 import core.startup.mealtoktok.domain.order.OrderSearchCond;
 import core.startup.mealtoktok.domain.order.OrderService;
+import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.Orderer;
 import core.startup.mealtoktok.domain.order.TargetOrder;
 import core.startup.mealtoktok.domain.user.User;
@@ -55,9 +56,9 @@ public class OrderApi implements OrderApiDocs {
     }
 
     @GetMapping("/{orderId}/state")
-    public Response<OrderResponse> orderState(
+    public Response<OrderState> orderState(
             @AuthenticationPrincipal User currentUser, @PathVariable Long orderId) {
-        orderService.getOrderState(Orderer.from(currentUser), TargetOrder.from(orderId));
-        return null;
+        return Response.success(
+                orderService.getOrderState(Orderer.from(currentUser), TargetOrder.from(orderId)));
     }
 }

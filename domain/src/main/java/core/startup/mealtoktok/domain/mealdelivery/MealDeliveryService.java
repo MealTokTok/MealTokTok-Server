@@ -20,6 +20,7 @@ public class MealDeliveryService {
     private final MealDeliveryReader mealDeliveryReader;
     private final MealDeliveryUpdater mealDeliveryUpdater;
     private final FullDiningManager fullDiningManager;
+    private final MealDeliveryCountManager mealDeliveryCountManager;
 
     public MealDelivery getDeliveringMeal(Recipient recipient) {
         return mealDeliveryReader.read(recipient, DeliveryState.DELIVERING);
@@ -34,11 +35,17 @@ public class MealDeliveryService {
         return mealDeliveryReader.read(targetMealDelivery);
     }
 
-    public void changeDeliveryState(
-            TargetMealDelivery targetMealDelivery, DeliveryState deliveryState) {
+    public void startMealDelivery(TargetMealDelivery targetMealDelivery) {
         MealDelivery mealDelivery = mealDeliveryReader.read(targetMealDelivery);
-        mealDeliveryUpdater.changeDeliveryState(mealDelivery, deliveryState);
-        // TODO :알림 발송 alarmSender.send(orderer, deliveryState);
+        mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERING);
+        // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERING);
+    }
+
+    public void completeMealDelivery(TargetMealDelivery targetMealDelivery) {
+        MealDelivery mealDelivery = mealDeliveryReader.read(targetMealDelivery);
+        mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERED);
+        mealDeliveryCountManager.decrease(mealDelivery.getOrderId());
+        // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERED);
     }
 
     public void changeCollectingState(

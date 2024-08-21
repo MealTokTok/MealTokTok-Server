@@ -19,6 +19,6 @@ public enum MealDeliveryErrorCode implements BaseErrorCode {
 
     @Override
     public ErrorReason getErrorReason() {
-        return null;
+        return ErrorReason.of(status, errorCode, message);
     }
 }

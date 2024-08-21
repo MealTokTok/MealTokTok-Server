@@ -15,6 +15,8 @@ public record OrderResponse(
         String specialInstruction,
         Orderer orderer,
         OrderPrice orderPrice,
+        Integer totalMealDeliveryCount,
+        Integer remainingMealDeliveryCount,
         LocalDateTime orderTime) {
 
     public static OrderResponse from(Order order) {
@@ -25,6 +27,8 @@ public record OrderResponse(
                 order.getSpecialInstruction(),
                 order.getOrderer(),
                 order.getOrderPrice(),
+                order.getTotalMealDeliveryCount(),
+                order.getRemainingMealDeliveryCount(),
                 order.getOrderTime());
     }
 }
