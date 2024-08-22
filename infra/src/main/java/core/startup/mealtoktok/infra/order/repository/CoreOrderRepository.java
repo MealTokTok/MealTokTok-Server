@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.infra.order.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Slice;
@@ -13,10 +14,12 @@ import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.order.Order;
 import core.startup.mealtoktok.domain.order.OrderRepository;
 import core.startup.mealtoktok.domain.order.OrderSearchCond;
+import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.Orderer;
 import core.startup.mealtoktok.domain.order.TargetOrder;
 import core.startup.mealtoktok.infra.jpa.util.PagingUtil;
 import core.startup.mealtoktok.infra.order.entity.OrderEntity;
+import core.startup.mealtoktok.infra.order.entity.OrdererVO;
 import core.startup.mealtoktok.infra.order.exception.OrderNotFoundException;
 
 @Repository
@@ -64,5 +67,15 @@ public class CoreOrderRepository implements OrderRepository {
                         .findById(order.getOrderId())
                         .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
         orderEntity.update(order);
+    }
+
+    @Override
+    public Integer countByOrderState(
+            Orderer orderer,
+            OrderState orderState,
+            LocalDateTime startTime,
+            LocalDateTime endTime) {
+        return orderJpaRepository.countByOrdererAndOrderState(
+                OrdererVO.from(orderer), orderState, startTime, endTime);
     }
 }

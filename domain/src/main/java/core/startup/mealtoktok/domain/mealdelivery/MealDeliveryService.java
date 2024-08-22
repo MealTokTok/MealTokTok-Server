@@ -31,8 +31,26 @@ public class MealDeliveryService {
                 recipient, DeliveryState.DELIVERED, LocalDateTime.now().minusHours(1));
     }
 
+    public SliceResult<MealDelivery> searchMealDeliveries(
+            Recipient recipient, MealDeliverySearchCond cond, Cursor cursor) {
+        return mealDeliveryReader.read(recipient, cond, cursor);
+    }
+
+    public MealDelivery getNextDeliveryMeal(Long orderId) {
+        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId);
+        return mealDeliveries.stream()
+                .filter(mealDelivery -> mealDelivery.getDeliveryState() == DeliveryState.PENDING)
+                .findFirst()
+                .orElseThrow(() -> NextMealDeliveryNotFound.EXCEPTION);
+    }
+
     public MealDelivery getMealDelivery(TargetMealDelivery targetMealDelivery) {
         return mealDeliveryReader.read(targetMealDelivery);
+    }
+
+    public Integer countByDeliveryState(Recipient recipient, DeliveryState deliveryState) {
+        return mealDeliveryReader.count(
+                recipient, deliveryState, VALID_DATE_TIME, LocalDateTime.now());
     }
 
     public void reserveMealDelivery(TargetMealDelivery targetMealDelivery) {
@@ -68,18 +86,5 @@ public class MealDeliveryService {
     public List<FullDining> getFullDinings(Recipient recipient) {
         return fullDiningManager.getFullDinings(
                 recipient, DeliveryState.DELIVERED, VALID_DATE_TIME);
-    }
-
-    public SliceResult<MealDelivery> searchMealDeliveries(
-            Recipient recipient, MealDeliverySearchCond cond, Cursor cursor) {
-        return mealDeliveryReader.read(recipient, cond, cursor);
-    }
-
-    public MealDelivery getNextDeliveryMeal(Long orderId) {
-        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId);
-        return mealDeliveries.stream()
-                .filter(mealDelivery -> mealDelivery.getDeliveryState() == DeliveryState.PENDING)
-                .findFirst()
-                .orElseThrow(() -> NextMealDeliveryNotFound.EXCEPTION);
     }
 }

@@ -1,6 +1,7 @@
 spring:
   jpa:
     open-in-view: false
+
   cloud:
     gcp:
       storage:
@@ -11,6 +12,7 @@ spring:
         bucket: ${BUCKET_NAME}
 fcm:
   secret-key: ${FCM_SECRET_KEY}
+
 
 ---
 spring:

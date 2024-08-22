@@ -17,6 +17,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryDateTime;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
@@ -29,7 +30,7 @@ import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
 @Table(name = "meal_delivery")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class MealDeliveryEntity extends BaseTimeEntity {
 
     @Id
@@ -77,7 +78,10 @@ public class MealDeliveryEntity extends BaseTimeEntity {
                                 includeRice,
                                 hasFullDiningOption))
                 .deliveryState(deliveryState)
-                .deliveryDateTime(deliveryDateTime.toDomain())
+                .deliveryDateTime(
+                        (deliveryDateTime == null)
+                                ? DeliveryDateTime.init()
+                                : deliveryDateTime.toDomain())
                 .build();
     }
 

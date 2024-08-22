@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.domain.order;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import core.startup.mealtoktok.common.dto.Cursor;
@@ -16,4 +17,7 @@ public interface OrderRepository {
     SliceResult<Order> findByCondition(Orderer orderer, OrderSearchCond cond, Cursor cursor);
 
     void update(Order order);
+
+    Integer countByOrderState(
+            Orderer orderer, OrderState orderState, LocalDateTime startTime, LocalDateTime endTime);
 }

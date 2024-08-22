@@ -26,4 +26,10 @@ public interface MealDeliveryRepository {
 
     SliceResult<MealDelivery> findByCondition(
             Recipient recipient, MealDeliverySearchCond cond, Cursor cursor);
+
+    Integer countByDeliveryState(
+            Recipient recipient,
+            DeliveryState deliveryState,
+            LocalDateTime startTime,
+            LocalDateTime endTime);
 }

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserReader userReader;
     private final UserUpdater userUpdater;
     private final userRemover userRemover;
     private final UserValidator userValidator;
