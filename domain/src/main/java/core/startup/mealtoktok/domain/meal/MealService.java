@@ -24,14 +24,15 @@ public class MealService {
     private final DishReader dishReader;
     private final MealDishReader mealDishReader;
 
-    public void createMeal(MealOwner mealOwner, MealContent mealContent) {
-        mealAppender.append(mealOwner, mealContent);
+    public void createMeal(MealOwner mealOwner, MealContent newMealContent) {
+        mealAppender.append(mealOwner, newMealContent);
     }
 
-    public void updateMeal(MealOwner mealOwner, TargetMeal targetMeal, MealContent mealContent) {
+    public void updateMeal(
+            MealOwner mealOwner, TargetMeal targetMeal, MealContent updatedMealContent) {
         Meal meal = mealReader.read(targetMeal);
         List<MealDish> mealDishes = mealDishReader.read(targetMeal);
-        mealUpdater.update(mealOwner, meal, mealDishes, mealContent);
+        mealUpdater.update(mealOwner, meal, mealDishes, updatedMealContent);
     }
 
     public void deleteMeal(MealOwner mealOwner, TargetMeal targetMeal) {

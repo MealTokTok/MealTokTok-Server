@@ -38,8 +38,7 @@ public class MealApi implements MealApiDocs {
     }
 
     @GetMapping("/meals/{mealId}")
-    public Response<MealDishResponse> readMeal(
-            @PathVariable("mealId") Long mealId, @AuthenticationPrincipal User currentUser) {
+    public Response<MealDishResponse> readMeal(@PathVariable("mealId") Long mealId) {
         MealAndDishes mealAndDishes = mealService.readMealAndDishes(TargetMeal.from(mealId));
         return Response.success(MealDishResponse.from(mealAndDishes));
     }

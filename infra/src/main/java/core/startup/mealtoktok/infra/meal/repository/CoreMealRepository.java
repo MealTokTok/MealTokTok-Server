@@ -2,7 +2,6 @@ package core.startup.mealtoktok.infra.meal.repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +15,14 @@ import core.startup.mealtoktok.domain.meal.MealDish;
 import core.startup.mealtoktok.domain.meal.MealOwner;
 import core.startup.mealtoktok.domain.meal.MealRepository;
 import core.startup.mealtoktok.domain.meal.TargetMeal;
-import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 import core.startup.mealtoktok.infra.meal.entity.MealDishEntity;
 import core.startup.mealtoktok.infra.meal.entity.MealEntity;
+import core.startup.mealtoktok.infra.meal.exception.MealNotFoundException;
 
 @Repository
 @Transactional
 @RequiredArgsConstructor
-public class CoreJpaMealRepository implements MealRepository {
+public class CoreMealRepository implements MealRepository {
 
     private final JpaMealDishRepository jpaMealDishRepository;
     private final JpaMealRepository jpaMealRepository;
@@ -46,6 +45,21 @@ public class CoreJpaMealRepository implements MealRepository {
     }
 
     @Override
+    public void saveMealDish(MealDish updatedMealDish) {
+        jpaMealDishRepository.save(MealDishEntity.from(updatedMealDish));
+    }
+
+    @Override
+    public void delete(MealDish mealDish) {
+        jpaMealDishRepository.deleteById(mealDish.mealDishId());
+    }
+
+    @Override
+    public void updateMealDish(MealDish mealDish, Long dishId) {
+        jpaMealDishRepository.getReferenceById(mealDish.mealDishId()).update(dishId);
+    }
+
+    @Override
     public void save(MealAndDishIds mealAndDishIds) {
         MealEntity savedMeal = jpaMealRepository.save(MealEntity.of(mealAndDishIds.meal()));
         mealAndDishIds.dishIds().stream()
@@ -58,23 +72,12 @@ public class CoreJpaMealRepository implements MealRepository {
         return jpaMealRepository
                 .findById(targetMeal.meadId())
                 .map(MealEntity::toDomain)
-                .orElseThrow(() -> DishNotFoundException.EXCEPTION);
+                .orElseThrow(() -> MealNotFoundException.EXCEPTION);
     }
 
     @Override
-    public void update(Meal meal, List<MealDish> mealDishes, MealContent mealContent) {
-        jpaMealRepository.getReferenceById(meal.mealId()).update(mealContent.mealInfo());
-
-        List<MealDishEntity> mealDishEntities =
-                jpaMealDishRepository.getReferenceByMealId(meal.mealId());
-
-        IntStream.range(0, mealDishEntities.size())
-                .forEach(
-                        i -> {
-                            MealDishEntity mealDishEntity = mealDishEntities.get(i);
-                            Long dishId = mealContent.dishIds().get(i);
-                            mealDishEntity.update(dishId);
-                        });
+    public void update(Meal meal, MealContent updatedMealContent) {
+        jpaMealRepository.getReferenceById(meal.mealId()).update(updatedMealContent.mealInfo());
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface MealApiDocs {
     Response<Void> createMeal(MealRequest request, User currentUser);
 
     @Operation(summary = "도시락 조회")
-    Response<MealDishResponse> readMeal(Long mealId, User currentUser);
+    Response<MealDishResponse> readMeal(Long mealId);
 
     @Operation(summary = "도시락 리스트 조회")
     Response<List<MealDishResponse>> readMeals(User currentUser);

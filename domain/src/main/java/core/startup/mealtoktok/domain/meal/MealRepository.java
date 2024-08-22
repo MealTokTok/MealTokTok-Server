@@ -10,7 +10,7 @@ public interface MealRepository {
 
     Meal findById(TargetMeal targetMeal);
 
-    void update(Meal meal, List<MealDish> mealDishes, MealContent mealContent);
+    void update(Meal meal, MealContent mealContent);
 
     void delete(Meal meal, List<MealDish> mealDishes);
 
@@ -19,4 +19,10 @@ public interface MealRepository {
     boolean exitsByNameExcludingTargetMeal(Meal meal, String mealName);
 
     List<Meal> findAllByMealOwner(MealOwner mealOwner);
+
+    void saveMealDish(MealDish updatedMealDish);
+
+    void delete(MealDish mealDish);
+
+    void updateMealDish(MealDish mealDish, Long dishId);
 }

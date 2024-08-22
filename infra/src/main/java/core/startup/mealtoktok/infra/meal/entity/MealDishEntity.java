@@ -22,7 +22,7 @@ public class MealDishEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long MealDishId;
+    private Long mealDishId;
 
     private Long mealId;
 
@@ -32,8 +32,12 @@ public class MealDishEntity {
         return MealDishEntity.builder().mealId(mealId).dishId(dishId).build();
     }
 
+    public static MealDishEntity from(MealDish mealDish) {
+        return MealDishEntity.builder().mealId(mealDish.mealId()).dishId(mealDish.dishId()).build();
+    }
+
     public MealDish toDomain() {
-        return MealDish.builder().mealDishId(MealDishId).mealId(mealId).dishId(dishId).build();
+        return MealDish.builder().mealDishId(mealDishId).mealId(mealId).dishId(dishId).build();
     }
 
     public void update(Long dishId) {

@@ -11,11 +11,11 @@ public class MealAppender {
     private final MealRepository mealRepository;
     private final MealValidator mealValidator;
 
-    public void append(MealOwner mealOwner, MealContent mealContent) {
-        mealValidator.validate(mealContent);
+    public void append(MealOwner mealOwner, MealContent newMealContent) {
+        mealValidator.validate(newMealContent);
         MealAndDishIds mealAndDishIds =
                 MealAndDishIds.create(
-                        Meal.of(mealOwner, mealContent.mealInfo()), mealContent.dishIds());
+                        Meal.of(mealOwner, newMealContent.mealInfo()), newMealContent.dishIds());
         mealRepository.save(mealAndDishIds);
     }
 }

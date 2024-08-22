@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.domain.dishstore.DishReader;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
 import core.startup.mealtoktok.domain.meal.exception.DishSoldOutException;
-import core.startup.mealtoktok.domain.meal.exception.InvalidDishCountException;
 import core.startup.mealtoktok.domain.meal.exception.MealNameAlreadyExitsException;
 import core.startup.mealtoktok.domain.meal.exception.MealOwnerNotMatchException;
 
@@ -20,16 +19,14 @@ public class MealValidator {
     private final MealRepository mealRepository;
     private final DishReader dishReader;
 
-    public void validate(MealContent mealContent) {
-        checkMealNameExists(mealContent.mealInfo().mealName());
-        checkDishCount(mealContent.dishIds());
-        checkDishSoldOut(mealContent.dishIds());
+    public void validate(MealContent createMealContent) {
+        checkMealNameExists(createMealContent.mealInfo().mealName());
+        checkDishSoldOut(createMealContent.dishIds());
     }
 
-    public void validate(MealOwner mealOwner, Meal meal, MealContent mealContent) {
+    public void validate(MealOwner mealOwner, Meal meal, MealContent updatedMealContent) {
         checkOwnership(meal, mealOwner);
-        checkMealNameExistsExcludingTarget(meal, mealContent.mealInfo().mealName());
-        checkDishCount(mealContent.dishIds());
+        checkMealNameExistsExcludingTarget(meal, updatedMealContent.mealInfo().mealName());
     }
 
     public void validate(MealOwner mealOwner, Meal meal) {
@@ -45,12 +42,6 @@ public class MealValidator {
     private void checkMealNameExistsExcludingTarget(Meal meal, String mealName) {
         if (mealRepository.exitsByNameExcludingTargetMeal(meal, mealName)) {
             throw MealNameAlreadyExitsException.EXCEPTION;
-        }
-    }
-
-    private void checkDishCount(List<Long> dishIds) {
-        if (dishIds.size() != 4) {
-            throw InvalidDishCountException.EXCEPTION;
         }
     }
 

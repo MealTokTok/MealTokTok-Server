@@ -16,7 +16,7 @@ import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 @Repository
 @Transactional
 @RequiredArgsConstructor
-public class CoreJpaDishRepository implements DishRepository {
+public class CoreDishRepository implements DishRepository {
 
     private final JpaDishRepository jpaDishRepository;
     private final JpaDishCategoryRepository jpaDishCategoryRepository;

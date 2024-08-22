@@ -2,7 +2,6 @@ package core.startup.mealtoktok.api.dishstore;
 
 import java.util.List;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +22,6 @@ import core.startup.mealtoktok.domain.dishstore.DishService;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
 import core.startup.mealtoktok.domain.dishstore.TargetDishCategory;
 import core.startup.mealtoktok.domain.dishstore.TargetDishStore;
-import core.startup.mealtoktok.domain.user.User;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +34,7 @@ public class DishApi implements DishApiDocs {
     public Response<Void> createDish(
             @PathVariable("storeId") Long storeId,
             @PathVariable("categoryId") Long categoryId,
-            @RequestBody DishRequest request,
-            @AuthenticationPrincipal User currentUser) {
+            @RequestBody DishRequest request) {
         dishService.createDish(
                 TargetDishStore.from(storeId),
                 TargetDishCategory.from(categoryId),
@@ -46,17 +43,14 @@ public class DishApi implements DishApiDocs {
     }
 
     @DeleteMapping(("/admin/dishes/{dishId}"))
-    public Response<Void> deleteDish(
-            @PathVariable("dishId") Long dishId, @AuthenticationPrincipal User currentUser) {
+    public Response<Void> deleteDish(@PathVariable("dishId") Long dishId) {
         dishService.deleteDish(TargetDish.from(dishId));
         return Response.success("반찬 삭제 성공");
     }
 
     @GetMapping("/stores/{storeId}/categories/{categoryId}/dishes")
     public Response<List<DishResponse>> readDishes(
-            @PathVariable("storeId") Long storeId,
-            @PathVariable("categoryId") Long categoryId,
-            @AuthenticationPrincipal User currentUser) {
+            @PathVariable("storeId") Long storeId, @PathVariable("categoryId") Long categoryId) {
 
         List<DishResponse> dishResponses =
                 dishService
@@ -71,18 +65,14 @@ public class DishApi implements DishApiDocs {
 
     @PatchMapping(("/admin/dishes/{dishId}"))
     public Response<Void> updateDish(
-            @PathVariable("dishId") Long dishId,
-            @RequestBody DishRequest request,
-            @AuthenticationPrincipal User currentUser) {
+            @PathVariable("dishId") Long dishId, @RequestBody DishRequest request) {
         dishService.updateDish(TargetDish.from(dishId), request.toDishInfo());
         return Response.success("반찬 수정 성공");
     }
 
     @GetMapping("/stores/{storeId}/dishes/search")
     public Response<List<DishResponse>> searchDishes(
-            @PathVariable("storeId") Long storeId,
-            @ModelAttribute("q") SearchDish q,
-            @AuthenticationPrincipal User currentUser) {
+            @PathVariable("storeId") Long storeId, @ModelAttribute("q") SearchDish q) {
         List<DishResponse> dishResponses =
                 dishService.searchDishes(TargetDishStore.from(storeId), q.keyword()).stream()
                         .map(DishResponse::from)
