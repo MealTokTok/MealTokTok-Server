@@ -62,6 +62,14 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
                                 TargetMealDelivery.from(mealDeliveryId))));
     }
 
+    @GetMapping("/count")
+    public Response<Integer> countByDeliveryState(
+            @AuthenticationPrincipal User currentUser, DeliveryState deliveryState) {
+        return Response.success(
+                mealDeliveryService.countByDeliveryState(
+                        Recipient.from(currentUser), deliveryState));
+    }
+
     @GetMapping("/delivered")
     public Response<MealDeliveryResponse> recentDeliveredMeal(
             @AuthenticationPrincipal User currentUser) {

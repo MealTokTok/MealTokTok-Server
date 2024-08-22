@@ -41,4 +41,19 @@ public interface MealDeliveryJpaRepository
             DeliveryState deliveryState,
             LocalDateTime startTime,
             LocalDateTime endTime);
+
+    @Query(
+            """
+                    SELECT count(mealDelivery)
+                    FROM MealDeliveryEntity mealDelivery
+                    JOIN OrderEntity oe on oe.orderId = mealDelivery.orderId
+                    WHERE oe.orderer.userId = :#{#recipient.userId()}
+                    AND mealDelivery.deliveryState = :deliveryState
+                    AND mealDelivery.createdAt BETWEEN :startTime AND :endTime
+                    """)
+    Integer countByRecipientAndDeliveryState(
+            Recipient recipient,
+            DeliveryState deliveryState,
+            LocalDateTime startTime,
+            LocalDateTime endTime);
 }

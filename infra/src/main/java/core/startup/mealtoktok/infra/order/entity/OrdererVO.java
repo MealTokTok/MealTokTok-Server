@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,26 +12,18 @@ import core.startup.mealtoktok.domain.order.Orderer;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
 public class OrdererVO {
 
     @Column(name = "orderer_id")
     private Long userId;
 
-    private Long deliveryAddressId;
-
-    public OrdererVO(Long userId, Long deliveryAddressId) {
-        this.userId = userId;
-        this.deliveryAddressId = deliveryAddressId;
-    }
-
     public static OrdererVO from(Orderer orderer) {
-        return new OrdererVO(orderer.userId(), orderer.deliveryAddressId());
+        return new OrdererVO(orderer.userId());
     }
 
     public Orderer toDomain() {
-        return new Orderer(userId, deliveryAddressId);
+        return new Orderer(userId);
     }
-
-    // Getters and other necessary methods
 }

@@ -1,5 +1,8 @@
 package core.startup.mealtoktok.domain.order;
 
+import static core.startup.mealtoktok.common.consts.MealTokTokConstant.VALID_DATE_TIME;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import core.startup.mealtoktok.domain.mealdelivery.FullDiningManager;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryReader;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryReserver;
+import core.startup.mealtoktok.domain.user.DeliveryAddress;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +30,10 @@ public class OrderService {
     private final FullDiningManager fullDiningManager;
 
     @Transactional
-    public TargetOrder orderMeals(Orderer orderer, OrderContent orderContent) {
+    public TargetOrder orderMeals(
+            Orderer orderer, OrderContent orderContent, DeliveryAddress deliveryAddress) {
         orderValidator.validate(orderContent);
-        TargetOrder targetOrder = orderAppender.append(orderer, orderContent);
+        TargetOrder targetOrder = orderAppender.append(orderer, orderContent, deliveryAddress);
         List<MealDelivery> mealDeliveries =
                 mealDeliveryReserver.reserve(orderContent.toMealDeliveries(targetOrder));
         fullDiningManager.reserve(mealDeliveries);
@@ -50,5 +55,9 @@ public class OrderService {
         Order order = orderReader.read(targetOrder);
         orderValidator.validate(order, orderer);
         return order.getOrderState();
+    }
+
+    public Integer countByOrderState(Orderer orderer, OrderState orderState) {
+        return orderReader.count(orderer, orderState, VALID_DATE_TIME, LocalDateTime.now());
     }
 }

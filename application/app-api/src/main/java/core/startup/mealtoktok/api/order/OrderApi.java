@@ -36,7 +36,10 @@ public class OrderApi implements OrderApiDocs {
     public Response<TargetOrder> orderMeals(
             @AuthenticationPrincipal User currentUser, @RequestBody MealOrderRequest request) {
         return Response.success(
-                orderService.orderMeals(Orderer.from(currentUser), request.toContent()));
+                orderService.orderMeals(
+                        Orderer.from(currentUser),
+                        request.toContent(),
+                        currentUser.fetchConfiguredDeliveryAddress()));
     }
 
     @GetMapping
@@ -60,5 +63,12 @@ public class OrderApi implements OrderApiDocs {
             @AuthenticationPrincipal User currentUser, @PathVariable Long orderId) {
         return Response.success(
                 orderService.getOrderState(Orderer.from(currentUser), TargetOrder.from(orderId)));
+    }
+
+    @GetMapping("/count")
+    public Response<Integer> countOrders(
+            @AuthenticationPrincipal User currentUser, OrderState orderState) {
+        return Response.success(
+                orderService.countByOrderState(Orderer.from(currentUser), orderState));
     }
 }

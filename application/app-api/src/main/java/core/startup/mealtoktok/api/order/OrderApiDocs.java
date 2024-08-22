@@ -29,4 +29,7 @@ public interface OrderApiDocs {
 
     @Operation(summary = "주문 상태 조회")
     Response<OrderState> orderState(User currentUser, Long orderId);
+
+    @Operation(summary = "상태별 주문 건수 조회")
+    Response<Integer> countOrders(User currentUser, OrderState orderState);
 }

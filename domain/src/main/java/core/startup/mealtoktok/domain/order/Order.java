@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import core.startup.mealtoktok.domain.order.exception.OrderDomainException;
+import core.startup.mealtoktok.domain.user.DeliveryAddress;
 
 @Getter
 @Builder
@@ -22,6 +23,7 @@ public class Order {
     private String specialInstruction;
     private Orderer orderer;
     private OrderPrice orderPrice;
+    private Long deliveryAddressId;
     private Integer totalMealDeliveryCount;
     private Integer remainingMealDeliveryCount;
     private LocalDateTime orderTime;
@@ -31,6 +33,7 @@ public class Order {
             OrderType orderType,
             String specialInstruction,
             OrderPrice orderPrice,
+            DeliveryAddress deliveryAddress,
             Integer mealDeliverySize) {
         return Order.builder()
                 .orderType(orderType)
@@ -38,6 +41,7 @@ public class Order {
                 .specialInstruction(specialInstruction)
                 .orderer(orderer)
                 .orderPrice(orderPrice)
+                .deliveryAddressId(deliveryAddress.getDeliveryAddressId())
                 .totalMealDeliveryCount(mealDeliverySize)
                 .remainingMealDeliveryCount(mealDeliverySize)
                 .build();

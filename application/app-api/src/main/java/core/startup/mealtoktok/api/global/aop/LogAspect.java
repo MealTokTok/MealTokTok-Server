@@ -88,7 +88,7 @@ public class LogAspect {
     @Around("execution(* core.startup.mealtoktok.domain.user..*Updater.*(..)) && args(user, ..)")
     public Object cacheUpdate(ProceedingJoinPoint joinPoint, User user) throws Throwable {
         Object result = joinPoint.proceed();
-        userCacheManager.refresh(user);
+        userCacheManager.delete(user);
         return result;
     }
 

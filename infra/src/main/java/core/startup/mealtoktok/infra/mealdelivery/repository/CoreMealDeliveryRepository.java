@@ -93,4 +93,14 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
                 mealDeliveryEntities.map(MealDeliveryEntity::toDomain).toList(),
                 mealDeliveryEntities.hasNext());
     }
+
+    @Override
+    public Integer countByDeliveryState(
+            Recipient recipient,
+            DeliveryState deliveryState,
+            LocalDateTime startTime,
+            LocalDateTime endTime) {
+        return mealDeliveryJpaRepository.countByRecipientAndDeliveryState(
+                recipient, deliveryState, startTime, endTime);
+    }
 }

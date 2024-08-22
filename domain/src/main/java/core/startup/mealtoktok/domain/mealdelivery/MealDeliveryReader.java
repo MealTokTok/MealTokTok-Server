@@ -38,4 +38,13 @@ public class MealDeliveryReader {
             Recipient recipient, MealDeliverySearchCond cond, Cursor cursor) {
         return mealDeliveryRepository.findByCondition(recipient, cond, cursor);
     }
+
+    public Integer count(
+            Recipient recipient,
+            DeliveryState deliveryState,
+            LocalDateTime startTime,
+            LocalDateTime endTime) {
+        return mealDeliveryRepository.countByDeliveryState(
+                recipient, deliveryState, startTime, endTime);
+    }
 }
