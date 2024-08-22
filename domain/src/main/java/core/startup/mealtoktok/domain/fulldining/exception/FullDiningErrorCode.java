@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.mealdelivery.exception;
+package core.startup.mealtoktok.domain.fulldining.exception;
 
 import static core.startup.mealtoktok.common.consts.MealTokTokConstant.NOT_FOUND;
 
@@ -8,12 +8,10 @@ import core.startup.mealtoktok.common.exception.BaseErrorCode;
 import core.startup.mealtoktok.common.exception.ErrorReason;
 
 @AllArgsConstructor
-public enum MealDeliveryErrorCode implements BaseErrorCode {
-    MEAL_DELIVERY_NOT_FOUND(NOT_FOUND, "MEAL_DELIVERY_404_1", "배송 정보를 찾지 못했습니다"),
-    NEXT_MEAL_DELIVERY_NOT_FOUND(NOT_FOUND, "MEAL_DELIVERY_404_2", "다음 배송 정보를 찾지 못했습니다"),
-    MEAL_DELIVERY_DOMAIN_ERROR(500, "MEAL_DELIVERY_500_1");
+public enum FullDiningErrorCode implements BaseErrorCode {
+    FULL_DINING_NOT_FOUND(NOT_FOUND, "FULL_DINING_404_1", "풀대접 정보를 찾지 못했습니다");
 
-    MealDeliveryErrorCode(Integer status, String errorCode) {
+    FullDiningErrorCode(Integer status, String errorCode) {
         this.status = status;
         this.errorCode = errorCode;
     }

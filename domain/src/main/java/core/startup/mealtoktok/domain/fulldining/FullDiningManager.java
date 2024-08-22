@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.mealdelivery;
+package core.startup.mealtoktok.domain.fulldining;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,6 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+
+import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
+import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
+import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
+import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 
 @Component
 @RequiredArgsConstructor

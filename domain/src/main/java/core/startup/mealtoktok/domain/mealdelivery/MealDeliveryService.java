@@ -19,7 +19,6 @@ public class MealDeliveryService {
 
     private final MealDeliveryReader mealDeliveryReader;
     private final MealDeliveryUpdater mealDeliveryUpdater;
-    private final FullDiningManager fullDiningManager;
     private final MealDeliveryCountManager mealDeliveryCountManager;
 
     public MealDelivery getDeliveringMeal(Recipient recipient) {
@@ -70,21 +69,5 @@ public class MealDeliveryService {
         mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERED);
         mealDeliveryCountManager.decrease(mealDelivery.getOrderId());
         // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERED);
-    }
-
-    public void changeCollectingState(
-            TargetFullDining targetFullDining, CollectingState collectingState) {
-        fullDiningManager.collectRequest(targetFullDining, collectingState);
-        // TODO :알림 발송 alarmSender.send(targetFullDining, collectingState);
-    }
-
-    public int countCollectRequestContainers(Recipient recipient) {
-        return fullDiningManager.countReturnableContainers(
-                recipient, CollectingState.COLLECT_REQUESTED);
-    }
-
-    public List<FullDining> getFullDinings(Recipient recipient) {
-        return fullDiningManager.getFullDinings(
-                recipient, DeliveryState.DELIVERED, VALID_DATE_TIME);
     }
 }

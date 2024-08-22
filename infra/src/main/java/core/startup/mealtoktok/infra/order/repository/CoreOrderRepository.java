@@ -45,7 +45,7 @@ public class CoreOrderRepository implements OrderRepository {
 
     @Override
     public List<Order> findAll(Orderer orderer) {
-        return orderJpaRepository.findAllByOrderer(orderer).parallelStream()
+        return orderJpaRepository.findAllByOrderer(OrdererVO.from(orderer)).parallelStream()
                 .map(OrderEntity::toDomain)
                 .toList();
     }

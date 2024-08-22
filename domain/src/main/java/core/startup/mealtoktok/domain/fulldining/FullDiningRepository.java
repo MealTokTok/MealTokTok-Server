@@ -1,7 +1,11 @@
-package core.startup.mealtoktok.domain.mealdelivery;
+package core.startup.mealtoktok.domain.fulldining;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
+import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
+import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 
 public interface FullDiningRepository {
 

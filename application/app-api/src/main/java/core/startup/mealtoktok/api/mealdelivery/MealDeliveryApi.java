@@ -1,7 +1,5 @@
 package core.startup.mealtoktok.api.mealdelivery;
 
-import java.util.List;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,19 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.api.mealdelivery.dto.FullDiningResponse;
 import core.startup.mealtoktok.api.mealdelivery.dto.MealDeliveryResponse;
 import core.startup.mealtoktok.common.annotation.CursorDefault;
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.common.dto.SliceResult;
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
-import core.startup.mealtoktok.domain.mealdelivery.FullDining;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliverySearchCond;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryService;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
-import core.startup.mealtoktok.domain.mealdelivery.TargetFullDining;
 import core.startup.mealtoktok.domain.mealdelivery.TargetMealDelivery;
 import core.startup.mealtoktok.domain.user.User;
 
@@ -100,29 +94,5 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
         }
 
         return Response.success("배송 상태 변경 성공");
-    }
-
-    @PatchMapping("/full-dinings/{fullDiningId}/{collectingState}")
-    public Response<Void> changeCollectingState(
-            @PathVariable Long fullDiningId, @PathVariable CollectingState collectingState) {
-        mealDeliveryService.changeCollectingState(
-                TargetFullDining.from(fullDiningId), collectingState);
-        return Response.success("수거 상태 변경 성공");
-    }
-
-    @GetMapping("/full-dinings/collect-requested/count")
-    public Response<Integer> countCollectRequestContainers(
-            @AuthenticationPrincipal User currentUser) {
-        return Response.success(
-                mealDeliveryService.countCollectRequestContainers(Recipient.from(currentUser)));
-    }
-
-    @GetMapping("/full-dinings")
-    public Response<List<FullDiningResponse>> fullDinings(
-            @AuthenticationPrincipal User currentUser) {
-        List<FullDining> fullDinings =
-                mealDeliveryService.getFullDinings(Recipient.from(currentUser));
-        return Response.success(
-                fullDinings.parallelStream().map(FullDiningResponse::from).toList());
     }
 }

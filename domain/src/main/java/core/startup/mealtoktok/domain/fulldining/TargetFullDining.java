@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.mealdelivery;
+package core.startup.mealtoktok.domain.fulldining;
 
 public record TargetFullDining(Long fullDiningId) {
 

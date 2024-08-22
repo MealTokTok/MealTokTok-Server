@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.mealdelivery.repository;
+package core.startup.mealtoktok.infra.fulldining.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
-import core.startup.mealtoktok.infra.mealdelivery.entity.FullDiningEntity;
+import core.startup.mealtoktok.infra.fulldining.entity.FullDiningEntity;
 
 public interface FullDiningJpaRepository extends JpaRepository<FullDiningEntity, Long> {
 

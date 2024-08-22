@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.SliceResult;
-import core.startup.mealtoktok.domain.mealdelivery.FullDiningManager;
+import core.startup.mealtoktok.domain.fulldining.FullDiningManager;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryReader;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryReserver;
