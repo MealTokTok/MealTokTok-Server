@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.infra.user.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,6 +57,7 @@ public class UserEntity extends BaseTimeEntity {
             orphanRemoval = true)
     private List<DeliveryAddressEntity> deliveryAddresses = new ArrayList<>();
 
+    @Builder.Default
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "device_token", joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> deviceTokens = new HashSet<>();
@@ -114,15 +116,35 @@ public class UserEntity extends BaseTimeEntity {
         this.oid = user.getOAuthInfo().oid();
         this.userProfile = UserProfileVO.from(user.getUserProfile());
         this.deviceTokens = user.getDeviceTokens();
+        updateDeliveryAddress(user);
+        return this;
+    }
+
+    private void updateDeliveryAddress(User user) {
+        updateExistingDeliveryAddresses(user);
         removeNonExistingDeliveryAddresses(user);
         addNewDeliveryAddresses(user);
-        return this;
+    }
+
+    private void updateExistingDeliveryAddresses(User user) {
+        this.deliveryAddresses.forEach(
+                deliveryAddressEntity ->
+                        user.getDeliveryAddresses().stream()
+                                .filter(
+                                        deliveryAddress ->
+                                                deliveryAddress
+                                                        .getDeliveryAddressId()
+                                                        .equals(
+                                                                deliveryAddressEntity
+                                                                        .getDeliveryAddressId()))
+                                .findFirst()
+                                .ifPresent(deliveryAddressEntity::update));
     }
 
     private void addNewDeliveryAddresses(User user) {
         this.deliveryAddresses.addAll(
                 user.getDeliveryAddresses().stream()
-                        .filter(deliveryAddress -> deliveryAddress.deliveryAddressId() == null)
+                        .filter(deliveryAddress -> deliveryAddress.getDeliveryAddressId() == null)
                         .map(deliveryAddress -> DeliveryAddressEntity.from(this, deliveryAddress))
                         .toList());
     }
@@ -130,7 +152,7 @@ public class UserEntity extends BaseTimeEntity {
     private void removeNonExistingDeliveryAddresses(User user) {
         Set<Long> userDeliveryAddressIds =
                 user.getDeliveryAddresses().stream()
-                        .map(DeliveryAddress::deliveryAddressId)
+                        .map(DeliveryAddress::getDeliveryAddressId)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toSet());
 
@@ -138,5 +160,40 @@ public class UserEntity extends BaseTimeEntity {
                 deliveryAddressEntity ->
                         !userDeliveryAddressIds.contains(
                                 deliveryAddressEntity.getDeliveryAddressId()));
+    }
+
+    @Embeddable
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    @Builder
+    public static class UserProfileVO {
+
+        private String username;
+        private String nickname;
+        private String phoneNumber;
+        private String email;
+        private String profileImageUrl;
+
+        @Enumerated(EnumType.STRING)
+        private Gender gender;
+
+        private LocalDate birth;
+
+        public static UserProfileVO from(UserProfile userProfile) {
+            return UserProfileVO.builder()
+                    .username(userProfile.getUsername())
+                    .nickname(userProfile.getNickname())
+                    .phoneNumber(userProfile.getPhoneNumber())
+                    .email(userProfile.getEmail())
+                    .profileImageUrl(userProfile.getProfileImageUrl())
+                    .gender(userProfile.getGender())
+                    .birth(userProfile.getBirth())
+                    .build();
+        }
+
+        public UserProfile toDomain() {
+            return UserProfile.of(
+                    username, nickname, gender, phoneNumber, birth, email, profileImageUrl);
+        }
     }
 }

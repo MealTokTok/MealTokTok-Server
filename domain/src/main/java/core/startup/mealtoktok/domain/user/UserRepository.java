@@ -14,7 +14,7 @@ public interface UserRepository {
             UserProfile userProfile,
             DeliveryAddress deliveryAddress);
 
-    User update(User user);
+    TargetUser update(User user);
 
     boolean existsByOAuthInfo(OAuthInfo oAuthInfo);
 

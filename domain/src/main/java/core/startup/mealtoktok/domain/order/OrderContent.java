@@ -12,8 +12,13 @@ public record OrderContent(
         OrderPrice orderPrice) {
 
     public List<MealDelivery> toMealDeliveries(TargetOrder targetOrder) {
-        return orderedMeals.parallelStream()
-                .map(orderedMeal -> MealDelivery.create(targetOrder.orderId(), orderedMeal))
+        return orderedMeals.stream()
+                .map(
+                        orderedMeal ->
+                                MealDelivery.create(
+                                        targetOrder.orderId(),
+                                        orderType.toOrderTypeForDelivery(),
+                                        orderedMeal))
                 .toList();
     }
 }

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.order.Orderer;
-import core.startup.mealtoktok.domain.order.TargetOrder;
+import core.startup.mealtoktok.common.dto.Cursor;
+import core.startup.mealtoktok.common.dto.SliceResult;
 
 @Component
 @RequiredArgsConstructor
@@ -16,21 +16,35 @@ public class MealDeliveryReader {
 
     private final MealDeliveryRepository mealDeliveryRepository;
 
-    public List<MealDelivery> read(TargetOrder targetOrder) {
-        return mealDeliveryRepository.findAll(targetOrder);
+    public List<MealDelivery> read(Long orderId) {
+        return mealDeliveryRepository.findAll(orderId);
     }
 
     public MealDelivery read(TargetMealDelivery targetMealDelivery) {
         return mealDeliveryRepository.find(targetMealDelivery);
     }
 
-    public MealDelivery read(Orderer orderer, DeliveryState deliveryState) {
-        return mealDeliveryRepository.findByOrdererAndDeliveryState(orderer, deliveryState);
+    public MealDelivery read(Recipient recipient, DeliveryState deliveryState) {
+        return mealDeliveryRepository.findByOrdererAndDeliveryState(recipient, deliveryState);
     }
 
     public MealDelivery read(
-            Orderer orderer, DeliveryState deliveryState, LocalDateTime recentTime) {
+            Recipient recipient, DeliveryState deliveryState, LocalDateTime recentTime) {
         return mealDeliveryRepository.findByDeliveryStateAndTime(
-                orderer, deliveryState, recentTime, LocalDateTime.now());
+                recipient, deliveryState, recentTime, LocalDateTime.now());
+    }
+
+    public SliceResult<MealDelivery> read(
+            Recipient recipient, MealDeliverySearchCond cond, Cursor cursor) {
+        return mealDeliveryRepository.findByCondition(recipient, cond, cursor);
+    }
+
+    public Integer count(
+            Recipient recipient,
+            DeliveryState deliveryState,
+            LocalDateTime startTime,
+            LocalDateTime endTime) {
+        return mealDeliveryRepository.countByDeliveryState(
+                recipient, deliveryState, startTime, endTime);
     }
 }

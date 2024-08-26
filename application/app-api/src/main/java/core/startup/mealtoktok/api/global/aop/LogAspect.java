@@ -21,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import core.startup.mealtoktok.domain.user.User;
 import core.startup.mealtoktok.domain.user.UserCacheManager;
 
 @Aspect
@@ -81,6 +82,13 @@ public class LogAspect {
 
         Object result = joinPoint.proceed();
 
+        return result;
+    }
+
+    @Around("execution(* core.startup.mealtoktok.domain.user..*Updater.*(..)) && args(user, ..)")
+    public Object cacheUpdate(ProceedingJoinPoint joinPoint, User user) throws Throwable {
+        Object result = joinPoint.proceed();
+        userCacheManager.delete(user);
         return result;
     }
 

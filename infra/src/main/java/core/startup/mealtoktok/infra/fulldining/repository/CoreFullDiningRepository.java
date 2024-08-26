@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.mealdelivery.repository;
+package core.startup.mealtoktok.infra.fulldining.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,14 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.domain.fulldining.FullDining;
+import core.startup.mealtoktok.domain.fulldining.FullDiningRepository;
+import core.startup.mealtoktok.domain.fulldining.TargetFullDining;
 import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
-import core.startup.mealtoktok.domain.mealdelivery.FullDining;
-import core.startup.mealtoktok.domain.mealdelivery.FullDiningRepository;
-import core.startup.mealtoktok.domain.mealdelivery.TargetFullDining;
-import core.startup.mealtoktok.domain.order.Orderer;
-import core.startup.mealtoktok.infra.mealdelivery.entity.FullDiningEntity;
-import core.startup.mealtoktok.infra.mealdelivery.exception.FullDiningNotFoundException;
+import core.startup.mealtoktok.domain.mealdelivery.Recipient;
+import core.startup.mealtoktok.infra.fulldining.entity.FullDiningEntity;
+import core.startup.mealtoktok.infra.fulldining.exception.FullDiningNotFoundException;
 
 @Repository
 @Transactional
@@ -34,18 +34,20 @@ public class CoreFullDiningRepository implements FullDiningRepository {
 
     @Override
     public List<FullDining> findAll(
-            Orderer orderer, DeliveryState deliveryState, LocalDateTime validDateTime) {
+            Recipient recipient, DeliveryState deliveryState, LocalDateTime validDateTime) {
         return fullDiningJpaRepository
-                .findByOrdererAndDeliveryStateAndValidPeriod(orderer, deliveryState, validDateTime)
+                .findByOrdererAndDeliveryStateAndValidPeriod(
+                        recipient, deliveryState, validDateTime)
                 .stream()
                 .map(FullDiningEntity::toDomain)
                 .toList();
     }
 
     @Override
-    public int countByCollectingState(Orderer orderer, CollectingState collectingState) {
+    public int countByCollectingState(Recipient recipient, CollectingState collectingState) {
         return (int)
-                fullDiningJpaRepository.countByOrdererAndCollectingState(orderer, collectingState);
+                fullDiningJpaRepository.countByOrdererAndCollectingState(
+                        recipient, collectingState);
     }
 
     @Override

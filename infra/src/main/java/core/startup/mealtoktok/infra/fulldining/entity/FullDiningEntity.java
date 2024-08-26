@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.mealdelivery.entity;
+package core.startup.mealtoktok.infra.fulldining.entity;
 
 import java.time.LocalDateTime;
 
@@ -15,8 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import core.startup.mealtoktok.domain.fulldining.FullDining;
 import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
-import core.startup.mealtoktok.domain.mealdelivery.FullDining;
 
 @Entity
 @Table(name = "full_dining")

@@ -1,9 +1,9 @@
-package core.startup.mealtoktok.api.mealdelivery.dto;
+package core.startup.mealtoktok.api.fulldining.dto;
 
 import java.time.LocalDateTime;
 
+import core.startup.mealtoktok.domain.fulldining.FullDining;
 import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
-import core.startup.mealtoktok.domain.mealdelivery.FullDining;
 
 public record FullDiningResponse(
         Long fullDiningId,

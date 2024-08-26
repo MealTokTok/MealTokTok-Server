@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.api.global.web;
 
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +14,54 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class SwaggerConfig {
+
+    @Bean
+    public GroupedOpenApi dishStore() {
+        return GroupedOpenApi.builder()
+                .group("반찬가게")
+                .packagesToScan("core.startup.mealtoktok.api.dishstore")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi auth() {
+        return GroupedOpenApi.builder()
+                .group("인증")
+                .packagesToScan("core.startup.mealtoktok.api.auth")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi user() {
+        return GroupedOpenApi.builder()
+                .group("회원")
+                .packagesToScan("core.startup.mealtoktok.api.user")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi fullDining() {
+        return GroupedOpenApi.builder()
+                .group("풀대접")
+                .packagesToScan("core.startup.mealtoktok.api.fulldining")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi order() {
+        return GroupedOpenApi.builder()
+                .group("주문")
+                .packagesToScan("core.startup.mealtoktok.api.order")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi mealDelivery() {
+        return GroupedOpenApi.builder()
+                .group("도시락 배송")
+                .packagesToScan("core.startup.mealtoktok.api.mealdelivery")
+                .build();
+    }
 
     @Bean
     public OpenAPI openAPI() {

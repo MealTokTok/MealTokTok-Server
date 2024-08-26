@@ -11,7 +11,7 @@ public class MealTokTokConstant {
     public static final int CONFLICT = 409;
     public static final int INTERNAL_SERVER = 500;
 
-    public static final LocalDateTime VALID_DATE_TIME = LocalDateTime.now().minusDays(7);
+    public static final LocalDateTime VALID_DATE_TIME = LocalDateTime.now().minusDays(7); // 7일 이내
 
     public static final String BEARER = "Bearer ";
 }

@@ -1,5 +1,7 @@
 package core.startup.mealtoktok.domain.order;
 
+import static java.math.RoundingMode.*;
+
 import java.math.BigDecimal;
 
 public record Money(BigDecimal amount) {
@@ -21,6 +23,6 @@ public record Money(BigDecimal amount) {
     }
 
     public Money divide(int divisor) {
-        return new Money(amount.divide(BigDecimal.valueOf(divisor)));
+        return new Money(amount.divide(BigDecimal.valueOf(divisor), HALF_UP));
     }
 }

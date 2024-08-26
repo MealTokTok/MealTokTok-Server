@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.infra.user.entity;
 
-import static core.startup.mealtoktok.infra.global.util.CoordinateConvertor.convertToPoint;
+import static core.startup.mealtoktok.infra.jpa.util.CoordinateConvertor.convertToPoint;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -24,12 +24,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import core.startup.mealtoktok.domain.user.Address;
 import core.startup.mealtoktok.domain.user.AddressStatus;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
 import core.startup.mealtoktok.domain.user.DeliveryAddress;
 import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.infra.global.entity.AddressVO;
 
 @Entity
 @Builder
@@ -54,15 +54,15 @@ public class DeliveryAddressEntity {
     @Enumerated(EnumType.STRING)
     private AddressStatus status;
 
-    @Embedded private Address address;
+    @Embedded private AddressVO address;
 
     public static DeliveryAddressEntity from(UserEntity user, DeliveryAddress deliveryAddress) {
         return DeliveryAddressEntity.builder()
-                .deliveryAddressId(deliveryAddress.deliveryAddressId())
+                .deliveryAddressId(deliveryAddress.getDeliveryAddressId())
                 .user(user)
-                .coordinate(convertToPoint(deliveryAddress.addressWithCoordinate().coordinate()))
-                .status(deliveryAddress.status())
-                .address(deliveryAddress.addressWithCoordinate().address())
+                .coordinate(convertToPoint(deliveryAddress.getAddressWithCoordinate().coordinate()))
+                .status(deliveryAddress.getStatus())
+                .address(AddressVO.from(deliveryAddress.getAddressWithCoordinate().address()))
                 .build();
     }
 
@@ -70,9 +70,9 @@ public class DeliveryAddressEntity {
             TargetUser targetUser, DeliveryAddress deliveryAddress) {
         return DeliveryAddressEntity.builder()
                 .user(UserEntity.from(targetUser))
-                .coordinate(convertToPoint(deliveryAddress.addressWithCoordinate().coordinate()))
-                .status(deliveryAddress.status())
-                .address(deliveryAddress.addressWithCoordinate().address())
+                .coordinate(convertToPoint(deliveryAddress.getAddressWithCoordinate().coordinate()))
+                .status(deliveryAddress.getStatus())
+                .address(AddressVO.from(deliveryAddress.getAddressWithCoordinate().address()))
                 .build();
     }
 
@@ -80,7 +80,13 @@ public class DeliveryAddressEntity {
         return DeliveryAddress.of(
                 deliveryAddressId,
                 AddressWithCoordinate.of(
-                        address, Coordinate.of(coordinate.getX(), coordinate.getY())),
+                        address.toDomain(), Coordinate.of(coordinate.getX(), coordinate.getY())),
                 status);
+    }
+
+    public void update(DeliveryAddress deliveryAddress) {
+        this.coordinate = convertToPoint(deliveryAddress.getAddressWithCoordinate().coordinate());
+        this.status = deliveryAddress.getStatus();
+        this.address = AddressVO.from(deliveryAddress.getAddressWithCoordinate().address());
     }
 }

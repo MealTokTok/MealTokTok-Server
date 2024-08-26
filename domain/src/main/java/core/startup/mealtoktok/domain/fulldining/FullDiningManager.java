@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.mealdelivery;
+package core.startup.mealtoktok.domain.fulldining;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.order.Orderer;
+import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
+import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
+import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
+import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 
 @Component
 @RequiredArgsConstructor
@@ -33,12 +36,12 @@ public class FullDiningManager {
         fullDiningRepository.update(fullDining);
     }
 
-    public int countReturnableContainers(Orderer orderer, CollectingState collectingState) {
-        return fullDiningRepository.countByCollectingState(orderer, collectingState);
+    public int countReturnableContainers(Recipient recipient, CollectingState collectingState) {
+        return fullDiningRepository.countByCollectingState(recipient, collectingState);
     }
 
     public List<FullDining> getFullDinings(
-            Orderer orderer, DeliveryState deliveryState, LocalDateTime validDateTime) {
-        return fullDiningRepository.findAll(orderer, deliveryState, validDateTime);
+            Recipient recipient, DeliveryState deliveryState, LocalDateTime validDateTime) {
+        return fullDiningRepository.findAll(recipient, deliveryState, validDateTime);
     }
 }

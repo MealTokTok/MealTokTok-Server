@@ -5,6 +5,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryDateTime;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
+import core.startup.mealtoktok.domain.mealdelivery.OrderTypeForDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.OrderedMeal;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public record MealDeliveryResponse(
         Long mealDeliveryId,
         Long orderId,
+        OrderTypeForDelivery orderType,
         OrderedMeal orderedMeal,
         DeliveryState deliveryState,
         DeliveryDateTime deliveryDateTime) {
@@ -21,6 +23,7 @@ public record MealDeliveryResponse(
         return new MealDeliveryResponse(
                 mealDelivery.getMealDeliveryId(),
                 mealDelivery.getOrderId(),
+                mealDelivery.getOrderType(),
                 mealDelivery.getOrderedMeal(),
                 mealDelivery.getDeliveryState(),
                 mealDelivery.getDeliveryDateTime());
