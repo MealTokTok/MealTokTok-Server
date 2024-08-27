@@ -17,4 +17,10 @@ public class DishValidator {
             throw DishNameAlreadyExistsException.EXCEPTION;
         }
     }
+
+    public void validateName(DishStore dishStore, Dish dish, String dishName) {
+        if (dishRepository.existsByNameExcludingTargetDish(dishStore, dish, dishName)) {
+            throw DishNameAlreadyExistsException.EXCEPTION;
+        }
+    }
 }

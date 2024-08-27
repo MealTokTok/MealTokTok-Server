@@ -16,7 +16,7 @@ import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 @Repository
 @Transactional
 @RequiredArgsConstructor
-public class CoreJpaDishRepository implements DishRepository {
+public class CoreDishRepository implements DishRepository {
 
     private final JpaDishRepository jpaDishRepository;
     private final JpaDishCategoryRepository jpaDishCategoryRepository;
@@ -63,6 +63,13 @@ public class CoreJpaDishRepository implements DishRepository {
     }
 
     @Override
+    public boolean existsByNameExcludingTargetDish(
+            DishStore dishStore, Dish dish, String dishName) {
+        return jpaDishRepository.existsByDishStoreIdAndDishNameAndDishIdNot(
+                dishStore.getStoreId(), dishName, dish.getDishId());
+    }
+
+    @Override
     public DishCategory findDishById(TargetDishCategory targetDishCategory) {
         return jpaDishCategoryRepository
                 .findById(targetDishCategory.categoryId())
@@ -78,6 +85,13 @@ public class CoreJpaDishRepository implements DishRepository {
     @Override
     public boolean existsByDishCategoryName(String dishCategoryName) {
         return jpaDishCategoryRepository.existsByCategoryName(dishCategoryName);
+    }
+
+    @Override
+    public boolean existsByNameExcludingTargetCategory(
+            DishCategory dishCategory, String dishCategoryName) {
+        return jpaDishCategoryRepository.existsByCategoryNameAndCategoryIdNot(
+                dishCategoryName, dishCategory.getCategoryId());
     }
 
     @Override
@@ -98,6 +112,13 @@ public class CoreJpaDishRepository implements DishRepository {
     public List<DishCategory> findAllCategories() {
         return jpaDishCategoryRepository.findAll().stream()
                 .map(DishCategoryEntity::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Dish> findAllByStoreAndKeyword(DishStore dishStore, String keyword) {
+        return jpaDishRepository.findByStoreIdAndDishName(dishStore.getStoreId(), keyword).stream()
+                .map(DishEntity::toDomain)
                 .toList();
     }
 }

@@ -6,6 +6,8 @@ import lombok.*;
 
 import core.startup.mealtoktok.domain.dishstore.Dish;
 import core.startup.mealtoktok.domain.dishstore.DishInfo;
+import core.startup.mealtoktok.domain.order.Money;
+import core.startup.mealtoktok.infra.order.entity.MoneyConverter;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +25,11 @@ public class DishEntity {
 
     private String imgUrl;
 
+    @Convert(converter = MoneyConverter.class)
+    private Money dishPrice;
+
+    private boolean isSoldOut;
+
     private Long dishStoreId;
 
     private Long dishCategoryId;
@@ -31,6 +38,8 @@ public class DishEntity {
         return DishEntity.builder()
                 .dishName(dishInfo.dishName())
                 .imgUrl(dishInfo.imgUrl())
+                .dishPrice(dishInfo.dishPrice())
+                .isSoldOut(dishInfo.isSoldOut())
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
                 .build();
@@ -41,6 +50,8 @@ public class DishEntity {
                 .dishId(dishId)
                 .dishName(dishName)
                 .imgUrl(imgUrl)
+                .dishPrice(dishPrice)
+                .isSoldOut(isSoldOut)
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
                 .build();
@@ -49,5 +60,7 @@ public class DishEntity {
     public void update(DishInfo dishInfo) {
         this.dishName = dishInfo.dishName();
         this.imgUrl = dishInfo.imgUrl();
+        this.dishPrice = dishInfo.dishPrice();
+        this.isSoldOut = dishInfo.isSoldOut();
     }
 }

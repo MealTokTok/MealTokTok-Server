@@ -17,4 +17,10 @@ public class DishCategoryValidator {
             throw DishCategoryNameAlreadyExistsException.EXCEPTION;
         }
     }
+
+    public void validate(DishCategory dishCategory, String dishCategoryName) {
+        if (dishRepository.existsByNameExcludingTargetCategory(dishCategory, dishCategoryName)) {
+            throw DishCategoryNameAlreadyExistsException.EXCEPTION;
+        }
+    }
 }

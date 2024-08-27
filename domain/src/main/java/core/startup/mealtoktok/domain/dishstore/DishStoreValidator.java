@@ -17,4 +17,10 @@ public class DishStoreValidator {
             throw DishStoreNameAlreadyExitsException.EXCEPTION;
         }
     }
+
+    public void validate(DishStore dishStore, String DishStoreName) {
+        if (dishStoreRepository.existsByNameExcludingTargetStore(dishStore, DishStoreName)) {
+            throw DishStoreNameAlreadyExitsException.EXCEPTION;
+        }
+    }
 }

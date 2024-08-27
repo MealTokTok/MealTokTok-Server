@@ -11,8 +11,8 @@ public class DishStoreUpdater {
     private final DishStoreValidator dishStoreValidator;
     private final DishStoreRepository dishStoreRepository;
 
-    public void update(TargetDishStore targetDishStore, DishStoreInfo dishStoreInfo) {
-        dishStoreValidator.validate(dishStoreInfo.storeName());
-        dishStoreRepository.update(targetDishStore, dishStoreInfo);
+    public void update(DishStore dishStore, DishStoreInfo dishStoreInfo) {
+        dishStoreValidator.validate(dishStore, dishStoreInfo.storeName());
+        dishStoreRepository.update(dishStore, dishStoreInfo);
     }
 }

@@ -17,7 +17,7 @@ import core.startup.mealtoktok.infra.dishstore.exception.DishStoreNotFoundExcept
 @Repository
 @Transactional
 @RequiredArgsConstructor
-public class CoreJpaDishStoreRepository implements DishStoreRepository {
+public class CoreDishStoreRepository implements DishStoreRepository {
 
     private final JpaDishStoreRepository jpaDishStoreRepository;
 
@@ -40,6 +40,12 @@ public class CoreJpaDishStoreRepository implements DishStoreRepository {
     }
 
     @Override
+    public boolean existsByNameExcludingTargetStore(DishStore dishStore, String dishStoreName) {
+        return jpaDishStoreRepository.existsByStoreNameAndStoreIdNot(
+                dishStoreName, dishStore.getStoreId());
+    }
+
+    @Override
     public void delete(TargetDishStore targetDishStore) {
         DishStoreEntity dishStoreEntity =
                 jpaDishStoreRepository.getReferenceById(targetDishStore.storeId());
@@ -47,9 +53,9 @@ public class CoreJpaDishStoreRepository implements DishStoreRepository {
     }
 
     @Override
-    public void update(TargetDishStore targetDishStore, DishStoreInfo dishStoreInfo) {
+    public void update(DishStore dishStore, DishStoreInfo dishStoreInfo) {
         DishStoreEntity dishStoreEntity =
-                jpaDishStoreRepository.getReferenceById(targetDishStore.storeId());
+                jpaDishStoreRepository.getReferenceById(dishStore.getStoreId());
         dishStoreEntity.update(dishStoreInfo);
     }
 

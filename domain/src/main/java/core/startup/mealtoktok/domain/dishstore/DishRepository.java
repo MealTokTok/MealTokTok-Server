@@ -16,15 +16,21 @@ public interface DishRepository {
 
     boolean existsByDishStoreIdAndDishName(DishStore dishStore, String dishName);
 
+    boolean existsByNameExcludingTargetDish(DishStore dishStore, Dish dish, String dishName);
+
     DishCategory findDishById(TargetDishCategory targetDishCategory);
 
     void saveDishCategory(DishCategoryInfo dishCategoryInfo);
 
     boolean existsByDishCategoryName(String dishCategoryName);
 
+    boolean existsByNameExcludingTargetCategory(DishCategory dishCategory, String dishCategoryName);
+
     void updateDishCategory(DishCategory dishCategory, DishCategoryInfo dishCategoryInfo);
 
     void deleteDishCategory(DishCategory dishCategory);
 
     List<DishCategory> findAllCategories();
+
+    List<Dish> findAllByStoreAndKeyword(DishStore dishStore, String keyword);
 }

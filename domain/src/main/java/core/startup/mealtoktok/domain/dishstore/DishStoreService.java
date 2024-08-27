@@ -27,8 +27,8 @@ public class DishStoreService {
     }
 
     public void updateDishStore(TargetDishStore targetDishStore, DishStoreInfo dishStoreInfo) {
-        dishStoreReader.read(targetDishStore);
-        dishStoreUpdater.update(targetDishStore, dishStoreInfo);
+        DishStore dishStore = dishStoreReader.read(targetDishStore);
+        dishStoreUpdater.update(dishStore, dishStoreInfo);
     }
 
     public DishStore readDishStore(TargetDishStore targetDishStore) {
