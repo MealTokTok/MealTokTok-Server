@@ -6,6 +6,6 @@ import core.startup.mealtoktok.domain.order.Money;
 public record MealResponse(Long mealId, String mealName, Money mealPrice) {
     public static MealResponse from(Meal meal) {
         return new MealResponse(
-                meal.mealId(), meal.mealInfo().mealName(), meal.mealInfo().mealPrice());
+                meal.getMealId(), meal.getMealInfo().mealName(), meal.getMealInfo().mealPrice());
     }
 }

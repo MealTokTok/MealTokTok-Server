@@ -54,7 +54,7 @@ public class MealService {
     }
 
     private List<Dish> readDishesForMeal(Meal meal) {
-        return mealDishReader.read(TargetMeal.from(meal.mealId())).stream()
+        return mealDishReader.read(TargetMeal.from(meal.getMealId())).stream()
                 .map(mealDish -> dishReader.read(TargetDish.from(mealDish.dishId())))
                 .toList();
     }

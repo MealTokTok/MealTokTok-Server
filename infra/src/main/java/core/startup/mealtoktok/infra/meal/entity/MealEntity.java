@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 
 import core.startup.mealtoktok.domain.meal.Meal;
 import core.startup.mealtoktok.domain.meal.MealInfo;
-import core.startup.mealtoktok.domain.meal.MealOwner;
 import core.startup.mealtoktok.domain.order.Money;
 import core.startup.mealtoktok.infra.order.entity.MoneyConverter;
 
@@ -41,20 +40,20 @@ public class MealEntity {
 
     @Embedded
     @AttributeOverride(name = "userId", column = @Column(name = "meal_owner_id"))
-    private MealOwner mealOwner;
+    private MealOwnerVO mealOwner;
 
-    public static MealEntity of(Meal meal) {
+    public static MealEntity from(Meal meal) {
         return MealEntity.builder()
-                .mealName(meal.mealInfo().mealName())
-                .mealPrice(meal.mealInfo().mealPrice())
-                .mealOwner(meal.mealOwner())
+                .mealName(meal.getMealInfo().mealName())
+                .mealPrice(meal.getMealInfo().mealPrice())
+                .mealOwner(MealOwnerVO.from(meal.getMealOwner()))
                 .build();
     }
 
     public Meal toDomain() {
         return Meal.builder()
                 .mealId(mealId)
-                .mealOwner(mealOwner)
+                .mealOwner(mealOwner.toDomain())
                 .mealInfo(MealInfo.of(mealName, mealPrice))
                 .build();
     }

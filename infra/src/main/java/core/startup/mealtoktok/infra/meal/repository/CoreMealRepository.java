@@ -34,7 +34,7 @@ public class CoreMealRepository implements MealRepository {
 
     @Override
     public boolean exitsByNameExcludingTargetMeal(Meal meal, String mealName) {
-        return jpaMealRepository.existsByMealNameAndMealIdNot(mealName, meal.mealId());
+        return jpaMealRepository.existsByMealNameAndMealIdNot(mealName, meal.getMealId());
     }
 
     @Override
@@ -61,7 +61,7 @@ public class CoreMealRepository implements MealRepository {
 
     @Override
     public void save(MealAndDishIds mealAndDishIds) {
-        MealEntity savedMeal = jpaMealRepository.save(MealEntity.of(mealAndDishIds.meal()));
+        MealEntity savedMeal = jpaMealRepository.save(MealEntity.from(mealAndDishIds.meal()));
         mealAndDishIds.dishIds().stream()
                 .map(dishId -> MealDishEntity.of(savedMeal.getMealId(), dishId))
                 .forEach(jpaMealDishRepository::save);
@@ -77,12 +77,12 @@ public class CoreMealRepository implements MealRepository {
 
     @Override
     public void update(Meal meal, MealContent updatedMealContent) {
-        jpaMealRepository.getReferenceById(meal.mealId()).update(updatedMealContent.mealInfo());
+        jpaMealRepository.getReferenceById(meal.getMealId()).update(updatedMealContent.mealInfo());
     }
 
     @Override
     public void delete(Meal meal, List<MealDish> mealDishes) {
-        jpaMealRepository.deleteById(meal.mealId());
+        jpaMealRepository.deleteById(meal.getMealId());
         mealDishes.forEach(mealDish -> jpaMealDishRepository.deleteById(mealDish.mealDishId()));
     }
 
