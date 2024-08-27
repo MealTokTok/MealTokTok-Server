@@ -12,7 +12,7 @@ public interface MealDeliveryRepository {
 
     List<MealDelivery> saveAll(List<MealDelivery> mealDeliveries);
 
-    List<MealDelivery> findAll(Long orderId);
+    List<MealDelivery> findAll(String orderId);
 
     MealDelivery findByOrdererAndDeliveryState(Recipient recipient, DeliveryState deliveryState);
 

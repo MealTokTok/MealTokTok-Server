@@ -64,6 +64,14 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi payment() {
+        return GroupedOpenApi.builder()
+                .group("결제")
+                .packagesToScan("core.startup.mealtoktok.api.payment")
+                .build();
+    }
+
+    @Bean
     public OpenAPI openAPI() {
 
         Info info =

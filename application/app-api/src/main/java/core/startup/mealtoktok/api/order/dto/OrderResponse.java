@@ -9,7 +9,7 @@ import core.startup.mealtoktok.domain.order.OrderType;
 import core.startup.mealtoktok.domain.order.Orderer;
 
 public record OrderResponse(
-        Long orderId,
+        String orderId,
         OrderType orderType,
         OrderState orderState,
         String specialInstruction,
@@ -21,7 +21,7 @@ public record OrderResponse(
 
     public static OrderResponse from(Order order) {
         return new OrderResponse(
-                order.getOrderId(),
+                order.getOrderId().toString(),
                 order.getOrderType(),
                 order.getOrderState(),
                 order.getSpecialInstruction(),

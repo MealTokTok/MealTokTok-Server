@@ -30,29 +30,29 @@ public class OrderService {
     private final FullDiningManager fullDiningManager;
 
     @Transactional
-    public TargetOrder orderMeals(
+    public OrderId orderMeals(
             Orderer orderer, OrderContent orderContent, DeliveryAddress deliveryAddress) {
         orderValidator.validate(orderContent);
-        TargetOrder targetOrder = orderAppender.append(orderer, orderContent, deliveryAddress);
+        OrderId orderId = orderAppender.append(orderer, orderContent, deliveryAddress);
         List<MealDelivery> mealDeliveries =
-                mealDeliveryReserver.reserve(orderContent.toMealDeliveries(targetOrder));
+                mealDeliveryReserver.reserve(orderContent.toMealDeliveries(orderId));
         fullDiningManager.reserve(mealDeliveries);
-        return targetOrder;
+        return orderId;
     }
 
     public SliceResult<Order> searchOrders(Orderer orderer, OrderSearchCond cond, Cursor cursor) {
         return orderReader.read(orderer, cond, cursor);
     }
 
-    public OrderDetail getOrderDetail(Orderer orderer, TargetOrder targetOrder) {
-        Order order = orderReader.read(targetOrder);
+    public OrderDetail getOrderDetail(Orderer orderer, OrderId orderId) {
+        Order order = orderReader.read(orderId);
         orderValidator.validate(order, orderer);
-        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(order.getOrderId());
+        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId.value());
         return OrderDetail.of(order, mealDeliveries);
     }
 
-    public OrderState getOrderState(Orderer orderer, TargetOrder targetOrder) {
-        Order order = orderReader.read(targetOrder);
+    public OrderState getOrderState(Orderer orderer, OrderId orderId) {
+        Order order = orderReader.read(orderId);
         orderValidator.validate(order, orderer);
         return order.getOrderState();
     }

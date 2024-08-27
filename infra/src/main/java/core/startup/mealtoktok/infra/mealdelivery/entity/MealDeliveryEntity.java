@@ -37,7 +37,7 @@ public class MealDeliveryEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mealDeliveryId;
 
-    private Long orderId;
+    private String orderId;
 
     private Long mealId;
     private boolean includeRice;

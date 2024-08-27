@@ -65,7 +65,7 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
     }
 
     @Override
-    public List<MealDelivery> findAll(Long orderId) {
+    public List<MealDelivery> findAll(String orderId) {
         return mealDeliveryJpaRepository.findAllByOrderId(orderId).parallelStream()
                 .map(MealDeliveryEntity::toDomain)
                 .toList();

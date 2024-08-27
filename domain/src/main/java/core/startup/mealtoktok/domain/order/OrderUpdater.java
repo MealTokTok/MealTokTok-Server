@@ -13,8 +13,8 @@ public class OrderUpdater implements MealDeliveryCountManager {
     private final OrderRepository orderRepository;
 
     @Override
-    public void decrease(Long orderId) {
-        Order order = orderRepository.find(TargetOrder.from(orderId));
+    public void decrease(String orderId) {
+        Order order = orderRepository.find(OrderId.from(orderId));
         order.completeOneDelivery();
         orderRepository.update(order);
     }

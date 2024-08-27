@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.domain.auth.*;
 import core.startup.mealtoktok.domain.user.UserProfile;
-import core.startup.mealtoktok.infra.auth.dto.KakaoTokenResponse;
+import core.startup.mealtoktok.infra.kakao.client.KakaoAuthClient;
+import core.startup.mealtoktok.infra.kakao.client.KakaoInfoClient;
+import core.startup.mealtoktok.infra.kakao.dto.KakaoTokenResponse;
 
 @Component
 @RequiredArgsConstructor

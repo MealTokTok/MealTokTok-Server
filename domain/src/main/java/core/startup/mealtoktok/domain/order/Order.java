@@ -17,7 +17,7 @@ import core.startup.mealtoktok.domain.user.DeliveryAddress;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
-    private Long orderId;
+    private OrderId orderId;
     private OrderType orderType;
     private OrderState orderState;
     private String specialInstruction;
@@ -29,6 +29,7 @@ public class Order {
     private LocalDateTime orderTime;
 
     public static Order create(
+            OrderId orderId,
             Orderer orderer,
             OrderType orderType,
             String specialInstruction,
@@ -36,6 +37,7 @@ public class Order {
             DeliveryAddress deliveryAddress,
             Integer mealDeliverySize) {
         return Order.builder()
+                .orderId(orderId)
                 .orderType(orderType)
                 .orderState(OrderState.PENDING)
                 .specialInstruction(specialInstruction)

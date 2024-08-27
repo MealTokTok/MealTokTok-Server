@@ -11,7 +11,7 @@ import core.startup.mealtoktok.infra.order.entity.OrderEntity;
 import core.startup.mealtoktok.infra.order.entity.OrdererVO;
 
 public interface OrderJpaRepository
-        extends JpaRepository<OrderEntity, Long>, OrderJpaRepositoryCustom {
+        extends JpaRepository<OrderEntity, String>, OrderJpaRepositoryCustom {
 
     List<OrderEntity> findAllByOrderer(OrdererVO orderer);
 

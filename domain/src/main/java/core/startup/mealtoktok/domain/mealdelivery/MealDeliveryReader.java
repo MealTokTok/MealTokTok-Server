@@ -16,7 +16,7 @@ public class MealDeliveryReader {
 
     private final MealDeliveryRepository mealDeliveryRepository;
 
-    public List<MealDelivery> read(Long orderId) {
+    public List<MealDelivery> read(String orderId) {
         return mealDeliveryRepository.findAll(orderId);
     }
 

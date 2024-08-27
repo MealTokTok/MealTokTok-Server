@@ -1,7 +1,6 @@
 package core.startup.mealtoktok.api.mealdelivery;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import core.startup.mealtoktok.api.mealdelivery.dto.MealDeliveryResponse;
 import core.startup.mealtoktok.common.dto.Cursor;
@@ -35,7 +34,7 @@ public interface MealDeliveryApiDocs {
     Response<MealDeliveryResponse> recentDeliveredMeal(User currentUser);
 
     @Operation(summary = "해당 주문의 다음 도시락 배송 조회")
-    Response<MealDeliveryResponse> nextDeliveryMeal(@RequestParam Long orderId);
+    Response<MealDeliveryResponse> nextDeliveryMeal(String orderId);
 
     @Operation(summary = "도시락 배송 상태 변경")
     Response<Void> changeDeliveryState(Long mealDeliveryId, DeliveryState deliveryState);

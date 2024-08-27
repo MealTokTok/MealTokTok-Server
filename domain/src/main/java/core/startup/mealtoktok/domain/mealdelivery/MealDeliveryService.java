@@ -35,7 +35,7 @@ public class MealDeliveryService {
         return mealDeliveryReader.read(recipient, cond, cursor);
     }
 
-    public MealDelivery getNextDeliveryMeal(Long orderId) {
+    public MealDelivery getNextDeliveryMeal(String orderId) {
         List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId);
         return mealDeliveries.stream()
                 .filter(mealDelivery -> mealDelivery.getDeliveryState() == DeliveryState.PENDING)

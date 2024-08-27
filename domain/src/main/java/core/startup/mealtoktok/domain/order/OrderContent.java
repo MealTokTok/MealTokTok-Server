@@ -11,12 +11,12 @@ public record OrderContent(
         String specialInstruction,
         OrderPrice orderPrice) {
 
-    public List<MealDelivery> toMealDeliveries(TargetOrder targetOrder) {
+    public List<MealDelivery> toMealDeliveries(OrderId orderId) {
         return orderedMeals.stream()
                 .map(
                         orderedMeal ->
                                 MealDelivery.create(
-                                        targetOrder.orderId(),
+                                        orderId.value(),
                                         orderType.toOrderTypeForDelivery(),
                                         orderedMeal))
                 .toList();

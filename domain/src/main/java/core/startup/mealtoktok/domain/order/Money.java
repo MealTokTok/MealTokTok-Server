@@ -10,6 +10,14 @@ public record Money(BigDecimal amount) {
         return new Money(amount);
     }
 
+    public static Money from(long amount) {
+        return new Money(BigDecimal.valueOf(amount));
+    }
+
+    public static Money from(int amount) {
+        return new Money(BigDecimal.valueOf(amount));
+    }
+
     public Money add(Money money) {
         return new Money(amount.add(money.amount));
     }
@@ -24,5 +32,9 @@ public record Money(BigDecimal amount) {
 
     public Money divide(int divisor) {
         return new Money(amount.divide(BigDecimal.valueOf(divisor), HALF_UP));
+    }
+
+    public String toString() {
+        return amount.toString();
     }
 }

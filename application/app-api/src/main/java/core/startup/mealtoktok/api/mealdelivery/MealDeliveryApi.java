@@ -73,7 +73,7 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
     }
 
     @GetMapping("/next-delivery")
-    public Response<MealDeliveryResponse> nextDeliveryMeal(@RequestParam Long orderId) {
+    public Response<MealDeliveryResponse> nextDeliveryMeal(@RequestParam String orderId) {
         return Response.success(
                 MealDeliveryResponse.from(mealDeliveryService.getNextDeliveryMeal(orderId)));
     }
