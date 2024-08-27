@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.global.entity;
+package core.startup.mealtoktok.infra.jpa.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

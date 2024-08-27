@@ -25,7 +25,6 @@ public class OrderReader {
     }
 
     public SliceResult<Order> read(Orderer orderer, OrderSearchCond cond, Cursor cursor) {
-
         return orderRepository.findByCondition(orderer, cond, cursor);
     }
 

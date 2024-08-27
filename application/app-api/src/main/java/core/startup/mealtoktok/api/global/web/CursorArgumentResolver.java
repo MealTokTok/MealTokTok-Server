@@ -37,8 +37,14 @@ public class CursorArgumentResolver implements HandlerMethodArgumentResolver {
         int size = (sizeParam != null) ? Integer.parseInt(sizeParam) : cursorDefault.size();
 
         List<SortOrder> sortOrders = new ArrayList<>();
-        String sortFieldsParam = webRequest.getParameter("sortFields");
-        String sortDirectionsParam = webRequest.getParameter("sortDirections");
+        webRequest
+                .getParameterMap()
+                .forEach(
+                        (key, value) -> {
+                            System.out.println(key + " : " + value);
+                        });
+        String sortFieldsParam = webRequest.getParameter("sortOrders[key]");
+        String sortDirectionsParam = webRequest.getParameter("sortOrders[direction]");
 
         String[] fields =
                 (sortFieldsParam != null)

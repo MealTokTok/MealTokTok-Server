@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.api.order.dto.MealOrderRequest;
 import core.startup.mealtoktok.api.order.dto.OrderDetailResponse;
 import core.startup.mealtoktok.api.order.dto.OrderResponse;
+import core.startup.mealtoktok.common.annotation.CursorDefault;
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.common.dto.SliceResult;
@@ -44,7 +45,9 @@ public class OrderApi implements OrderApiDocs {
 
     @GetMapping
     public Response<SliceResult<OrderResponse>> searchOrders(
-            @AuthenticationPrincipal User currentUser, OrderSearchCond cond, Cursor cursor) {
+            @AuthenticationPrincipal User currentUser,
+            OrderSearchCond cond,
+            @CursorDefault Cursor cursor) {
         SliceResult<Order> orderSliceResult =
                 orderService.searchOrders(Orderer.from(currentUser), cond, cursor);
         return Response.success(orderSliceResult.map(OrderResponse::from));

@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.infra.order.repository;
 
+import static core.startup.mealtoktok.infra.jpa.util.PagingUtil.*;
 import static core.startup.mealtoktok.infra.order.entity.QOrderEntity.orderEntity;
 import static core.startup.mealtoktok.infra.user.entity.QUserEntity.userEntity;
 
@@ -16,8 +17,11 @@ import core.startup.mealtoktok.domain.order.OrderSearchCond;
 import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.Orderer;
 import core.startup.mealtoktok.infra.order.entity.OrderEntity;
+import core.startup.mealtoktok.infra.order.entity.QOrderEntity;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -29,6 +33,7 @@ public class OrderJpaRepositoryImpl implements OrderJpaRepositoryCustom {
 
     @Override
     public Slice<OrderEntity> search(Orderer orderer, OrderSearchCond cond, Pageable pageable) {
+
         List<OrderEntity> contents =
                 queryFactory
                         .selectFrom(orderEntity)
@@ -37,7 +42,7 @@ public class OrderJpaRepositoryImpl implements OrderJpaRepositoryCustom {
                         .where(
                                 orderEntity.orderer.userId.eq(orderer.userId()),
                                 eqOrderState(cond.orderState()))
-                        .orderBy(orderEntity.createdAt.desc())
+                        .orderBy(getSort(pageable))
                         .offset(pageable.getOffset())
                         .limit(pageable.getPageSize())
                         .fetch();
@@ -49,5 +54,10 @@ public class OrderJpaRepositoryImpl implements OrderJpaRepositoryCustom {
 
     public BooleanExpression eqOrderState(OrderState orderState) {
         return orderState == null ? null : orderEntity.orderState.eq(orderState);
+    }
+
+    private static OrderSpecifier<?> getSort(Pageable pageable) {
+        return getOrderSpecifier(
+                pageable.getSort(), new PathBuilder<>(QOrderEntity.class, "orderEntity"));
     }
 }
