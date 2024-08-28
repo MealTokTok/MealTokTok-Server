@@ -62,13 +62,13 @@ public class UserEntity extends BaseTimeEntity {
     @CollectionTable(name = "device_token", joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> deviceTokens = new HashSet<>();
 
-    public static UserEntity from(TargetUser targetUser) {
-        return UserEntity.builder().userId(targetUser.userId()).build();
+    public static UserEntity from(UserId userId) {
+        return UserEntity.builder().userId(userId.getValue()).build();
     }
 
     public static UserEntity from(User user) {
         return UserEntity.builder()
-                .userId(user.getUserId())
+                .userId(user.getUserId().getValue())
                 .userRole(user.getUserRole())
                 .userProfile(UserProfileVO.from(user.getUserProfile()))
                 .provider(user.getOAuthInfo().provider())
@@ -78,16 +78,15 @@ public class UserEntity extends BaseTimeEntity {
                                 .map(
                                         deliveryAddress ->
                                                 DeliveryAddressEntity.from(
-                                                        TargetUser.from(user), deliveryAddress))
+                                                        UserId.from(user.getUserId().getValue()),
+                                                        deliveryAddress))
                                 .toList())
                 .deviceTokens(user.getDeviceTokens())
                 .createdAt(user.getUserDateTime().createdAt())
                 .build();
     }
 
-    public static UserEntity from(
-            OAuthInfo oAuthInfo, String deviceToken, UserProfile userProfile) {
-
+    public static UserEntity of(OAuthInfo oAuthInfo, String deviceToken, UserProfile userProfile) {
         return UserEntity.builder()
                 .userProfile(UserProfileVO.from(userProfile))
                 .provider(oAuthInfo.provider())
@@ -99,7 +98,7 @@ public class UserEntity extends BaseTimeEntity {
 
     public User toDomain() {
         return User.builder()
-                .userId(userId)
+                .userId(UserId.from(userId))
                 .userRole(userRole)
                 .deviceTokens(deviceTokens)
                 .userProfile(userProfile.toDomain())

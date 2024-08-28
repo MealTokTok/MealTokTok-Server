@@ -12,8 +12,8 @@ import core.startup.mealtoktok.domain.mealdelivery.exception.MealDeliveryDomainE
 @Builder
 public class MealDelivery {
 
-    private Long mealDeliveryId;
-    private Long orderId;
+    private MealDeliveryId mealDeliveryId;
+    private String orderId;
     private OrderTypeForDelivery orderType;
     private OrderedMeal orderedMeal;
     private DeliveryState deliveryState;
@@ -43,7 +43,7 @@ public class MealDelivery {
     }
 
     public static MealDelivery create(
-            Long orderId, OrderTypeForDelivery orderTypeForDelivery, OrderedMeal orderedMeal) {
+            String orderId, OrderTypeForDelivery orderTypeForDelivery, OrderedMeal orderedMeal) {
         return new MealDelivery(
                 null,
                 orderId,

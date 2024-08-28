@@ -17,8 +17,8 @@ public enum AuthErrorCode implements BaseErrorCode {
     OIDC_TOKEN_INVALID(BAD_REQUEST, "AUTH_400_1", "OIDC 토큰이 유효하지 않습니다."),
     ALREADY_REGISTERED(BAD_REQUEST, "AUTH_400_2", "이미 등록된 사용자입니다."),
     OTHER_SERVER_BAD_REQUEST(BAD_REQUEST, "AUTH_OTHER_400", "Other server bad request"),
-    OTHER_SERVER_UNAUTHORIZED(BAD_REQUEST, "AUTH_OTHER_400", "Other server unauthorized"),
-    OTHER_SERVER_FORBIDDEN(BAD_REQUEST, "AUTH_OTHER_400", "Other server forbidden"),
+    OTHER_SERVER_UNAUTHORIZED(UNAUTHORIZED, "AUTH_OTHER_401", "Other server unauthorized"),
+    OTHER_SERVER_FORBIDDEN(FORBIDDEN, "AUTH_OTHER_403", "Other server forbidden"),
     OTHER_SERVER_EXPIRED_TOKEN(BAD_REQUEST, "AUTH_OTHER_400", "Other server expired token"),
     OTHER_SERVER_NOT_FOUND(BAD_REQUEST, "AUTH_OTHER_400", "Other server not found error"),
     OTHER_SERVER_INTERNAL_SERVER_ERROR(

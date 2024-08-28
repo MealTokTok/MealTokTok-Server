@@ -19,11 +19,11 @@ import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.order.Order;
 import core.startup.mealtoktok.domain.order.OrderDetail;
+import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.order.OrderSearchCond;
 import core.startup.mealtoktok.domain.order.OrderService;
 import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.Orderer;
-import core.startup.mealtoktok.domain.order.TargetOrder;
 import core.startup.mealtoktok.domain.user.User;
 
 @RestController
@@ -34,7 +34,7 @@ public class OrderApi implements OrderApiDocs {
     private final OrderService orderService;
 
     @PostMapping
-    public Response<TargetOrder> orderMeals(
+    public Response<OrderId> orderMeals(
             @AuthenticationPrincipal User currentUser, @RequestBody MealOrderRequest request) {
         return Response.success(
                 orderService.orderMeals(
@@ -55,17 +55,17 @@ public class OrderApi implements OrderApiDocs {
 
     @GetMapping("/{orderId}")
     public Response<OrderDetailResponse> orderDetail(
-            @AuthenticationPrincipal User currentUser, @PathVariable Long orderId) {
+            @AuthenticationPrincipal User currentUser, @PathVariable String orderId) {
         OrderDetail orderDetail =
-                orderService.getOrderDetail(Orderer.from(currentUser), TargetOrder.from(orderId));
+                orderService.getOrderDetail(Orderer.from(currentUser), OrderId.from(orderId));
         return Response.success(OrderDetailResponse.from(orderDetail));
     }
 
     @GetMapping("/{orderId}/state")
     public Response<OrderState> orderState(
-            @AuthenticationPrincipal User currentUser, @PathVariable Long orderId) {
+            @AuthenticationPrincipal User currentUser, @PathVariable String orderId) {
         return Response.success(
-                orderService.getOrderState(Orderer.from(currentUser), TargetOrder.from(orderId)));
+                orderService.getOrderState(Orderer.from(currentUser), OrderId.from(orderId)));
     }
 
     @GetMapping("/count")

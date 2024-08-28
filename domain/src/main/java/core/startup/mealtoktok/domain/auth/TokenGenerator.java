@@ -1,7 +1,8 @@
 package core.startup.mealtoktok.domain.auth;
 
-import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.domain.user.UserId;
 
 public interface TokenGenerator {
-    JwtTokens generate(TargetUser targetUser);
+
+    JwtTokens generate(UserId userId);
 }

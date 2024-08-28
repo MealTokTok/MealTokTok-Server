@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
+import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 
 @Getter
 @Builder
@@ -17,8 +17,8 @@ import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FullDining {
 
-    private Long fullDiningId;
-    private Long mealDeliveryId;
+    private FullDiningId fullDiningId;
+    private MealDeliveryId mealDeliveryId;
     private CollectingState collectState;
     private LocalDateTime collectedDateTime;
 

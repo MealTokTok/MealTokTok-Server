@@ -16,10 +16,10 @@ import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
+import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliverySearchCond;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryService;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
-import core.startup.mealtoktok.domain.mealdelivery.TargetMealDelivery;
 import core.startup.mealtoktok.domain.user.User;
 
 @RequestMapping("/api/v1/meal-deliveries")
@@ -52,8 +52,7 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
     public Response<MealDeliveryResponse> mealDelivery(@PathVariable Long mealDeliveryId) {
         return Response.success(
                 MealDeliveryResponse.from(
-                        mealDeliveryService.getMealDelivery(
-                                TargetMealDelivery.from(mealDeliveryId))));
+                        mealDeliveryService.getMealDelivery(MealDeliveryId.from(mealDeliveryId))));
     }
 
     @GetMapping("/count")
@@ -73,7 +72,7 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
     }
 
     @GetMapping("/next-delivery")
-    public Response<MealDeliveryResponse> nextDeliveryMeal(@RequestParam Long orderId) {
+    public Response<MealDeliveryResponse> nextDeliveryMeal(@RequestParam String orderId) {
         return Response.success(
                 MealDeliveryResponse.from(mealDeliveryService.getNextDeliveryMeal(orderId)));
     }
@@ -84,13 +83,11 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
 
         switch (deliveryState) {
             case DELIVERY_REQUESTED ->
-                    mealDeliveryService.reserveMealDelivery(
-                            TargetMealDelivery.from(mealDeliveryId));
+                    mealDeliveryService.reserveMealDelivery(MealDeliveryId.from(mealDeliveryId));
             case DELIVERING ->
-                    mealDeliveryService.startMealDelivery(TargetMealDelivery.from(mealDeliveryId));
+                    mealDeliveryService.startMealDelivery(MealDeliveryId.from(mealDeliveryId));
             case DELIVERED ->
-                    mealDeliveryService.completeMealDelivery(
-                            TargetMealDelivery.from(mealDeliveryId));
+                    mealDeliveryService.completeMealDelivery(MealDeliveryId.from(mealDeliveryId));
         }
 
         return Response.success("배송 상태 변경 성공");

@@ -13,10 +13,10 @@ import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
+import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryRepository;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliverySearchCond;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
-import core.startup.mealtoktok.domain.mealdelivery.TargetMealDelivery;
 import core.startup.mealtoktok.infra.jpa.util.PagingUtil;
 import core.startup.mealtoktok.infra.mealdelivery.entity.MealDeliveryEntity;
 import core.startup.mealtoktok.infra.mealdelivery.exception.MealDeliveryNotFoundException;
@@ -42,15 +42,15 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
     public void update(MealDelivery mealDelivery) {
         MealDeliveryEntity mealDeliveryEntity =
                 mealDeliveryJpaRepository
-                        .findById(mealDelivery.getMealDeliveryId())
+                        .findById(mealDelivery.getMealDeliveryId().getValue())
                         .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
         mealDeliveryEntity.update(mealDelivery);
     }
 
     @Override
-    public MealDelivery find(TargetMealDelivery targetMealDelivery) {
+    public MealDelivery findById(MealDeliveryId mealDeliveryId) {
         return mealDeliveryJpaRepository
-                .findById(targetMealDelivery.mealDeliveryId())
+                .findById(mealDeliveryId.getValue())
                 .map(MealDeliveryEntity::toDomain)
                 .orElseThrow(() -> MealDeliveryNotFoundException.EXCEPTION);
     }
@@ -65,7 +65,7 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
     }
 
     @Override
-    public List<MealDelivery> findAll(Long orderId) {
+    public List<MealDelivery> findAll(String orderId) {
         return mealDeliveryJpaRepository.findAllByOrderId(orderId).parallelStream()
                 .map(MealDeliveryEntity::toDomain)
                 .toList();

@@ -16,12 +16,12 @@ public class MealDeliveryReader {
 
     private final MealDeliveryRepository mealDeliveryRepository;
 
-    public List<MealDelivery> read(Long orderId) {
+    public List<MealDelivery> read(String orderId) {
         return mealDeliveryRepository.findAll(orderId);
     }
 
-    public MealDelivery read(TargetMealDelivery targetMealDelivery) {
-        return mealDeliveryRepository.find(targetMealDelivery);
+    public MealDelivery read(MealDeliveryId mealDeliveryId) {
+        return mealDeliveryRepository.findById(mealDeliveryId);
     }
 
     public MealDelivery read(Recipient recipient, DeliveryState deliveryState) {

@@ -57,4 +57,8 @@ public class Response<T> {
     public static Response<Void> error(ErrorReason errorReason, String path, String message) {
         return new Response<>(path, errorReason.errorCode(), message);
     }
+
+    public static Response<Void> error(String errorCode, String message) {
+        return new Response<>(errorCode, message);
+    }
 }

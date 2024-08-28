@@ -17,7 +17,7 @@ import core.startup.mealtoktok.api.auth.exception.ExpiredTokenException;
 import core.startup.mealtoktok.api.auth.exception.InvalidTokenException;
 import core.startup.mealtoktok.domain.auth.JwtTokens;
 import core.startup.mealtoktok.domain.auth.TokenGenerator;
-import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.domain.user.UserId;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -27,22 +27,22 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtTokenizer implements TokenGenerator {
 
-    public static String generateAccessToken(TargetUser targetUser) {
+    public static String generateAccessToken(UserId userId) {
         Key key = getKeyFromSecretKey(SECRET_KEY);
 
         return Jwts.builder()
-                .setSubject(String.valueOf(targetUser.userId()))
+                .setSubject(String.valueOf(userId.getValue()))
                 .setIssuedAt(Calendar.getInstance().getTime())
                 .setExpiration(getTokenExpiration())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public static String generateRefreshToken(TargetUser targetUser) {
+    public static String generateRefreshToken(UserId userId) {
         Key key = getKeyFromSecretKey(SECRET_KEY);
 
         return Jwts.builder()
-                .setSubject(String.valueOf(targetUser.userId()))
+                .setSubject(String.valueOf(userId.getValue()))
                 .setIssuedAt(Calendar.getInstance().getTime())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -77,9 +77,9 @@ public class JwtTokenizer implements TokenGenerator {
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
 
-    public static TargetUser extractTargetUser(String token) {
+    public static UserId extractTargetUser(String token) {
         try {
-            return TargetUser.from(
+            return UserId.from(
                     Long.parseLong(
                             Jwts.parserBuilder()
                                     .setSigningKey(getKeyFromSecretKey(SECRET_KEY))
@@ -96,7 +96,7 @@ public class JwtTokenizer implements TokenGenerator {
     ;
 
     @Override
-    public JwtTokens generate(TargetUser targetUser) {
-        return JwtTokens.of(generateAccessToken(targetUser), generateRefreshToken(targetUser));
+    public JwtTokens generate(UserId userId) {
+        return JwtTokens.of(generateAccessToken(userId), generateRefreshToken(userId));
     }
 }

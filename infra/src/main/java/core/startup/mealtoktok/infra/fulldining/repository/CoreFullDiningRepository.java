@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.domain.fulldining.CollectingState;
 import core.startup.mealtoktok.domain.fulldining.FullDining;
+import core.startup.mealtoktok.domain.fulldining.FullDiningId;
 import core.startup.mealtoktok.domain.fulldining.FullDiningRepository;
-import core.startup.mealtoktok.domain.fulldining.TargetFullDining;
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 import core.startup.mealtoktok.infra.fulldining.entity.FullDiningEntity;
@@ -25,9 +25,9 @@ public class CoreFullDiningRepository implements FullDiningRepository {
     private final FullDiningJpaRepository fullDiningJpaRepository;
 
     @Override
-    public FullDining find(TargetFullDining targetFullDining) {
+    public FullDining findById(FullDiningId fullDiningId) {
         return fullDiningJpaRepository
-                .findById(targetFullDining.fullDiningId())
+                .findById(fullDiningId.getValue())
                 .map(FullDiningEntity::toDomain)
                 .orElseThrow(() -> FullDiningNotFoundException.EXCEPTION);
     }
@@ -62,7 +62,7 @@ public class CoreFullDiningRepository implements FullDiningRepository {
     public void update(FullDining fullDining) {
         FullDiningEntity fullDiningEntity =
                 fullDiningJpaRepository
-                        .findById(fullDining.getFullDiningId())
+                        .findById(fullDining.getFullDiningId().getValue())
                         .orElseThrow(() -> FullDiningNotFoundException.EXCEPTION);
         fullDiningEntity.update(fullDining);
     }

@@ -14,7 +14,7 @@ import core.startup.mealtoktok.infra.mealdelivery.entity.MealDeliveryEntity;
 public interface MealDeliveryJpaRepository
         extends JpaRepository<MealDeliveryEntity, Long>, MealDeliveryJpaRepositoryCustom {
 
-    List<MealDeliveryEntity> findAllByOrderId(Long orderId);
+    List<MealDeliveryEntity> findAllByOrderId(String orderId);
 
     @Query(
             """

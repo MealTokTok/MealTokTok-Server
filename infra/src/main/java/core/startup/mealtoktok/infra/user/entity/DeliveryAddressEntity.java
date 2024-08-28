@@ -28,7 +28,7 @@ import core.startup.mealtoktok.domain.user.AddressStatus;
 import core.startup.mealtoktok.domain.user.AddressWithCoordinate;
 import core.startup.mealtoktok.domain.user.Coordinate;
 import core.startup.mealtoktok.domain.user.DeliveryAddress;
-import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.domain.user.UserId;
 import core.startup.mealtoktok.infra.jpa.entity.AddressVO;
 
 @Entity
@@ -66,10 +66,9 @@ public class DeliveryAddressEntity {
                 .build();
     }
 
-    public static DeliveryAddressEntity from(
-            TargetUser targetUser, DeliveryAddress deliveryAddress) {
+    public static DeliveryAddressEntity from(UserId userId, DeliveryAddress deliveryAddress) {
         return DeliveryAddressEntity.builder()
-                .user(UserEntity.from(targetUser))
+                .user(UserEntity.from(userId))
                 .coordinate(convertToPoint(deliveryAddress.getAddressWithCoordinate().coordinate()))
                 .status(deliveryAddress.getStatus())
                 .address(AddressVO.from(deliveryAddress.getAddressWithCoordinate().address()))

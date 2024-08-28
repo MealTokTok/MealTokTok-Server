@@ -17,16 +17,16 @@ import core.startup.mealtoktok.domain.order.OrderPrice;
 @Getter
 public class OrderPriceVO {
 
-    @Convert(converter = MoneyConverter.class, attributeName = "mealPrice")
+    @Convert(converter = MoneyConverter.class)
     private Money mealPrice;
 
-    @Convert(converter = MoneyConverter.class, attributeName = "deliveryPrice")
+    @Convert(converter = MoneyConverter.class)
     private Money deliveryPrice;
 
-    @Convert(converter = MoneyConverter.class, attributeName = "fullServicePrice")
+    @Convert(converter = MoneyConverter.class)
     private Money fullServicePrice;
 
-    @Convert(converter = MoneyConverter.class, attributeName = "totalPrice")
+    @Convert(converter = MoneyConverter.class)
     private Money totalPrice;
 
     public static OrderPriceVO from(OrderPrice orderPrice) {

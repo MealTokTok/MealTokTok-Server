@@ -6,9 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
-import core.startup.mealtoktok.domain.user.DeliveryAddress;
-import core.startup.mealtoktok.domain.user.TargetUser;
 import core.startup.mealtoktok.domain.user.User;
+import core.startup.mealtoktok.domain.user.UserId;
 import core.startup.mealtoktok.domain.user.UserProfile;
 import core.startup.mealtoktok.domain.user.UserRepository;
 import core.startup.mealtoktok.domain.user.WithDrawReason;
@@ -25,31 +24,27 @@ public class CoreUserRepository implements UserRepository {
     private final WithDrawReasonJpaRepository withDrawReasonJpaRepository;
 
     @Override
-    public TargetUser save(
-            OAuthInfo oAuthInfo,
-            String deviceToken,
-            UserProfile userProfile,
-            DeliveryAddress deliveryAddress) {
+    public UserId save(OAuthInfo oAuthInfo, String deviceToken, UserProfile userProfile) {
         UserEntity savedUser =
-                userJpaRepository.save(UserEntity.from(oAuthInfo, deviceToken, userProfile));
-        return TargetUser.from(savedUser.getUserId());
+                userJpaRepository.save(UserEntity.of(oAuthInfo, deviceToken, userProfile));
+        return UserId.from(savedUser.getUserId());
     }
 
     @Override
-    public TargetUser update(User user) {
+    public UserId update(User user) {
         UserEntity userEntity =
                 userJpaRepository
-                        .findById(user.getUserId())
+                        .findById(user.getUserId().getValue())
                         .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         userEntity.update(user).toDomain();
         UserEntity saved = userJpaRepository.save(userEntity);
-        return TargetUser.from(saved.getUserId());
+        return UserId.from(saved.getUserId());
     }
 
     @Override
-    public User findById(TargetUser targetUser) {
+    public User findById(UserId userId) {
         return userJpaRepository
-                .findById(targetUser.userId())
+                .findById(userId.getValue())
                 .map(UserEntity::toDomain)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }

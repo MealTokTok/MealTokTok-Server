@@ -4,8 +4,6 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -16,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import core.startup.mealtoktok.domain.order.Order;
+import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.OrderType;
 import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
@@ -28,9 +27,7 @@ import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderEntity extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    @Id private String orderId;
 
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
@@ -52,6 +49,7 @@ public class OrderEntity extends BaseTimeEntity {
 
     public static OrderEntity from(Order order) {
         return OrderEntity.builder()
+                .orderId(order.getOrderId().getValue())
                 .orderType(order.getOrderType())
                 .orderState(order.getOrderState())
                 .specialInstruction(order.getSpecialInstruction())
@@ -66,7 +64,7 @@ public class OrderEntity extends BaseTimeEntity {
 
     public Order toDomain() {
         return Order.builder()
-                .orderId(orderId)
+                .orderId(OrderId.from(orderId))
                 .orderType(orderType)
                 .specialInstruction(specialInstruction)
                 .orderState(orderState)

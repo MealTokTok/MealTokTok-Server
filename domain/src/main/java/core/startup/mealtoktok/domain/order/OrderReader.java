@@ -20,8 +20,8 @@ public class OrderReader {
         return orderRepository.findAll(orderer);
     }
 
-    public Order read(TargetOrder targetOrder) {
-        return orderRepository.find(targetOrder);
+    public Order read(OrderId orderId) {
+        return orderRepository.find(orderId);
     }
 
     public SliceResult<Order> read(Orderer orderer, OrderSearchCond cond, Cursor cursor) {

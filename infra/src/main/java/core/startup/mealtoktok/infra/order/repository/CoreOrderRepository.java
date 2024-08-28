@@ -12,11 +12,11 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.order.Order;
+import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.order.OrderRepository;
 import core.startup.mealtoktok.domain.order.OrderSearchCond;
 import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.Orderer;
-import core.startup.mealtoktok.domain.order.TargetOrder;
 import core.startup.mealtoktok.infra.jpa.util.PagingUtil;
 import core.startup.mealtoktok.infra.order.entity.OrderEntity;
 import core.startup.mealtoktok.infra.order.entity.OrdererVO;
@@ -30,15 +30,14 @@ public class CoreOrderRepository implements OrderRepository {
     private final OrderJpaRepository orderJpaRepository;
 
     @Override
-    public TargetOrder save(Order order) {
-        OrderEntity savedEntity = orderJpaRepository.save(OrderEntity.from(order));
-        return TargetOrder.from(savedEntity.getOrderId());
+    public void save(Order order) {
+        orderJpaRepository.save(OrderEntity.from(order));
     }
 
     @Override
-    public Order find(TargetOrder targetOrder) {
+    public Order find(OrderId orderId) {
         return orderJpaRepository
-                .findById(targetOrder.orderId())
+                .findById(orderId.getValue())
                 .map(OrderEntity::toDomain)
                 .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
     }
@@ -64,7 +63,7 @@ public class CoreOrderRepository implements OrderRepository {
     public void update(Order order) {
         OrderEntity orderEntity =
                 orderJpaRepository
-                        .findById(order.getOrderId())
+                        .findById(order.getOrderId().getValue())
                         .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
         orderEntity.update(order);
     }

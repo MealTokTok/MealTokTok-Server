@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(NON_NULL)
 public record MealDeliveryResponse(
         Long mealDeliveryId,
-        Long orderId,
+        String orderId,
         OrderTypeForDelivery orderType,
         OrderedMeal orderedMeal,
         DeliveryState deliveryState,
@@ -21,8 +21,8 @@ public record MealDeliveryResponse(
 
     public static MealDeliveryResponse from(MealDelivery mealDelivery) {
         return new MealDeliveryResponse(
-                mealDelivery.getMealDeliveryId(),
-                mealDelivery.getOrderId(),
+                mealDelivery.getMealDeliveryId().getValue(),
+                mealDelivery.getOrderId().toString(),
                 mealDelivery.getOrderType(),
                 mealDelivery.getOrderedMeal(),
                 mealDelivery.getDeliveryState(),

@@ -4,17 +4,13 @@ import core.startup.mealtoktok.domain.auth.OAuthInfo;
 
 public interface UserRepository {
 
-    User findById(TargetUser targetUser);
+    User findById(UserId targetUser);
 
     User findByOAuthId(String email);
 
-    TargetUser save(
-            OAuthInfo oAuthInfo,
-            String deviceToken,
-            UserProfile userProfile,
-            DeliveryAddress deliveryAddress);
+    UserId save(OAuthInfo oAuthInfo, String deviceToken, UserProfile userProfile);
 
-    TargetUser update(User user);
+    UserId update(User user);
 
     boolean existsByOAuthInfo(OAuthInfo oAuthInfo);
 

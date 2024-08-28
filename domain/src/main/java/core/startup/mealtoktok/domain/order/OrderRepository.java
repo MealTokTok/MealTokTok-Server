@@ -8,11 +8,11 @@ import core.startup.mealtoktok.common.dto.SliceResult;
 
 public interface OrderRepository {
 
-    TargetOrder save(Order order);
+    void save(Order order);
 
     List<Order> findAll(Orderer orderer);
 
-    Order find(TargetOrder targetOrder);
+    Order find(OrderId orderId);
 
     SliceResult<Order> findByCondition(Orderer orderer, OrderSearchCond cond, Cursor cursor);
 
