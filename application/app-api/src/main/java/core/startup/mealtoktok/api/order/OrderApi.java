@@ -52,6 +52,11 @@ public class OrderApi implements OrderApiDocs {
         return Response.success(orderSliceResult.map(OrderResponse::from));
     }
 
+    @GetMapping("/{orderId}")
+    public Response<OrderResponse> getOrder(@PathVariable String orderId) {
+        return Response.success(OrderResponse.from(orderService.getOrder(OrderId.from(orderId))));
+    }
+
     @Override
     @PostMapping("/{orderId}/cancel")
     public Response<OrderId> cancelOrder(

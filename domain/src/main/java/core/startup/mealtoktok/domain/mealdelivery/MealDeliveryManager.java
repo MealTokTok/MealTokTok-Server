@@ -21,8 +21,8 @@ public class MealDeliveryManager implements MealDeliveryReserver {
         List<MealDelivery> mealDeliveries =
                 reservationInfos.stream().map(MealDelivery::create).toList();
 
-        mealDeliveryRepository.saveAll(mealDeliveries);
-        return toMealDeliveryInfos(mealDeliveries);
+        List<MealDelivery> saved = mealDeliveryRepository.saveAll(mealDeliveries);
+        return toMealDeliveryInfos(saved);
     }
 
     private static List<FullDiningInfo> toMealDeliveryInfos(List<MealDelivery> mealDeliveries) {

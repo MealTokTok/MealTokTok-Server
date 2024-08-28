@@ -33,7 +33,7 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
     @Override
     public List<MealDelivery> saveAll(List<MealDelivery> mealDeliveries) {
         List<MealDeliveryEntity> mealDeliveryEntities =
-                mealDeliveries.parallelStream().map(MealDeliveryEntity::from).toList();
+                mealDeliveries.stream().map(MealDeliveryEntity::from).toList();
         return mealDeliveryJpaRepository.saveAll(mealDeliveryEntities).parallelStream()
                 .map(MealDeliveryEntity::toDomain)
                 .toList();

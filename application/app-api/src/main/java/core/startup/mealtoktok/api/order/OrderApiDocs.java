@@ -24,6 +24,9 @@ public interface OrderApiDocs {
     Response<SliceResult<OrderResponse>> searchOrders(
             User currentUser, OrderSearchCond cond, Cursor cursor);
 
+    @Operation(summary = "주문 조회")
+    Response<OrderResponse> getOrder(String orderId);
+
     @Operation(summary = "주문 취소")
     Response<OrderId> cancelOrder(User currentUser, String orderId, OrderCancelRequest request);
 

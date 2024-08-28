@@ -50,6 +50,10 @@ public class OrderService {
         return orderReader.read(orderer, cond, cursor);
     }
 
+    public Order getOrder(OrderId orderId) {
+        return orderReader.read(orderId);
+    }
+
     public OrderState getOrderState(Orderer orderer, OrderId orderId) {
         Order order = orderReader.read(orderId);
         orderValidator.validate(order, orderer);
