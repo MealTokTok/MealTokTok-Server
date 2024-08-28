@@ -19,7 +19,7 @@ public record UserResponse(
 
     public static UserResponse from(User user) {
         return new UserResponse(
-                user.getUserId(),
+                user.getUserId().getValue(),
                 user.getUserProfile().getUsername(),
                 user.getUserProfile().getNickname(),
                 user.getUserProfile().getEmail(),

@@ -16,6 +16,7 @@ public class PaymentService {
     private final PaymentValidator paymentValidator;
     private final PaymentGateway paymentGateway;
     private final PaymentAppender paymentAppender;
+    private final PaymentReader paymentReader;
     private final OrderReader orderReader;
 
     public Payment pay(String paymentKey, OrderId orderId, Money amount) {
@@ -28,5 +29,9 @@ public class PaymentService {
     public void fail(String failReason, OrderId orderId) {
         Payment failedPayment = Payment.fail(failReason, orderId);
         paymentAppender.append(failedPayment);
+    }
+
+    public void cancel(PaymentId paymentId, String s) {
+        paymentReader.read(paymentId);
     }
 }

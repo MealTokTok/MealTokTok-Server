@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.domain.user.UserId;
 
 @Component
 @RequiredArgsConstructor
@@ -18,8 +18,8 @@ public class TokenManager {
         tokenRepository.setRefreshToken(refreshToken);
     }
 
-    public Optional<String> getRefreshToken(TargetUser targetUser) {
-        return tokenRepository.getRefreshToken(targetUser).map(RefreshToken::refreshToken);
+    public Optional<String> getRefreshToken(UserId userId) {
+        return tokenRepository.getRefreshToken(userId).map(RefreshToken::refreshToken);
     }
 
     public boolean isAlreadyLogin(String accessToken) {

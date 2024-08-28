@@ -22,7 +22,7 @@ public interface MealDeliveryRepository {
             LocalDateTime startTime,
             LocalDateTime endTime);
 
-    MealDelivery find(TargetMealDelivery targetMealDelivery);
+    MealDelivery findById(MealDeliveryId mealDeliveryId);
 
     SliceResult<MealDelivery> findByCondition(
             Recipient recipient, MealDeliverySearchCond cond, Cursor cursor);

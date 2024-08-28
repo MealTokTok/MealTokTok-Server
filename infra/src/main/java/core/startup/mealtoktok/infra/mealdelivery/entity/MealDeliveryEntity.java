@@ -22,6 +22,7 @@ import lombok.experimental.SuperBuilder;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryDateTime;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
+import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 import core.startup.mealtoktok.domain.mealdelivery.OrderedMeal;
 import core.startup.mealtoktok.domain.order.ReservedTime;
 import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
@@ -68,7 +69,7 @@ public class MealDeliveryEntity extends BaseTimeEntity {
 
     public MealDelivery toDomain() {
         return MealDelivery.builder()
-                .mealDeliveryId(mealDeliveryId)
+                .mealDeliveryId(MealDeliveryId.from(mealDeliveryId))
                 .orderId(orderId)
                 .orderedMeal(
                         OrderedMeal.create(

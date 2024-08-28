@@ -15,8 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import core.startup.mealtoktok.domain.fulldining.CollectingState;
 import core.startup.mealtoktok.domain.fulldining.FullDining;
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
+import core.startup.mealtoktok.domain.fulldining.FullDiningId;
+import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 
 @Entity
 @Table(name = "full_dining")
@@ -38,7 +40,7 @@ public class FullDiningEntity {
 
     public static FullDiningEntity from(FullDining fullDining) {
         return FullDiningEntity.builder()
-                .mealDeliveryId(fullDining.getMealDeliveryId())
+                .mealDeliveryId(fullDining.getMealDeliveryId().getValue())
                 .collectingState(fullDining.getCollectState())
                 .collectedDateTime(fullDining.getCollectedDateTime())
                 .build();
@@ -46,8 +48,8 @@ public class FullDiningEntity {
 
     public FullDining toDomain() {
         return FullDining.builder()
-                .fullDiningId(fullDiningId)
-                .mealDeliveryId(mealDeliveryId)
+                .fullDiningId(FullDiningId.from(fullDiningId))
+                .mealDeliveryId(MealDeliveryId.from(mealDeliveryId))
                 .collectState(collectingState)
                 .collectedDateTime(collectedDateTime)
                 .build();

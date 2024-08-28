@@ -19,8 +19,8 @@ import core.startup.mealtoktok.api.user.dto.DeliveryAddressResponse;
 import core.startup.mealtoktok.api.user.dto.UserResponse;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.TargetDeliveryAddress;
-import core.startup.mealtoktok.domain.user.TargetUser;
 import core.startup.mealtoktok.domain.user.User;
+import core.startup.mealtoktok.domain.user.UserId;
 import core.startup.mealtoktok.domain.user.UserService;
 
 @RestController
@@ -48,19 +48,18 @@ public class UserApi implements UserApiDocs {
     }
 
     @PatchMapping("/my/nickname")
-    public Response<TargetUser> changeNickname(
+    public Response<UserId> changeNickname(
             @AuthenticationPrincipal User currentUser, String nickname) {
         return Response.success(userService.changeNickname(currentUser, nickname));
     }
 
     @PatchMapping("/my/email")
-    public Response<TargetUser> changeEmail(
-            @AuthenticationPrincipal User currentUser, String email) {
+    public Response<UserId> changeEmail(@AuthenticationPrincipal User currentUser, String email) {
         return Response.success(userService.changeEmail(currentUser, email));
     }
 
     @PatchMapping("/my/addresses")
-    public Response<TargetUser> addDeliveryAddress(
+    public Response<UserId> addDeliveryAddress(
             @AuthenticationPrincipal User currentUser,
             @RequestBody AddressInfoRequest addressInfoRequest) {
 
@@ -79,7 +78,7 @@ public class UserApi implements UserApiDocs {
     }
 
     @DeleteMapping("/my/addresses/{deliveryAddressId}")
-    public Response<TargetUser> deleteDeliveryAddress(
+    public Response<UserId> deleteDeliveryAddress(
             @AuthenticationPrincipal User currentUser,
             @PathVariable("deliveryAddressId") Long deliveryAddressId) {
         return Response.success(
@@ -97,7 +96,7 @@ public class UserApi implements UserApiDocs {
     }
 
     @PatchMapping("/my/addresses/{deliveryAddressId}")
-    public Response<TargetUser> configureDeliveryAddress(
+    public Response<UserId> configureDeliveryAddress(
             @AuthenticationPrincipal User currentUser, @PathVariable Long deliveryAddressId) {
         return Response.success(
                 userService.configureDeliveryAddress(

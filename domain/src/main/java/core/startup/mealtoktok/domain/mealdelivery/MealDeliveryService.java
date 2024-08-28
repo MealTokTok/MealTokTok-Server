@@ -43,8 +43,8 @@ public class MealDeliveryService {
                 .orElseThrow(() -> NextMealDeliveryNotFound.EXCEPTION);
     }
 
-    public MealDelivery getMealDelivery(TargetMealDelivery targetMealDelivery) {
-        return mealDeliveryReader.read(targetMealDelivery);
+    public MealDelivery getMealDelivery(MealDeliveryId mealDeliveryId) {
+        return mealDeliveryReader.read(mealDeliveryId);
     }
 
     public Integer countByDeliveryState(Recipient recipient, DeliveryState deliveryState) {
@@ -52,20 +52,20 @@ public class MealDeliveryService {
                 recipient, deliveryState, VALID_DATE_TIME, LocalDateTime.now());
     }
 
-    public void reserveMealDelivery(TargetMealDelivery targetMealDelivery) {
-        MealDelivery mealDelivery = mealDeliveryReader.read(targetMealDelivery);
+    public void reserveMealDelivery(MealDeliveryId mealDeliveryId) {
+        MealDelivery mealDelivery = mealDeliveryReader.read(mealDeliveryId);
         mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERY_REQUESTED);
         // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERY_RESERVED);
     }
 
-    public void startMealDelivery(TargetMealDelivery targetMealDelivery) {
-        MealDelivery mealDelivery = mealDeliveryReader.read(targetMealDelivery);
+    public void startMealDelivery(MealDeliveryId mealDeliveryId) {
+        MealDelivery mealDelivery = mealDeliveryReader.read(mealDeliveryId);
         mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERING);
         // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERING);
     }
 
-    public void completeMealDelivery(TargetMealDelivery targetMealDelivery) {
-        MealDelivery mealDelivery = mealDeliveryReader.read(targetMealDelivery);
+    public void completeMealDelivery(MealDeliveryId mealDeliveryId) {
+        MealDelivery mealDelivery = mealDeliveryReader.read(mealDeliveryId);
         mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERED);
         mealDeliveryCountManager.decrease(mealDelivery.getOrderId());
         // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERED);

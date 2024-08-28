@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.mealdelivery;
+package core.startup.mealtoktok.domain.fulldining;
 
 public enum CollectingState {
     NOT_COLLECTED,

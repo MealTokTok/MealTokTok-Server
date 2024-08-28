@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
@@ -27,8 +26,8 @@ public class FullDiningManager {
         fullDiningRepository.saveAll(fullDinings);
     }
 
-    public void collectRequest(TargetFullDining targetFullDining, CollectingState collectingState) {
-        FullDining fullDining = fullDiningRepository.find(targetFullDining);
+    public void collectRequest(FullDiningId fullDiningId, CollectingState collectingState) {
+        FullDining fullDining = fullDiningRepository.findById(fullDiningId);
         switch (collectingState) {
             case COLLECT_REQUESTED -> fullDining.collectRequest();
             case COLLECTED -> fullDining.collect();

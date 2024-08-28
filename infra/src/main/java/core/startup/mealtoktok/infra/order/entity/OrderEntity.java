@@ -49,7 +49,7 @@ public class OrderEntity extends BaseTimeEntity {
 
     public static OrderEntity from(Order order) {
         return OrderEntity.builder()
-                .orderId(order.getOrderId().value())
+                .orderId(order.getOrderId().getValue())
                 .orderType(order.getOrderType())
                 .orderState(order.getOrderState())
                 .specialInstruction(order.getSpecialInstruction())

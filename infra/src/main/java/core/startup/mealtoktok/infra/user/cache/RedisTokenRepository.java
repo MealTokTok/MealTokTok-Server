@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import core.startup.mealtoktok.domain.auth.RefreshToken;
 import core.startup.mealtoktok.domain.auth.TokenRepository;
-import core.startup.mealtoktok.domain.user.TargetUser;
+import core.startup.mealtoktok.domain.user.UserId;
 import core.startup.mealtoktok.infra.user.config.RedisConfig;
 
 @Slf4j
@@ -29,8 +29,8 @@ public class RedisTokenRepository implements TokenRepository {
     }
 
     @Override
-    public Optional<RefreshToken> getRefreshToken(TargetUser targetUser) {
-        String key = getKey(targetUser.userId());
+    public Optional<RefreshToken> getRefreshToken(UserId userId) {
+        String key = getKey(userId.getValue());
         RefreshToken token = tokenRedisTemplate.opsForValue().get(key);
         log.info("Get Refresh Token from {} : {}", key, token);
         return Optional.ofNullable(token);

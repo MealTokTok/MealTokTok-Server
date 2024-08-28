@@ -13,10 +13,10 @@ import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.api.fulldining.dto.FullDiningResponse;
 import core.startup.mealtoktok.common.dto.Response;
+import core.startup.mealtoktok.domain.fulldining.CollectingState;
 import core.startup.mealtoktok.domain.fulldining.FullDining;
+import core.startup.mealtoktok.domain.fulldining.FullDiningId;
 import core.startup.mealtoktok.domain.fulldining.FullDiningService;
-import core.startup.mealtoktok.domain.fulldining.TargetFullDining;
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 import core.startup.mealtoktok.domain.user.User;
 
@@ -30,8 +30,7 @@ public class FullDingingApi implements FullDiningApiDocs {
     @PatchMapping("/full-dinings/{fullDiningId}/{collectingState}")
     public Response<Void> changeCollectingState(
             @PathVariable Long fullDiningId, @PathVariable CollectingState collectingState) {
-        fullDiningService.changeCollectingState(
-                TargetFullDining.from(fullDiningId), collectingState);
+        fullDiningService.changeCollectingState(FullDiningId.from(fullDiningId), collectingState);
         return Response.success("수거 상태 변경 성공");
     }
 

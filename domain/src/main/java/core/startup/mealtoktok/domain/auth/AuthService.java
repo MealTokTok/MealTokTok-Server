@@ -32,21 +32,16 @@ public class AuthService {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(oAuthTokens.idToken());
         UserProfile userProfile = oAuthClient.getUserProfile(oAuthTokens.accessToken());
         userValidator.validate(oAuthInfo);
-        TargetUser targetUser =
-                userAppender.append(
-                        oAuthInfo,
-                        deviceToken,
-                        userProfile,
-                        DeliveryAddress.configure(addressWithCoordinate));
-        return tokenGenerator.generate(targetUser);
+        UserId userId = userAppender.append(oAuthInfo, deviceToken, userProfile);
+        return tokenGenerator.generate(userId);
     }
 
     public JwtTokens login(OAuthTokens oAuthTokens, String deviceToken) {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(oAuthTokens.idToken());
         UserProfile userProfile = oAuthClient.getUserProfile(oAuthTokens.accessToken());
         User user = userReader.read(oAuthInfo.oid());
-        TargetUser targetUser = userUpdater.oAuthUpdate(user, userProfile, deviceToken);
-        return tokenGenerator.generate(targetUser);
+        UserId userId = userUpdater.oAuthUpdate(user, userProfile, deviceToken);
+        return tokenGenerator.generate(userId);
     }
 
     public String getKakaoOAuthUrl() {

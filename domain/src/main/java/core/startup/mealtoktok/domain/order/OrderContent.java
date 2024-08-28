@@ -16,7 +16,7 @@ public record OrderContent(
                 .map(
                         orderedMeal ->
                                 MealDelivery.create(
-                                        orderId.value(),
+                                        orderId.getValue(),
                                         orderType.toOrderTypeForDelivery(),
                                         orderedMeal))
                 .toList();

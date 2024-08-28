@@ -12,7 +12,7 @@ import core.startup.mealtoktok.domain.mealdelivery.exception.MealDeliveryDomainE
 @Builder
 public class MealDelivery {
 
-    private Long mealDeliveryId;
+    private MealDeliveryId mealDeliveryId;
     private String orderId;
     private OrderTypeForDelivery orderType;
     private OrderedMeal orderedMeal;

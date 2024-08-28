@@ -17,7 +17,7 @@ import core.startup.mealtoktok.domain.order.OrderId;
 @Builder
 public class Payment {
 
-    private Long paymentId;
+    private PaymentId paymentId;
     private String paymentKey;
     private OrderId orderId;
     private Money payAmount;

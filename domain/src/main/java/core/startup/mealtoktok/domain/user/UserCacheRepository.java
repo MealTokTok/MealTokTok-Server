@@ -6,7 +6,7 @@ public interface UserCacheRepository {
 
     void cache(User user);
 
-    Optional<User> getUser(TargetUser targetUser);
+    Optional<User> getUser(UserId userId);
 
     void deleteUser(User user);
 }

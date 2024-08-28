@@ -3,7 +3,6 @@ package core.startup.mealtoktok.domain.fulldining;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 
@@ -13,7 +12,7 @@ public interface FullDiningRepository {
 
     void update(FullDining fullDining);
 
-    FullDining find(TargetFullDining targetFullDining);
+    FullDining findById(FullDiningId fullDiningId);
 
     List<FullDining> findAll(
             Recipient recipient, DeliveryState deliveryState, LocalDateTime validDateTime);

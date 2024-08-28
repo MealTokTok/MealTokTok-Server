@@ -47,7 +47,7 @@ public class OrderService {
     public OrderDetail getOrderDetail(Orderer orderer, OrderId orderId) {
         Order order = orderReader.read(orderId);
         orderValidator.validate(order, orderer);
-        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId.value());
+        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId.getValue());
         return OrderDetail.of(order, mealDeliveries);
     }
 

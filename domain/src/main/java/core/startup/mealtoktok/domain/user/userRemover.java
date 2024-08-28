@@ -15,6 +15,7 @@ public class userRemover {
             userRepository.delete(user);
             return;
         }
-        userRepository.deleteWithReason(user, WithDrawReason.of(user.getUserId(), reason));
+        userRepository.deleteWithReason(
+                user, WithDrawReason.of(user.getUserId().getValue(), reason));
     }
 }

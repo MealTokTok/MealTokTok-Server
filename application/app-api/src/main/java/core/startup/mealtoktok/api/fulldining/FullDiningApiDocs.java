@@ -4,7 +4,7 @@ import java.util.List;
 
 import core.startup.mealtoktok.api.fulldining.dto.FullDiningResponse;
 import core.startup.mealtoktok.common.dto.Response;
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
+import core.startup.mealtoktok.domain.fulldining.CollectingState;
 import core.startup.mealtoktok.domain.user.User;
 
 import io.swagger.v3.oas.annotations.Operation;

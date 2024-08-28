@@ -12,13 +12,13 @@ public class UserService {
     private final userRemover userRemover;
     private final UserValidator userValidator;
 
-    public TargetUser addDeliveryAddress(
+    public UserId addDeliveryAddress(
             User currentUser, AddressWithCoordinate addressWithCoordinate) {
         return userUpdater.addDeliveryAddress(
                 currentUser, DeliveryAddress.notConfigure(addressWithCoordinate));
     }
 
-    public TargetUser removeDeliveryAddress(
+    public UserId removeDeliveryAddress(
             User currentUser, TargetDeliveryAddress targetDeliveryAddress) {
         return userUpdater.removeDeliveryAddress(currentUser, targetDeliveryAddress);
     }
@@ -27,11 +27,11 @@ public class UserService {
         userRemover.remove(currentUser, reason);
     }
 
-    public TargetUser changeNickname(User currentUser, String nickname) {
+    public UserId changeNickname(User currentUser, String nickname) {
         return userUpdater.updateNickname(currentUser, nickname);
     }
 
-    public TargetUser changeEmail(User currentUser, String email) {
+    public UserId changeEmail(User currentUser, String email) {
         return userUpdater.updateEmail(currentUser, email);
     }
 
@@ -39,7 +39,7 @@ public class UserService {
         return userValidator.isDuplicated(nickname);
     }
 
-    public TargetUser configureDeliveryAddress(
+    public UserId configureDeliveryAddress(
             User currentUser, TargetDeliveryAddress targetDeliveryAddress) {
         return userUpdater.configureDeliveryAddress(currentUser, targetDeliveryAddress);
     }

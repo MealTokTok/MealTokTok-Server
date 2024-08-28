@@ -16,9 +16,9 @@ public record PaymentResponse(
 
     public static PaymentResponse from(Payment payment) {
         return new PaymentResponse(
-                payment.getPaymentId(),
+                payment.getPaymentId().getValue(),
                 payment.getPaymentKey(),
-                payment.getOrderId().value(),
+                payment.getOrderId().getValue(),
                 payment.getPayAmount().amount().longValue(),
                 payment.getPaymentMethod(),
                 payment.getPaymentProvider(),

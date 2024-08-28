@@ -12,13 +12,13 @@ public class UserReader {
     private final UserCacheManager userCacheManager;
     private final UserValidator userValidator;
 
-    public User read(TargetUser targetUser) {
+    public User read(UserId userId) {
         User user =
                 userCacheManager
-                        .read(targetUser)
+                        .read(userId)
                         .orElseGet(
                                 () -> {
-                                    User findUser = userRepository.findById(targetUser);
+                                    User findUser = userRepository.findById(userId);
                                     userCacheManager.cache(findUser);
                                     return findUser;
                                 });

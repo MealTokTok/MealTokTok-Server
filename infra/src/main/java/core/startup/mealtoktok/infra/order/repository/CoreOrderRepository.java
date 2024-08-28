@@ -37,7 +37,7 @@ public class CoreOrderRepository implements OrderRepository {
     @Override
     public Order find(OrderId orderId) {
         return orderJpaRepository
-                .findById(orderId.value())
+                .findById(orderId.getValue())
                 .map(OrderEntity::toDomain)
                 .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
     }
@@ -63,7 +63,7 @@ public class CoreOrderRepository implements OrderRepository {
     public void update(Order order) {
         OrderEntity orderEntity =
                 orderJpaRepository
-                        .findById(order.getOrderId().value())
+                        .findById(order.getOrderId().getValue())
                         .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
         orderEntity.update(order);
     }

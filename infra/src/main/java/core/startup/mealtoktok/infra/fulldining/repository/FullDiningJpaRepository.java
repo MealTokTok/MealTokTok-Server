@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
+import core.startup.mealtoktok.domain.fulldining.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 import core.startup.mealtoktok.infra.fulldining.entity.FullDiningEntity;

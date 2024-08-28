@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import core.startup.mealtoktok.domain.order.Money;
 import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.payment.Payment;
+import core.startup.mealtoktok.domain.payment.PaymentId;
 import core.startup.mealtoktok.domain.payment.PaymentMethod;
 import core.startup.mealtoktok.domain.payment.PaymentProvider;
 import core.startup.mealtoktok.domain.payment.PaymentState;
@@ -57,7 +58,7 @@ public class PaymentEntity {
 
     public static PaymentEntity from(Payment payment) {
         return PaymentEntity.builder()
-                .paymentId(payment.getPaymentId())
+                .paymentId(payment.getPaymentId().getValue())
                 .paymentKey(payment.getPaymentKey())
                 .orderId(payment.getOrderId().toString())
                 .payAmount(payment.getPayAmount())
@@ -71,7 +72,7 @@ public class PaymentEntity {
 
     public Payment toDomain() {
         return Payment.builder()
-                .paymentId(paymentId)
+                .paymentId(PaymentId.from(paymentId))
                 .paymentKey(paymentKey)
                 .orderId(OrderId.from(orderId))
                 .payAmount(payAmount)

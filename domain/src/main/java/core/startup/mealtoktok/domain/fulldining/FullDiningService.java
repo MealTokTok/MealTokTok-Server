@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
 
@@ -18,9 +17,8 @@ public class FullDiningService {
 
     private final FullDiningManager fullDiningManager;
 
-    public void changeCollectingState(
-            TargetFullDining targetFullDining, CollectingState collectingState) {
-        fullDiningManager.collectRequest(targetFullDining, collectingState);
+    public void changeCollectingState(FullDiningId fullDiningId, CollectingState collectingState) {
+        fullDiningManager.collectRequest(fullDiningId, collectingState);
         // TODO :알림 발송 alarmSender.send(targetFullDining, collectingState);
     }
 

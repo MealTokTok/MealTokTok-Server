@@ -15,7 +15,7 @@ import core.startup.mealtoktok.domain.user.exception.AlreadyExistAddressExceptio
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    private Long userId;
+    private UserId userId;
     private UserProfile userProfile;
     private OAuthInfo oAuthInfo;
     private UserRole userRole;

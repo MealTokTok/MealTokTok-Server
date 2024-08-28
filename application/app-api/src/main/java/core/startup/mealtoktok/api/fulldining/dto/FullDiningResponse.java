@@ -2,8 +2,8 @@ package core.startup.mealtoktok.api.fulldining.dto;
 
 import java.time.LocalDateTime;
 
+import core.startup.mealtoktok.domain.fulldining.CollectingState;
 import core.startup.mealtoktok.domain.fulldining.FullDining;
-import core.startup.mealtoktok.domain.mealdelivery.CollectingState;
 
 public record FullDiningResponse(
         Long fullDiningId,
@@ -13,8 +13,8 @@ public record FullDiningResponse(
 
     public static FullDiningResponse from(FullDining fullDining) {
         return new FullDiningResponse(
-                fullDining.getFullDiningId(),
-                fullDining.getMealDeliveryId(),
+                fullDining.getFullDiningId().getValue(),
+                fullDining.getMealDeliveryId().getValue(),
                 fullDining.getCollectState(),
                 fullDining.getCollectedDateTime());
     }
