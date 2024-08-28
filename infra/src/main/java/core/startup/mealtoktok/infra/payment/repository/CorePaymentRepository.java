@@ -8,6 +8,7 @@ import core.startup.mealtoktok.domain.payment.Payment;
 import core.startup.mealtoktok.domain.payment.PaymentId;
 import core.startup.mealtoktok.domain.payment.PaymentRepository;
 import core.startup.mealtoktok.infra.payment.entity.PaymentEntity;
+import core.startup.mealtoktok.infra.payment.exception.PaymentNotFoundException;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,6 +23,18 @@ public class CorePaymentRepository implements PaymentRepository {
 
     @Override
     public Payment findById(PaymentId paymentId) {
-        return null;
+        return getPaymentEntity(paymentId).toDomain();
+    }
+
+    @Override
+    public void update(Payment payment) {
+        PaymentEntity paymentEntity = getPaymentEntity(payment.getPaymentId());
+        paymentEntity.update(payment);
+    }
+
+    private PaymentEntity getPaymentEntity(PaymentId paymentId) {
+        return paymentJpaRepository
+                .findById(paymentId.getValue())
+                .orElseThrow(() -> PaymentNotFoundException.EXCEPTION);
     }
 }

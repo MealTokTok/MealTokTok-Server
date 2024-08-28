@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import core.startup.mealtoktok.domain.order.Money;
 import core.startup.mealtoktok.domain.order.OrderId;
+import core.startup.mealtoktok.domain.payment.exception.PaymentDomainException;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +27,7 @@ public class Payment {
     private PaymentState paymentState;
     private String failedReason;
     private String canceledReason;
+    private LocalDateTime canceledAt;
     private LocalDateTime requestedAt;
     private LocalDateTime approvedAt;
 
@@ -35,5 +37,15 @@ public class Payment {
                 .paymentState(PaymentState.PAYMENT_FAILED)
                 .failedReason(failedReason)
                 .build();
+    }
+
+    public Payment cancel(String canceledReason) {
+        if (!this.paymentState.equals(PaymentState.PAYMENT_COMPLETED)) {
+            throw new PaymentDomainException("결제가 완료된 상태에서만 취소가 가능합니다.");
+        }
+        this.paymentState = PaymentState.PAYMENT_CANCELLED;
+        this.canceledReason = canceledReason;
+        this.canceledAt = LocalDateTime.now();
+        return this;
     }
 }

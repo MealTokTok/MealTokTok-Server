@@ -30,6 +30,10 @@ public interface UserApiDocs {
     @Operation(summary = "이메일 변경")
     Response<UserId> changeEmail(User currentUser, String email);
 
+    @Operation(summary = "기본 배송지 추가")
+    Response<UserId> addDefaultDeliveryAddress(
+            User currentUser, AddressInfoRequest addressInfoRequest);
+
     @Operation(summary = "배송지 추가")
     Response<UserId> addDeliveryAddress(User currentUser, AddressInfoRequest addressInfoRequest);
 

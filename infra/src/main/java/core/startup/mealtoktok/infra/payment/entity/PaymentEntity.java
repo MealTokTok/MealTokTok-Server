@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ import core.startup.mealtoktok.infra.order.entity.MoneyConverter;
 @AllArgsConstructor
 @Builder
 @Getter
+@Table(name = "payment")
 public class PaymentEntity {
 
     @Id
@@ -52,19 +54,24 @@ public class PaymentEntity {
     @Enumerated(EnumType.STRING)
     private PaymentState paymentState;
 
+    private String failedReason;
+
+    private String canceledReason;
+
     private LocalDateTime requestedAt;
 
     private LocalDateTime approvedAt;
 
     public static PaymentEntity from(Payment payment) {
         return PaymentEntity.builder()
-                .paymentId(payment.getPaymentId().getValue())
                 .paymentKey(payment.getPaymentKey())
                 .orderId(payment.getOrderId().toString())
                 .payAmount(payment.getPayAmount())
                 .paymentMethod(payment.getPaymentMethod())
                 .paymentProvider(payment.getPaymentProvider())
                 .paymentState(payment.getPaymentState())
+                .failedReason(payment.getFailedReason())
+                .canceledReason(payment.getCanceledReason())
                 .requestedAt(payment.getRequestedAt())
                 .approvedAt(payment.getApprovedAt())
                 .build();
@@ -79,8 +86,15 @@ public class PaymentEntity {
                 .paymentMethod(paymentMethod)
                 .paymentProvider(paymentProvider)
                 .paymentState(paymentState)
+                .failedReason(failedReason)
+                .canceledReason(canceledReason)
                 .requestedAt(requestedAt)
                 .approvedAt(approvedAt)
                 .build();
+    }
+
+    public void update(Payment payment) {
+        this.paymentState = payment.getPaymentState();
+        this.canceledReason = payment.getCanceledReason();
     }
 }

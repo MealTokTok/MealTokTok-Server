@@ -17,12 +17,13 @@ public class PaymentService {
     private final PaymentGateway paymentGateway;
     private final PaymentAppender paymentAppender;
     private final PaymentReader paymentReader;
+    private final PaymentManager paymentManager;
     private final OrderReader orderReader;
 
-    public Payment pay(String paymentKey, OrderId orderId, Money amount) {
+    public Payment pay(String paymentKey, OrderId orderId, Money payAmount) {
         Order order = orderReader.read(orderId);
-        paymentValidator.validate(order, amount);
-        Payment confirmedPayment = paymentGateway.confirm(paymentKey, orderId, amount);
+        paymentValidator.validate(order, payAmount);
+        Payment confirmedPayment = paymentGateway.confirm(paymentKey, orderId, payAmount);
         return paymentAppender.append(confirmedPayment);
     }
 
@@ -31,7 +32,9 @@ public class PaymentService {
         paymentAppender.append(failedPayment);
     }
 
-    public void cancel(PaymentId paymentId, String s) {
-        paymentReader.read(paymentId);
+    public void cancel(PaymentId paymentId, String cancelReason) {
+        Payment payment = paymentReader.read(paymentId);
+        paymentGateway.cancel(payment.getPaymentKey(), cancelReason);
+        paymentManager.cancel(payment, cancelReason);
     }
 }

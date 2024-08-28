@@ -1,6 +1,7 @@
 package core.startup.mealtoktok.infra.toss.dto;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import core.startup.mealtoktok.domain.order.Money;
 import core.startup.mealtoktok.domain.order.OrderId;
@@ -8,6 +9,8 @@ import core.startup.mealtoktok.domain.payment.Payment;
 import core.startup.mealtoktok.domain.payment.PaymentMethod;
 import core.startup.mealtoktok.domain.payment.PaymentProvider;
 import core.startup.mealtoktok.domain.payment.PaymentState;
+
+import com.google.api.services.storage.Storage.Operations.Cancel;
 
 public record TossPayment(
         String mId,
@@ -17,8 +20,8 @@ public record TossPayment(
         String orderName,
         long taxExemptionAmount,
         String status,
-        ZonedDateTime requestedAt, // ZonedDateTime으로 받음
-        ZonedDateTime approvedAt, // ZonedDateTime으로 받음
+        ZonedDateTime requestedAt,
+        ZonedDateTime approvedAt,
         boolean useEscrow,
         boolean cultureExpense,
         Card card,
@@ -37,7 +40,8 @@ public record TossPayment(
         int vat,
         long taxFreeAmount,
         String method,
-        String version) {
+        String version,
+        List<Cancel> cancels) {
 
     public Payment toDomain() {
         return Payment.builder()
@@ -65,6 +69,19 @@ public record TossPayment(
             String acquireStatus,
             String receiptUrl,
             int amount) {}
+
+    public record Cancel(
+            String transactionKey,
+            String cancelReason,
+            long taxExemptionAmount,
+            ZonedDateTime canceledAt,
+            long easyPayDiscountAmount,
+            String receiptKey,
+            long cancelAmount,
+            long taxFreeAmount,
+            long refundableAmount,
+            String cancelStatus,
+            String cancelRequestId) {}
 
     public record EasyPay(String provider, int amount, int discountAmount) {}
 

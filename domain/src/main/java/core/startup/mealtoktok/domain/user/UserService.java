@@ -12,6 +12,12 @@ public class UserService {
     private final userRemover userRemover;
     private final UserValidator userValidator;
 
+    public UserId addDefaultDeliveryAddress(
+            User currentUser, AddressWithCoordinate addressWithCoordinate) {
+        return userUpdater.addDeliveryAddress(
+                currentUser, DeliveryAddress.configure(addressWithCoordinate));
+    }
+
     public UserId addDeliveryAddress(
             User currentUser, AddressWithCoordinate addressWithCoordinate) {
         return userUpdater.addDeliveryAddress(

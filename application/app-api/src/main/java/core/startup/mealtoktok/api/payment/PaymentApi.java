@@ -19,7 +19,7 @@ import core.startup.mealtoktok.domain.payment.PaymentService;
 @RestController
 @RequestMapping("/api/v1/payments")
 @RequiredArgsConstructor
-public class PaymentApi {
+public class PaymentApi implements PaymentApiDocs {
 
     private final PaymentService paymentService;
 
@@ -41,6 +41,6 @@ public class PaymentApi {
     public Response<Void> cancel(
             @PathVariable Long paymentId, @RequestBody PaymentCancelRequest request) {
         paymentService.cancel(PaymentId.from(paymentId), request.cancelReason());
-        return Response.success();
+        return Response.success("성공적으로 결제가 취소되었습니다.");
     }
 }

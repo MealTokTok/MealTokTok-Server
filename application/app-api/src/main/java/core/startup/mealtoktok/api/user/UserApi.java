@@ -58,6 +58,16 @@ public class UserApi implements UserApiDocs {
         return Response.success(userService.changeEmail(currentUser, email));
     }
 
+    @PatchMapping("/my/addresses/default")
+    public Response<UserId> addDefaultDeliveryAddress(
+            @AuthenticationPrincipal User currentUser,
+            @RequestBody AddressInfoRequest addressInfoRequest) {
+
+        return Response.success(
+                userService.addDefaultDeliveryAddress(
+                        currentUser, addressInfoRequest.toAddressWithCoordinate()));
+    }
+
     @PatchMapping("/my/addresses")
     public Response<UserId> addDeliveryAddress(
             @AuthenticationPrincipal User currentUser,

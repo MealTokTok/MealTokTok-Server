@@ -1,5 +1,8 @@
 package core.startup.mealtoktok.common.domain;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public abstract class BaseId<T> {
 
     private T value;
