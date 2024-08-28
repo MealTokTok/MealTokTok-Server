@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.SliceResult;
+import core.startup.mealtoktok.domain.order.OrderId;
 
 @Component
 @RequiredArgsConstructor
@@ -16,8 +17,8 @@ public class MealDeliveryReader {
 
     private final MealDeliveryRepository mealDeliveryRepository;
 
-    public List<MealDelivery> read(String orderId) {
-        return mealDeliveryRepository.findAll(orderId);
+    public List<MealDelivery> read(OrderId orderId) {
+        return mealDeliveryRepository.findAllByOrderId(orderId);
     }
 
     public MealDelivery read(MealDeliveryId mealDeliveryId) {

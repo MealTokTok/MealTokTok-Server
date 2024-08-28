@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.dishstore.Dish;
 import core.startup.mealtoktok.domain.dishstore.DishInfo;
-import core.startup.mealtoktok.domain.order.Money;
 import core.startup.mealtoktok.infra.order.entity.MoneyConverter;
 
 @Entity

@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.domain.payment;
 
-import core.startup.mealtoktok.domain.order.Money;
+import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.order.OrderId;
 
 public interface PaymentGateway {

@@ -17,6 +17,7 @@ import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryRepository;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliverySearchCond;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
+import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.infra.jpa.util.PagingUtil;
 import core.startup.mealtoktok.infra.mealdelivery.entity.MealDeliveryEntity;
 import core.startup.mealtoktok.infra.mealdelivery.exception.MealDeliveryNotFoundException;
@@ -65,8 +66,8 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
     }
 
     @Override
-    public List<MealDelivery> findAll(String orderId) {
-        return mealDeliveryJpaRepository.findAllByOrderId(orderId).parallelStream()
+    public List<MealDelivery> findAllByOrderId(OrderId orderId) {
+        return mealDeliveryJpaRepository.findAllByOrderId(orderId.getValue()).parallelStream()
                 .map(MealDeliveryEntity::toDomain)
                 .toList();
     }

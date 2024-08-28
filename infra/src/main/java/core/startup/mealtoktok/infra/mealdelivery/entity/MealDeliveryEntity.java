@@ -23,7 +23,8 @@ import core.startup.mealtoktok.domain.mealdelivery.DeliveryDateTime;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
-import core.startup.mealtoktok.domain.mealdelivery.OrderedMeal;
+import core.startup.mealtoktok.domain.order.OrderId;
+import core.startup.mealtoktok.domain.order.OrderedMeal;
 import core.startup.mealtoktok.domain.order.ReservedTime;
 import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
 
@@ -56,7 +57,7 @@ public class MealDeliveryEntity extends BaseTimeEntity {
 
     public static MealDeliveryEntity from(MealDelivery mealDelivery) {
         return MealDeliveryEntity.builder()
-                .orderId(mealDelivery.getOrderId())
+                .orderId(mealDelivery.getOrderId().getValue())
                 .mealId(mealDelivery.getOrderedMeal().mealId())
                 .includeRice(mealDelivery.getOrderedMeal().includeRice())
                 .reservedDate(mealDelivery.getOrderedMeal().reservedSchedule().reservedDate())
@@ -70,7 +71,7 @@ public class MealDeliveryEntity extends BaseTimeEntity {
     public MealDelivery toDomain() {
         return MealDelivery.builder()
                 .mealDeliveryId(MealDeliveryId.from(mealDeliveryId))
-                .orderId(orderId)
+                .orderId(OrderId.from(orderId))
                 .orderedMeal(
                         OrderedMeal.create(
                                 mealId,

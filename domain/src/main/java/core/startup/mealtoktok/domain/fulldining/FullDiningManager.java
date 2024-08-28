@@ -8,19 +8,20 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
-import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
+import core.startup.mealtoktok.domain.order.FullDiningInfo;
+import core.startup.mealtoktok.domain.order.FullDiningReserver;
 
 @Component
 @RequiredArgsConstructor
-public class FullDiningManager {
+public class FullDiningManager implements FullDiningReserver {
 
     private final FullDiningRepository fullDiningRepository;
 
-    public void reserve(List<MealDelivery> mealDeliveries) {
+    public void reserve(List<FullDiningInfo> fullDiningInfos) {
         List<FullDining> fullDinings =
-                mealDeliveries.parallelStream()
-                        .filter(MealDelivery::hasFullDiningOption)
+                fullDiningInfos.stream()
+                        .filter(FullDiningInfo::hasFullDiningOption)
                         .map(FullDining::create)
                         .toList();
         fullDiningRepository.saveAll(fullDinings);

@@ -17,7 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import core.startup.mealtoktok.domain.order.Money;
+import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.payment.Payment;
 import core.startup.mealtoktok.domain.payment.PaymentId;
@@ -56,7 +56,9 @@ public class PaymentEntity {
 
     private String failedReason;
 
-    private String canceledReason;
+    private String cancelledReason;
+
+    private LocalDateTime cancelledAt;
 
     private LocalDateTime requestedAt;
 
@@ -65,13 +67,14 @@ public class PaymentEntity {
     public static PaymentEntity from(Payment payment) {
         return PaymentEntity.builder()
                 .paymentKey(payment.getPaymentKey())
-                .orderId(payment.getOrderId().toString())
+                .orderId(payment.getOrderId().getValue())
                 .payAmount(payment.getPayAmount())
                 .paymentMethod(payment.getPaymentMethod())
                 .paymentProvider(payment.getPaymentProvider())
                 .paymentState(payment.getPaymentState())
                 .failedReason(payment.getFailedReason())
-                .canceledReason(payment.getCanceledReason())
+                .cancelledReason(payment.getCanceledReason())
+                .cancelledAt(payment.getCanceledAt())
                 .requestedAt(payment.getRequestedAt())
                 .approvedAt(payment.getApprovedAt())
                 .build();
@@ -87,7 +90,8 @@ public class PaymentEntity {
                 .paymentProvider(paymentProvider)
                 .paymentState(paymentState)
                 .failedReason(failedReason)
-                .canceledReason(canceledReason)
+                .canceledReason(cancelledReason)
+                .canceledAt(cancelledAt)
                 .requestedAt(requestedAt)
                 .approvedAt(approvedAt)
                 .build();
@@ -95,6 +99,7 @@ public class PaymentEntity {
 
     public void update(Payment payment) {
         this.paymentState = payment.getPaymentState();
-        this.canceledReason = payment.getCanceledReason();
+        this.cancelledReason = payment.getCanceledReason();
+        this.cancelledAt = payment.getCanceledAt();
     }
 }

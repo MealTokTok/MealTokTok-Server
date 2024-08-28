@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.infra.toss.dto;
 
-import core.startup.mealtoktok.domain.order.Money;
+import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.order.OrderId;
 
 public record TossConfirmRequest(String paymentKey, String orderId, String amount) {

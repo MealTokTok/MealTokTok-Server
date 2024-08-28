@@ -2,6 +2,8 @@ package core.startup.mealtoktok.domain.order;
 
 import java.math.BigDecimal;
 
+import core.startup.mealtoktok.common.dto.Money;
+
 public record OrderPrice(
         Money mealPrice, Money deliveryPrice, Money fullServicePrice, Money totalPrice) {
 

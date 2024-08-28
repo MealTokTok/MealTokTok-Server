@@ -3,14 +3,12 @@ package core.startup.mealtoktok.infra.toss.dto;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import core.startup.mealtoktok.domain.order.Money;
+import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.payment.Payment;
 import core.startup.mealtoktok.domain.payment.PaymentMethod;
 import core.startup.mealtoktok.domain.payment.PaymentProvider;
 import core.startup.mealtoktok.domain.payment.PaymentState;
-
-import com.google.api.services.storage.Storage.Operations.Cancel;
 
 public record TossPayment(
         String mId,

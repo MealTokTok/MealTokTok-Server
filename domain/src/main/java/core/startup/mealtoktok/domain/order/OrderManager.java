@@ -4,17 +4,19 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryCountManager;
-
 @Component
 @RequiredArgsConstructor
-public class OrderUpdater implements MealDeliveryCountManager {
+public class OrderManager {
 
     private final OrderRepository orderRepository;
 
-    @Override
-    public void decrease(String orderId) {
-        Order order = orderRepository.find(OrderId.from(orderId));
+    public void cancelOrder(Order order) {
+        order.cancelPayment();
+        orderRepository.update(order);
+    }
+
+    public void reduceDeliveryCount(OrderId orderId) {
+        Order order = orderRepository.findById(orderId);
         order.completeOneDelivery();
         orderRepository.update(order);
     }

@@ -35,7 +35,7 @@ public class CoreOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Order find(OrderId orderId) {
+    public Order findById(OrderId orderId) {
         return orderJpaRepository
                 .findById(orderId.getValue())
                 .map(OrderEntity::toDomain)

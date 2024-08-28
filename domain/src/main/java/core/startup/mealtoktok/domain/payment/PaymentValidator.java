@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.order.Money;
+import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.order.Order;
 import core.startup.mealtoktok.domain.payment.exception.PaymentAmountMismatchException;
 

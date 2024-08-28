@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 
 import core.startup.mealtoktok.domain.mealdelivery.exception.MealDeliveryDomainException;
+import core.startup.mealtoktok.domain.order.MealDeliveryReservationInfo;
+import core.startup.mealtoktok.domain.order.OrderId;
+import core.startup.mealtoktok.domain.order.OrderType;
+import core.startup.mealtoktok.domain.order.OrderedMeal;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -13,11 +17,21 @@ import core.startup.mealtoktok.domain.mealdelivery.exception.MealDeliveryDomainE
 public class MealDelivery {
 
     private MealDeliveryId mealDeliveryId;
-    private String orderId;
-    private OrderTypeForDelivery orderType;
+    private OrderId orderId;
+    private OrderType orderType;
     private OrderedMeal orderedMeal;
     private DeliveryState deliveryState;
     private DeliveryDateTime deliveryDateTime;
+
+    public static MealDelivery create(MealDeliveryReservationInfo info) {
+        return new MealDelivery(
+                null,
+                info.orderId(),
+                info.orderType(),
+                info.orderedMeal(),
+                DeliveryState.PENDING,
+                DeliveryDateTime.init());
+    }
 
     public void deliveryRequest() {
         this.deliveryDateTime = DeliveryDateTime.deliveryRequest(deliveryDateTime);
@@ -40,17 +54,6 @@ public class MealDelivery {
 
         this.deliveryDateTime = DeliveryDateTime.complete(deliveryDateTime);
         this.deliveryState = DeliveryState.DELIVERED;
-    }
-
-    public static MealDelivery create(
-            String orderId, OrderTypeForDelivery orderTypeForDelivery, OrderedMeal orderedMeal) {
-        return new MealDelivery(
-                null,
-                orderId,
-                orderTypeForDelivery,
-                orderedMeal,
-                DeliveryState.PENDING,
-                DeliveryDateTime.init());
     }
 
     public boolean hasFullDiningOption() {

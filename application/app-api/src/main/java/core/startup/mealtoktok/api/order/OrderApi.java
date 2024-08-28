@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.api.order.dto.MealOrderRequest;
-import core.startup.mealtoktok.api.order.dto.OrderDetailResponse;
+import core.startup.mealtoktok.api.order.dto.OrderCancelRequest;
 import core.startup.mealtoktok.api.order.dto.OrderResponse;
 import core.startup.mealtoktok.common.annotation.CursorDefault;
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.order.Order;
-import core.startup.mealtoktok.domain.order.OrderDetail;
 import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.order.OrderSearchCond;
 import core.startup.mealtoktok.domain.order.OrderService;
@@ -53,12 +52,15 @@ public class OrderApi implements OrderApiDocs {
         return Response.success(orderSliceResult.map(OrderResponse::from));
     }
 
-    @GetMapping("/{orderId}")
-    public Response<OrderDetailResponse> orderDetail(
-            @AuthenticationPrincipal User currentUser, @PathVariable String orderId) {
-        OrderDetail orderDetail =
-                orderService.getOrderDetail(Orderer.from(currentUser), OrderId.from(orderId));
-        return Response.success(OrderDetailResponse.from(orderDetail));
+    @Override
+    @PostMapping("/{orderId}/cancel")
+    public Response<OrderId> cancelOrder(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable String orderId,
+            OrderCancelRequest request) {
+        return Response.success(
+                orderService.cancelOrder(
+                        Orderer.from(currentUser), OrderId.from(orderId), request.cancelReason()));
     }
 
     @GetMapping("/{orderId}/state")

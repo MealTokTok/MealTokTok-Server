@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.mealdelivery.exception.NextMealDeliveryNotFound;
+import core.startup.mealtoktok.domain.order.OrderId;
+import core.startup.mealtoktok.domain.order.OrderManager;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class MealDeliveryService {
 
     private final MealDeliveryReader mealDeliveryReader;
     private final MealDeliveryUpdater mealDeliveryUpdater;
-    private final MealDeliveryCountManager mealDeliveryCountManager;
+    private final OrderManager orderManager;
 
     public MealDelivery getDeliveringMeal(Recipient recipient) {
         return mealDeliveryReader.read(recipient, DeliveryState.DELIVERING);
@@ -35,7 +37,7 @@ public class MealDeliveryService {
         return mealDeliveryReader.read(recipient, cond, cursor);
     }
 
-    public MealDelivery getNextDeliveryMeal(String orderId) {
+    public MealDelivery getNextDeliveryMeal(OrderId orderId) {
         List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId);
         return mealDeliveries.stream()
                 .filter(mealDelivery -> mealDelivery.getDeliveryState() == DeliveryState.PENDING)
@@ -67,7 +69,7 @@ public class MealDeliveryService {
     public void completeMealDelivery(MealDeliveryId mealDeliveryId) {
         MealDelivery mealDelivery = mealDeliveryReader.read(mealDeliveryId);
         mealDeliveryUpdater.changeDeliveryState(mealDelivery, DeliveryState.DELIVERED);
-        mealDeliveryCountManager.decrease(mealDelivery.getOrderId());
+        orderManager.reduceDeliveryCount(mealDelivery.getOrderId());
         // TODO :알림 발송 alarmSender.send(orderer, DeliveryState.DELIVERED);
     }
 }

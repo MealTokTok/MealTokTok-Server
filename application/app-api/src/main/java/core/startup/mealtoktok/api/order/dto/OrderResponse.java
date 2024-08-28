@@ -29,6 +29,6 @@ public record OrderResponse(
                 order.getOrderPrice(),
                 order.getTotalMealDeliveryCount(),
                 order.getRemainingMealDeliveryCount(),
-                order.getOrderTime());
+                order.getOrderedAt());
     }
 }
