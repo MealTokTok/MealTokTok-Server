@@ -1,5 +1,7 @@
 package core.startup.mealtoktok.infra.order.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -47,6 +49,8 @@ public class OrderEntity extends BaseTimeEntity {
 
     private Integer remainingMealDeliveryCount;
 
+    private LocalDateTime cancelledAt;
+
     public static OrderEntity from(Order order) {
         return OrderEntity.builder()
                 .orderId(order.getOrderId().getValue())
@@ -58,7 +62,8 @@ public class OrderEntity extends BaseTimeEntity {
                 .deliveryAddressId(order.getDeliveryAddressId())
                 .totalMealDeliveryCount(order.getTotalMealDeliveryCount())
                 .remainingMealDeliveryCount(order.getRemainingMealDeliveryCount())
-                .createdAt(order.getOrderTime())
+                .cancelledAt(order.getCancelledAt())
+                .createdAt(order.getOrderedAt())
                 .build();
     }
 
@@ -73,12 +78,14 @@ public class OrderEntity extends BaseTimeEntity {
                 .deliveryAddressId(deliveryAddressId)
                 .totalMealDeliveryCount(totalMealDeliveryCount)
                 .remainingMealDeliveryCount(remainingMealDeliveryCount)
-                .orderTime(createdAt)
+                .cancelledAt(cancelledAt)
+                .orderedAt(createdAt)
                 .build();
     }
 
     public void update(Order order) {
         this.orderState = order.getOrderState();
         this.remainingMealDeliveryCount = order.getRemainingMealDeliveryCount();
+        this.cancelledAt = order.getCancelledAt();
     }
 }

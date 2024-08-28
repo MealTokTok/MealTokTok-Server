@@ -1,5 +1,6 @@
 package core.startup.mealtoktok.domain.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ public class User {
     private UserRole userRole;
     private Set<String> deviceTokens;
     private UserDateTime userDateTime;
-    private List<DeliveryAddress> deliveryAddresses;
+    private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
     public void update(UserProfile userProfile, String deviceToken) {
         this.userProfile.update(userProfile);

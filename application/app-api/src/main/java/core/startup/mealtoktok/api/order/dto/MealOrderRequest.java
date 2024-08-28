@@ -2,10 +2,10 @@ package core.startup.mealtoktok.api.order.dto;
 
 import java.util.List;
 
-import core.startup.mealtoktok.domain.mealdelivery.OrderedMeal;
 import core.startup.mealtoktok.domain.order.OrderContent;
 import core.startup.mealtoktok.domain.order.OrderPrice;
 import core.startup.mealtoktok.domain.order.OrderType;
+import core.startup.mealtoktok.domain.order.OrderedMeal;
 
 public record MealOrderRequest(
         OrderType orderType,

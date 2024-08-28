@@ -12,7 +12,7 @@ public interface OrderRepository {
 
     List<Order> findAll(Orderer orderer);
 
-    Order find(OrderId orderId);
+    Order findById(OrderId orderId);
 
     SliceResult<Order> findByCondition(Orderer orderer, OrderSearchCond cond, Cursor cursor);
 

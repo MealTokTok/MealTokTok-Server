@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.domain.order;
+package core.startup.mealtoktok.common.dto;
 
 import static java.math.RoundingMode.*;
 

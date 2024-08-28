@@ -21,7 +21,7 @@ public class OrderReader {
     }
 
     public Order read(OrderId orderId) {
-        return orderRepository.find(orderId);
+        return orderRepository.findById(orderId);
     }
 
     public SliceResult<Order> read(Orderer orderer, OrderSearchCond cond, Cursor cursor) {

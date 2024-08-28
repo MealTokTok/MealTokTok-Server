@@ -1,9 +1,6 @@
-package core.startup.mealtoktok.domain.mealdelivery;
+package core.startup.mealtoktok.domain.order;
 
 import java.time.LocalDate;
-
-import core.startup.mealtoktok.domain.order.ReservedSchedule;
-import core.startup.mealtoktok.domain.order.ReservedTime;
 
 public record OrderedMeal(
         Long mealId,

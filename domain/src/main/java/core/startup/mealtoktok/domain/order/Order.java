@@ -26,7 +26,8 @@ public class Order {
     private Long deliveryAddressId;
     private Integer totalMealDeliveryCount;
     private Integer remainingMealDeliveryCount;
-    private LocalDateTime orderTime;
+    private LocalDateTime orderedAt;
+    private LocalDateTime cancelledAt;
 
     public static Order create(
             OrderId orderId,
@@ -50,10 +51,11 @@ public class Order {
     }
 
     public void cancelPayment() {
-        if (this.orderState != OrderState.PENDING) {
-            throw new OrderDomainException("결제가 완료된 주문은 취소할 수 없습니다.");
+        if (this.orderState.equals(OrderState.IN_DELIVERING)) {
+            throw new OrderDomainException("배달 중인 주문은 결제를 취소할 수 없습니다.");
         }
         this.orderState = OrderState.PAYMENT_CANCELED;
+        this.cancelledAt = LocalDateTime.now();
     }
 
     public void completePayment() {

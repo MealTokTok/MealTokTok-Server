@@ -20,6 +20,7 @@ import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliverySearchCond;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryService;
 import core.startup.mealtoktok.domain.mealdelivery.Recipient;
+import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.user.User;
 
 @RequestMapping("/api/v1/meal-deliveries")
@@ -74,7 +75,8 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
     @GetMapping("/next-delivery")
     public Response<MealDeliveryResponse> nextDeliveryMeal(@RequestParam String orderId) {
         return Response.success(
-                MealDeliveryResponse.from(mealDeliveryService.getNextDeliveryMeal(orderId)));
+                MealDeliveryResponse.from(
+                        mealDeliveryService.getNextDeliveryMeal(OrderId.from(orderId))));
     }
 
     @PatchMapping("/{mealDeliveryId}/{deliveryState}")

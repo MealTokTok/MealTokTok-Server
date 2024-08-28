@@ -5,6 +5,7 @@ import java.util.List;
 
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.SliceResult;
+import core.startup.mealtoktok.domain.order.OrderId;
 
 public interface MealDeliveryRepository {
 
@@ -12,7 +13,7 @@ public interface MealDeliveryRepository {
 
     List<MealDelivery> saveAll(List<MealDelivery> mealDeliveries);
 
-    List<MealDelivery> findAll(String orderId);
+    List<MealDelivery> findAllByOrderId(OrderId orderId);
 
     MealDelivery findByOrdererAndDeliveryState(Recipient recipient, DeliveryState deliveryState);
 

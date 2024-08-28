@@ -12,10 +12,6 @@ import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.SliceResult;
-import core.startup.mealtoktok.domain.fulldining.FullDiningManager;
-import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
-import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryReader;
-import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryReserver;
 import core.startup.mealtoktok.domain.user.DeliveryAddress;
 
 @Service
@@ -26,29 +22,32 @@ public class OrderService {
     private final OrderValidator orderValidator;
     private final OrderReader orderReader;
     private final MealDeliveryReserver mealDeliveryReserver;
-    private final MealDeliveryReader mealDeliveryReader;
-    private final FullDiningManager fullDiningManager;
+    private final OrderManager orderManager;
+    private final PaymentCanceler paymentCanceler;
+    private final FullDiningReserver fullDiningReserver;
 
     @Transactional
     public OrderId orderMeals(
             Orderer orderer, OrderContent orderContent, DeliveryAddress deliveryAddress) {
         orderValidator.validate(orderContent);
         OrderId orderId = orderAppender.append(orderer, orderContent, deliveryAddress);
-        List<MealDelivery> mealDeliveries =
-                mealDeliveryReserver.reserve(orderContent.toMealDeliveries(orderId));
-        fullDiningManager.reserve(mealDeliveries);
+        List<FullDiningInfo> fullDiningInfos =
+                mealDeliveryReserver.reserve(orderContent.toReservationInfos(orderId));
+        fullDiningReserver.reserve(fullDiningInfos);
+        return orderId;
+    }
+
+    @Transactional
+    public OrderId cancelOrder(Orderer orderer, OrderId orderId, String cancelReason) {
+        Order order = orderReader.read(orderId);
+        orderValidator.validate(order, orderer);
+        orderManager.cancelOrder(order);
+        paymentCanceler.cancel(order, cancelReason);
         return orderId;
     }
 
     public SliceResult<Order> searchOrders(Orderer orderer, OrderSearchCond cond, Cursor cursor) {
         return orderReader.read(orderer, cond, cursor);
-    }
-
-    public OrderDetail getOrderDetail(Orderer orderer, OrderId orderId) {
-        Order order = orderReader.read(orderId);
-        orderValidator.validate(order, orderer);
-        List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId.getValue());
-        return OrderDetail.of(order, mealDeliveries);
     }
 
     public OrderState getOrderState(Orderer orderer, OrderId orderId) {

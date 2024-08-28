@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.AttributeConverter;
 
-import core.startup.mealtoktok.domain.order.Money;
+import core.startup.mealtoktok.common.dto.Money;
 
 public class MoneyConverter implements AttributeConverter<Money, BigDecimal> {
 

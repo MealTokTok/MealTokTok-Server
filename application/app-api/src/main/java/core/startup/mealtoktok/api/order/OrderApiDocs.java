@@ -1,7 +1,7 @@
 package core.startup.mealtoktok.api.order;
 
 import core.startup.mealtoktok.api.order.dto.MealOrderRequest;
-import core.startup.mealtoktok.api.order.dto.OrderDetailResponse;
+import core.startup.mealtoktok.api.order.dto.OrderCancelRequest;
 import core.startup.mealtoktok.api.order.dto.OrderResponse;
 import core.startup.mealtoktok.common.dto.Cursor;
 import core.startup.mealtoktok.common.dto.Response;
@@ -24,8 +24,8 @@ public interface OrderApiDocs {
     Response<SliceResult<OrderResponse>> searchOrders(
             User currentUser, OrderSearchCond cond, Cursor cursor);
 
-    @Operation(summary = "주문 내역 상세 조회")
-    Response<OrderDetailResponse> orderDetail(User currentUser, String orderId);
+    @Operation(summary = "주문 취소")
+    Response<OrderId> cancelOrder(User currentUser, String orderId, OrderCancelRequest request);
 
     @Operation(summary = "주문 상태 조회")
     Response<OrderState> orderState(User currentUser, String orderId);

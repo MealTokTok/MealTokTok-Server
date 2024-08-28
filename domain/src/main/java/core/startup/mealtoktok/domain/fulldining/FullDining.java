@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import core.startup.mealtoktok.domain.mealdelivery.MealDelivery;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
+import core.startup.mealtoktok.domain.order.FullDiningInfo;
 
 @Getter
 @Builder
@@ -22,9 +22,12 @@ public class FullDining {
     private CollectingState collectState;
     private LocalDateTime collectedDateTime;
 
-    public static FullDining create(MealDelivery mealDelivery) {
+    public static FullDining create(FullDiningInfo fullDiningInfo) {
         return new FullDining(
-                null, mealDelivery.getMealDeliveryId(), CollectingState.NOT_COLLECTED, null);
+                null,
+                MealDeliveryId.from(fullDiningInfo.mealDeliveryId()),
+                CollectingState.NOT_COLLECTED,
+                null);
     }
 
     public void collectRequest() {
