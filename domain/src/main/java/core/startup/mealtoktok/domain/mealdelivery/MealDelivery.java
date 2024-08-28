@@ -33,7 +33,7 @@ public class MealDelivery {
                 DeliveryDateTime.init());
     }
 
-    public void deliveryRequest() {
+    public void requestDelivery() {
         this.deliveryDateTime = DeliveryDateTime.deliveryRequest(deliveryDateTime);
         this.deliveryState = DeliveryState.DELIVERY_REQUESTED;
     }

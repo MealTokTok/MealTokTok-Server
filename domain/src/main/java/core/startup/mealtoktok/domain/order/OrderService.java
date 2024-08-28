@@ -37,6 +37,12 @@ public class OrderService {
         return orderId;
     }
 
+    public OrderId acceptOrder(OrderId orderId) {
+        Order order = orderReader.read(orderId);
+        orderManager.acceptOrder(order);
+        return orderId;
+    }
+
     @Transactional
     public OrderId cancelOrder(Orderer orderer, OrderId orderId, String cancelReason) {
         Order order = orderReader.read(orderId);

@@ -27,6 +27,9 @@ public interface OrderApiDocs {
     @Operation(summary = "주문 조회")
     Response<OrderResponse> getOrder(String orderId);
 
+    @Operation(summary = "주문 접수")
+    Response<OrderId> acceptOrder(String orderId);
+
     @Operation(summary = "주문 취소")
     Response<OrderId> cancelOrder(User currentUser, String orderId, OrderCancelRequest request);
 

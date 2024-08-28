@@ -36,6 +36,12 @@ public interface MealDeliveryApiDocs {
     @Operation(summary = "해당 주문의 다음 도시락 배송 조회")
     Response<MealDeliveryResponse> nextDeliveryMeal(String orderId);
 
-    @Operation(summary = "도시락 배송 상태 변경")
-    Response<Void> changeDeliveryState(Long mealDeliveryId, DeliveryState deliveryState);
+    @Operation(summary = "도시락 배송 요청")
+    Response<Void> requestDelivery(Long mealDeliveryId);
+
+    @Operation(summary = "도시락 배송 시작")
+    Response<Void> startDelivery(Long mealDeliveryId);
+
+    @Operation(summary = "도시락 배송 완료")
+    Response<Void> completeDelivery(Long mealDeliveryId);
 }

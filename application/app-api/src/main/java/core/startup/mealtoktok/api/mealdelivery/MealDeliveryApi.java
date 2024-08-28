@@ -79,19 +79,21 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
                         mealDeliveryService.getNextDeliveryMeal(OrderId.from(orderId))));
     }
 
-    @PatchMapping("/{mealDeliveryId}/{deliveryState}")
-    public Response<Void> changeDeliveryState(
-            @PathVariable Long mealDeliveryId, @PathVariable DeliveryState deliveryState) {
+    @PatchMapping("/{mealDeliveryId}/request")
+    public Response<Void> requestDelivery(@PathVariable Long mealDeliveryId) {
+        mealDeliveryService.requestDelivery(MealDeliveryId.from(mealDeliveryId));
+        return Response.success("배송 요청 성공");
+    }
 
-        switch (deliveryState) {
-            case DELIVERY_REQUESTED ->
-                    mealDeliveryService.reserveMealDelivery(MealDeliveryId.from(mealDeliveryId));
-            case DELIVERING ->
-                    mealDeliveryService.startMealDelivery(MealDeliveryId.from(mealDeliveryId));
-            case DELIVERED ->
-                    mealDeliveryService.completeMealDelivery(MealDeliveryId.from(mealDeliveryId));
-        }
+    @PatchMapping("/{mealDeliveryId}/start")
+    public Response<Void> startDelivery(@PathVariable Long mealDeliveryId) {
+        mealDeliveryService.startDelivery(MealDeliveryId.from(mealDeliveryId));
+        return Response.success("배송 시작 성공");
+    }
 
-        return Response.success("배송 상태 변경 성공");
+    @PatchMapping("/{mealDeliveryId}/complete")
+    public Response<Void> completeDelivery(@PathVariable Long mealDeliveryId) {
+        mealDeliveryService.completeDelivery(MealDeliveryId.from(mealDeliveryId));
+        return Response.success("배송 완료 성공");
     }
 }

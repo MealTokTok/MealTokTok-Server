@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.order.Order;
 import core.startup.mealtoktok.domain.order.OrderId;
+import core.startup.mealtoktok.domain.order.OrderManager;
 import core.startup.mealtoktok.domain.order.OrderReader;
 
 @Service
@@ -18,12 +19,14 @@ public class PaymentService {
     private final PaymentGateway paymentGateway;
     private final PaymentAppender paymentAppender;
     private final OrderReader orderReader;
+    private final OrderManager orderManager;
 
     @Transactional
     public Payment pay(String paymentKey, OrderId orderId, Money payAmount) {
         Order order = orderReader.read(orderId);
         paymentValidator.validate(order, payAmount);
         Payment confirmedPayment = paymentGateway.confirm(paymentKey, orderId, payAmount);
+        orderManager.completePayment(order);
         return paymentAppender.append(confirmedPayment);
     }
 
