@@ -1,9 +1,9 @@
 package core.startup.mealtoktok.api.payment;
 
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.payment.dto.PaymentFailReason;
 import core.startup.mealtoktok.api.payment.dto.PaymentRequest;
 import core.startup.mealtoktok.api.payment.dto.PaymentResponse;
-import core.startup.mealtoktok.common.dto.Response;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

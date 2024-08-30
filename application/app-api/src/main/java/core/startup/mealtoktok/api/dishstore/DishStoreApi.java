@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.api.dishstore.request.DishStoreRequest;
 import core.startup.mealtoktok.api.dishstore.response.DishStoreResponse;
-import core.startup.mealtoktok.common.dto.Response;
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.domain.dishstore.DishStore;
 import core.startup.mealtoktok.domain.dishstore.DishStoreService;
 import core.startup.mealtoktok.domain.dishstore.TargetDishStore;

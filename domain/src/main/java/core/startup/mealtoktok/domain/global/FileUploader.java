@@ -1,6 +1,8 @@
-package core.startup.mealtoktok.common.dto;
+package core.startup.mealtoktok.domain.global;
 
 import java.util.List;
+
+import core.startup.mealtoktok.common.dto.Image;
 
 public interface FileUploader {
 

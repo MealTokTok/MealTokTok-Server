@@ -12,12 +12,11 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import core.startup.mealtoktok.common.dto.File;
-import core.startup.mealtoktok.common.dto.FileUploader;
 import core.startup.mealtoktok.common.dto.Image;
+import core.startup.mealtoktok.domain.global.File;
+import core.startup.mealtoktok.domain.global.FileUploader;
 import core.startup.mealtoktok.infra.gcs.exception.FileUploadFailException;
 
-import com.google.api.client.util.ByteStreams;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 
@@ -53,7 +52,7 @@ public class GcsFileUploader implements FileUploader {
 
         try (var writer = storage.writer(blobInfo);
                 var input = file.inputStream()) {
-            ByteStreams.copy(input, Channels.newOutputStream(writer));
+            input.transferTo(Channels.newOutputStream(writer));
             log.info("이미지 업로드 성공 - {}", storagePath + uuid);
             return Image.from(storagePath + uuid);
         } catch (IOException e) {

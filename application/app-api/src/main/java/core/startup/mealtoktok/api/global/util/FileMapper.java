@@ -1,11 +1,12 @@
 package core.startup.mealtoktok.api.global.util;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import core.startup.mealtoktok.common.dto.File;
+import core.startup.mealtoktok.domain.global.File;
 
 public class FileMapper {
 
@@ -14,6 +15,16 @@ public class FileMapper {
             return Collections.emptyList();
         }
 
-        return files.stream().map(File::from).toList();
+        return files.stream()
+                .filter(file -> file != null && !file.isEmpty())
+                .map(
+                        file -> {
+                            try {
+                                return File.of(file.getContentType(), file.getInputStream());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
+                .toList();
     }
 }

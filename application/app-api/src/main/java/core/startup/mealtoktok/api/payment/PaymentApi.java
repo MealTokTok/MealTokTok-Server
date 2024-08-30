@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.payment.dto.PaymentFailReason;
 import core.startup.mealtoktok.api.payment.dto.PaymentRequest;
 import core.startup.mealtoktok.api.payment.dto.PaymentResponse;
-import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.payment.PaymentService;
 
 @RestController

@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.common.dto;
+package core.startup.mealtoktok.api.global.dto;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.*;
 

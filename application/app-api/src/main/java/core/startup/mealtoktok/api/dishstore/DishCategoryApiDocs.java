@@ -4,7 +4,7 @@ import java.util.List;
 
 import core.startup.mealtoktok.api.dishstore.request.DishCategoryRequest;
 import core.startup.mealtoktok.api.dishstore.response.DishCategoryResponse;
-import core.startup.mealtoktok.common.dto.Response;
+import core.startup.mealtoktok.api.global.dto.Response;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

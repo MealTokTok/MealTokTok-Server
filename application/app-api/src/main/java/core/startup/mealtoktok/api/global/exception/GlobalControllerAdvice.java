@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
 
-import core.startup.mealtoktok.common.dto.Response;
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.common.exception.CustomException;
 import core.startup.mealtoktok.common.exception.ErrorReason;
 

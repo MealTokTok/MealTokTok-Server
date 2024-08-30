@@ -9,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest;
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.global.security.JwtTokenizer;
 import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
-import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.AuthService;
 import core.startup.mealtoktok.domain.auth.JwtTokens;
 import core.startup.mealtoktok.domain.auth.OAuthTokens;

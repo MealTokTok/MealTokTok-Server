@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.api.global.web;
+package core.startup.mealtoktok.api.global.config;
 
 import java.util.List;
 

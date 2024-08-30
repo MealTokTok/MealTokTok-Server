@@ -2,9 +2,9 @@ package core.startup.mealtoktok.api.meal;
 
 import java.util.List;
 
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.meal.dto.MealDishResponse;
 import core.startup.mealtoktok.api.meal.dto.MealRequest;
-import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.User;
 
 import io.swagger.v3.oas.annotations.Operation;

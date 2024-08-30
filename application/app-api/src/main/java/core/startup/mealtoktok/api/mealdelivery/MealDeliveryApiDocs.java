@@ -2,9 +2,9 @@ package core.startup.mealtoktok.api.mealdelivery;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.mealdelivery.dto.MealDeliveryResponse;
 import core.startup.mealtoktok.common.dto.Cursor;
-import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.common.dto.SliceResult;
 import core.startup.mealtoktok.domain.mealdelivery.DeliveryState;
 import core.startup.mealtoktok.domain.mealdelivery.MealDeliverySearchCond;

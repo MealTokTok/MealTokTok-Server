@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest.AddressInfoRequest;
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
 import core.startup.mealtoktok.api.user.dto.DeliveryAddressResponse;
 import core.startup.mealtoktok.api.user.dto.UserResponse;
-import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.user.User;
 import core.startup.mealtoktok.domain.user.UserId;
 

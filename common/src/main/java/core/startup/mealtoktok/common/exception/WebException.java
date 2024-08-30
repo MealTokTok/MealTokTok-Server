@@ -5,10 +5,6 @@ import lombok.Getter;
 @Getter
 public class WebException extends CustomException {
 
-    public WebException(BaseErrorCode errorCode, String message) {
-        super(errorCode, message);
-    }
-
     public WebException(BaseErrorCode errorCode) {
         super(errorCode, "웹 계층 예외");
     }

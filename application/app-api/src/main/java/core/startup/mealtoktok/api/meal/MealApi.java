@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.meal.dto.MealDishResponse;
 import core.startup.mealtoktok.api.meal.dto.MealRequest;
-import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.meal.MealAndDishes;
 import core.startup.mealtoktok.domain.meal.MealOwner;
 import core.startup.mealtoktok.domain.meal.MealService;

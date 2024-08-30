@@ -4,8 +4,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import core.startup.mealtoktok.api.auth.dto.OAuthLoginResponse;
 import core.startup.mealtoktok.api.auth.dto.SignUpRequest;
+import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.user.dto.AvailabilityResponse;
-import core.startup.mealtoktok.common.dto.Response;
 import core.startup.mealtoktok.domain.auth.OAuthTokens;
 
 import io.swagger.v3.oas.annotations.Operation;
