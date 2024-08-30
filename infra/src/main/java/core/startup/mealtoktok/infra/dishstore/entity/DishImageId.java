@@ -1,7 +1,9 @@
 package core.startup.mealtoktok.infra.dishstore.entity;
 
-import jakarta.persistence.Embeddable;
 import java.io.Serializable;
+
+import jakarta.persistence.Embeddable;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +23,7 @@ public class DishImageId implements Serializable {
         this.imageId = imageId;
     }
 
-    public void update(Long imageId){
+    public void update(Long imageId) {
         this.imageId = imageId;
     }
 }

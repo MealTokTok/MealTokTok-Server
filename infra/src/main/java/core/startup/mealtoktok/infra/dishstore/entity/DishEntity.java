@@ -53,7 +53,7 @@ public class DishEntity {
                 .build();
     }
 
-    public static DishEntity from(Dish dish){
+    public static DishEntity from(Dish dish) {
         return DishEntity.builder()
                 .dishId(dish.getDishId())
                 .dishName(dish.getDishName())

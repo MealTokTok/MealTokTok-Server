@@ -1,11 +1,13 @@
 package core.startup.mealtoktok.domain.dishstore;
 
-import core.startup.mealtoktok.common.dto.Image;
 import java.util.List;
+
+import core.startup.mealtoktok.common.dto.Image;
 
 public interface DishRepository {
 
-    void saveDish(DishStore dishStore, DishCategory dishCategory, List<Image> images,  DishInfo dishInfo);
+    void saveDish(
+            DishStore dishStore, DishCategory dishCategory, List<Image> images, DishInfo dishInfo);
 
     Dish findDishById(TargetDish targetDish);
 
@@ -40,4 +42,6 @@ public interface DishRepository {
     void saveDishImages(Dish dish, List<Image> images);
 
     void deleteDishImages(List<DishImage> dishImages);
+
+    DishImage findDishImageByDishId(TargetDish targetDish);
 }

@@ -1,15 +1,22 @@
 package core.startup.mealtoktok.domain.meal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.common.dto.Image;
 import core.startup.mealtoktok.domain.dishstore.Dish;
+import core.startup.mealtoktok.domain.dishstore.DishAndImage;
+import core.startup.mealtoktok.domain.dishstore.DishImage;
+import core.startup.mealtoktok.domain.dishstore.DishImageReader;
 import core.startup.mealtoktok.domain.dishstore.DishReader;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
+import core.startup.mealtoktok.domain.global.ImageReader;
+import core.startup.mealtoktok.domain.global.TargetImage;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +29,8 @@ public class MealService {
     private final MealRemover mealRemover;
     private final DishReader dishReader;
     private final MealDishReader mealDishReader;
+    private final DishImageReader dishImageReader;
+    private final ImageReader imageReader;
 
     public void createMeal(MealOwner mealOwner, MealContent newMealContent) {
         mealAppender.append(mealOwner, newMealContent);
@@ -42,7 +51,7 @@ public class MealService {
 
     public MealAndDishes readMealAndDishes(TargetMeal targetMeal) {
         Meal meal = mealReader.read(targetMeal);
-        List<Dish> dishes = readDishesForMeal(meal);
+        List<DishAndImage> dishes = readDishesForMeal(meal);
         return MealAndDishes.of(meal, dishes);
     }
 
@@ -52,9 +61,16 @@ public class MealService {
                 .toList();
     }
 
-    private List<Dish> readDishesForMeal(Meal meal) {
+    private List<DishAndImage> readDishesForMeal(Meal meal) {
         return mealDishReader.read(TargetMeal.from(meal.getMealId())).stream()
-                .map(mealDish -> dishReader.read(TargetDish.from(mealDish.dishId())))
-                .toList();
+                .map(
+                        mealDish -> {
+                            Dish dish = dishReader.read(TargetDish.from(mealDish.dishId()));
+                            DishImage dishImage =
+                                    dishImageReader.read(TargetDish.from(dish.getDishId()));
+                            Image image = imageReader.read(TargetImage.from(dishImage.imageId()));
+                            return DishAndImage.of(dish, image);
+                        })
+                .collect(Collectors.toList());
     }
 }

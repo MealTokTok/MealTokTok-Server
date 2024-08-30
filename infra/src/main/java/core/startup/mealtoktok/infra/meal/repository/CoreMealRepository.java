@@ -17,6 +17,7 @@ import core.startup.mealtoktok.domain.meal.MealRepository;
 import core.startup.mealtoktok.domain.meal.TargetMeal;
 import core.startup.mealtoktok.infra.meal.entity.MealDishEntity;
 import core.startup.mealtoktok.infra.meal.entity.MealEntity;
+import core.startup.mealtoktok.infra.meal.entity.MealOwnerVO;
 import core.startup.mealtoktok.infra.meal.exception.MealNotFoundException;
 
 @Repository
@@ -39,7 +40,7 @@ public class CoreMealRepository implements MealRepository {
 
     @Override
     public List<Meal> findAllByMealOwner(MealOwner mealOwner) {
-        return jpaMealRepository.findAllByMealOwner(mealOwner).stream()
+        return jpaMealRepository.findAllByMealOwner(MealOwnerVO.from(mealOwner)).stream()
                 .map(MealEntity::toDomain)
                 .collect(Collectors.toList());
     }

@@ -24,6 +24,14 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi meal() {
+        return GroupedOpenApi.builder()
+                .group("도시락")
+                .packagesToScan("core.startup.mealtoktok.api.meal")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi auth() {
         return GroupedOpenApi.builder()
                 .group("인증")
