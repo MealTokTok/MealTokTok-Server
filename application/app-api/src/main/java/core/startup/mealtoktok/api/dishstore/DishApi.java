@@ -1,15 +1,21 @@
 package core.startup.mealtoktok.api.dishstore;
 
+import static core.startup.mealtoktok.api.global.util.FileMapper.toFiles;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
+
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +28,7 @@ import core.startup.mealtoktok.domain.dishstore.DishService;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
 import core.startup.mealtoktok.domain.dishstore.TargetDishCategory;
 import core.startup.mealtoktok.domain.dishstore.TargetDishStore;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,15 +37,18 @@ public class DishApi implements DishApiDocs {
 
     private final DishService dishService;
 
-    @PostMapping(("/admin/stores/{storeId}/categories/{categoryId}/dishes"))
+    @PostMapping(value = "/admin/stores/{storeId}/categories/{categoryId}/dishes", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Response<Void> createDish(
             @PathVariable("storeId") Long storeId,
             @PathVariable("categoryId") Long categoryId,
-            @RequestBody DishRequest request) {
+            @RequestPart List<MultipartFile> files,
+            @RequestPart("request") DishRequest request) {
         dishService.createDish(
                 TargetDishStore.from(storeId),
                 TargetDishCategory.from(categoryId),
-                request.toDishInfo());
+                toFiles(files),
+                request.toDishInfo()
+        );
         return Response.success("반찬 생성 성공");
     }
 
@@ -63,10 +73,13 @@ public class DishApi implements DishApiDocs {
         return Response.success(dishResponses);
     }
 
-    @PatchMapping(("/admin/dishes/{dishId}"))
+    @PutMapping(value = "/admin/dishes/{dishId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Response<Void> updateDish(
-            @PathVariable("dishId") Long dishId, @RequestBody DishRequest request) {
-        dishService.updateDish(TargetDish.from(dishId), request.toDishInfo());
+            @PathVariable("dishId") Long dishId,
+            @RequestPart(required = false) List<MultipartFile> files,
+            @RequestPart("request") DishRequest request
+            ) {
+        dishService.updateDish(TargetDish.from(dishId), toFiles(files), request.toDishInfo());
         return Response.success("반찬 수정 성공");
     }
 

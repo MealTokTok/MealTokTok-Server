@@ -1,7 +1,11 @@
 package core.startup.mealtoktok.domain.dishstore;
 
+import core.startup.mealtoktok.common.dto.Image;
+import core.startup.mealtoktok.domain.global.File;
+import core.startup.mealtoktok.domain.global.FileUploader;
 import java.util.List;
 
+import javax.imageio.ImageReader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,25 +22,32 @@ public class DishService {
     private final DishUpdater dishUpdater;
     private final DishStoreReader dishStoreReader;
     private final DishCategoryReader dishCategoryReader;
+    private final DishImageReader dishImageReader;
+    private final FileUploader fileUploader;
 
     public void createDish(
             TargetDishStore targetDishStore,
             TargetDishCategory targetDishCategory,
-            DishInfo dishInfo) {
+            List<File> uploadFiles,
+            DishInfo dishInfo
+    ) {
         DishStore dishStore = dishStoreReader.read(targetDishStore);
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
-        dishAppender.append(dishStore, dishCategory, dishInfo);
+        List<Image> images = fileUploader.upload(uploadFiles);
+        dishAppender.append(dishStore, dishCategory, images, dishInfo);
     }
 
     public void deleteDish(TargetDish targetDish) {
         Dish dish = dishReader.read(targetDish);
-        dishRemover.remove(dish);
+        List<DishImage> dishImages = dishImageReader.read(targetDish);
+        dishRemover.remove(dish, dishImages);
     }
 
-    public void updateDish(TargetDish targetDish, DishInfo dishInfo) {
+    public void updateDish(TargetDish targetDish, List<File> uploadFiles, DishInfo dishInfo) {
         Dish dish = dishReader.read(targetDish);
         DishStore dishStore = dishStoreReader.read(TargetDishStore.from(dish.getDishStoreId()));
-        dishUpdater.update(dishStore, dish, dishInfo);
+        List<Image> images = fileUploader.upload(uploadFiles);
+        dishUpdater.update(dishStore, dish, images,  dishInfo);
     }
 
     public List<Dish> readDishes(

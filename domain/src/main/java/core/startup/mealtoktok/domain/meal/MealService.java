@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.domain.dishstore.Dish;
 import core.startup.mealtoktok.domain.dishstore.DishReader;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
-import core.startup.mealtoktok.domain.meal.exception.MealDishReader;
 
 @Service
 @RequiredArgsConstructor

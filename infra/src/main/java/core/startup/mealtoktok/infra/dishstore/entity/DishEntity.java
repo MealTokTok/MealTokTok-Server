@@ -23,8 +23,6 @@ public class DishEntity {
 
     private String dishName;
 
-    private String imgUrl;
-
     @Convert(converter = MoneyConverter.class)
     private Money dishPrice;
 
@@ -37,7 +35,6 @@ public class DishEntity {
     public static DishEntity of(Long dishStoreId, Long dishCategoryId, DishInfo dishInfo) {
         return DishEntity.builder()
                 .dishName(dishInfo.dishName())
-                .imgUrl(dishInfo.imgUrl())
                 .dishPrice(dishInfo.dishPrice())
                 .isSoldOut(dishInfo.isSoldOut())
                 .dishStoreId(dishStoreId)
@@ -49,7 +46,6 @@ public class DishEntity {
         return Dish.builder()
                 .dishId(dishId)
                 .dishName(dishName)
-                .imgUrl(imgUrl)
                 .dishPrice(dishPrice)
                 .isSoldOut(isSoldOut)
                 .dishStoreId(dishStoreId)
@@ -57,9 +53,19 @@ public class DishEntity {
                 .build();
     }
 
+    public static DishEntity from(Dish dish){
+        return DishEntity.builder()
+                .dishId(dish.getDishId())
+                .dishName(dish.getDishName())
+                .dishPrice(dish.getDishPrice())
+                .isSoldOut(dish.isSoldOut())
+                .dishStoreId(dish.getDishStoreId())
+                .dishCategoryId(dish.getDishCategoryId())
+                .build();
+    }
+
     public void update(DishInfo dishInfo) {
         this.dishName = dishInfo.dishName();
-        this.imgUrl = dishInfo.imgUrl();
         this.dishPrice = dishInfo.dishPrice();
         this.isSoldOut = dishInfo.isSoldOut();
     }

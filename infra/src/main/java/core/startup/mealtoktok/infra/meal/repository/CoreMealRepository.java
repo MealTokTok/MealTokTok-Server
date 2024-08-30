@@ -87,7 +87,7 @@ public class CoreMealRepository implements MealRepository {
     }
 
     @Override
-    public List<MealDish> findAllByMealId(TargetMeal targetMeal) {
+    public List<MealDish> findAllMealDishByMealId(TargetMeal targetMeal) {
         return jpaMealDishRepository.findAllByMealId(targetMeal.meadId()).stream()
                 .map(MealDishEntity::toDomain)
                 .toList();

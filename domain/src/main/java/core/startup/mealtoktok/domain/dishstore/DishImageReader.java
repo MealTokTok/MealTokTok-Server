@@ -1,17 +1,16 @@
 package core.startup.mealtoktok.domain.dishstore;
 
 import java.util.List;
-import org.springframework.stereotype.Component;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DishRemover {
+public class DishImageReader {
 
     private final DishRepository dishRepository;
 
-    public void remove(Dish dish, List<DishImage> dishImages) {
-        dishRepository.deleteDish(dish, dishImages);
+    public List<DishImage> read(TargetDish targetDish) {
+        return dishRepository.findAllDishImageByDishId(targetDish);
     }
 }
