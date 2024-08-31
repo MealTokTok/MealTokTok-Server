@@ -11,6 +11,6 @@ public class DishRemover {
     private final DishRepository dishRepository;
 
     public void remove(Dish dish) {
-        dishRepository.deleteDishCategory(dish);
+        dishRepository.deleteDish(dish);
     }
 }

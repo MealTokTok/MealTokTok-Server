@@ -28,7 +28,7 @@ public class QMealEntity extends EntityPathBase<MealEntity> {
 
     public final QMealOwnerVO mealOwner;
 
-    public final SimplePath<core.startup.mealtoktok.domain.order.Money> mealPrice = createSimple("mealPrice", core.startup.mealtoktok.domain.order.Money.class);
+    public final SimplePath<core.startup.mealtoktok.common.dto.Money> mealPrice = createSimple("mealPrice", core.startup.mealtoktok.common.dto.Money.class);
 
     public QMealEntity(String variable) {
         this(MealEntity.class, forVariable(variable), INITS);

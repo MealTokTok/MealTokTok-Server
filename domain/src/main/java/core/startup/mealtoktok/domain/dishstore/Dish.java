@@ -11,9 +11,14 @@ public class Dish {
 
     private Long dishId;
     private String dishName;
-    private String imgUrl;
     private Money dishPrice;
-    private boolean isSoldOut;
+    private DishState dishState;
+    private int dishQuantity;
     private Long dishStoreId;
     private Long dishCategoryId;
+    private DishImage dishImage;
+
+    public void addDishImage(DishImage dishImage) {
+        this.dishImage = dishImage;
+    }
 }

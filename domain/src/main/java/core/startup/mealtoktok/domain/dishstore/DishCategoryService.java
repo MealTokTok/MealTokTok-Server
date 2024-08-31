@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class DishCategoryService {
 
     private final DishCategoryReader dishCategoryReader;
@@ -17,6 +16,7 @@ public class DishCategoryService {
     private final DishCategoryUpdater dishCategoryUpdater;
     private final DishCategoryAppender dishCategoryAppender;
 
+    @Transactional
     public void createDishCategory(DishCategoryInfo dishCategoryInfo) {
         dishCategoryAppender.append(dishCategoryInfo);
     }
@@ -25,11 +25,13 @@ public class DishCategoryService {
         return dishCategoryReader.readAll();
     }
 
+    @Transactional
     public void deleteDishCategory(TargetDishCategory targetDishCategory) {
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
         dishCategoryRemover.remove(dishCategory);
     }
 
+    @Transactional
     public void updateDishCategory(
             TargetDishCategory targetDishCategory, DishCategoryInfo dishCategoryInfo) {
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);

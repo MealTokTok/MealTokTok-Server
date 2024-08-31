@@ -7,11 +7,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.common.dto.Image;
 import core.startup.mealtoktok.domain.dishstore.*;
 import core.startup.mealtoktok.infra.dishstore.entity.DishCategoryEntity;
 import core.startup.mealtoktok.infra.dishstore.entity.DishEntity;
+import core.startup.mealtoktok.infra.dishstore.entity.DishImageEntity;
 import core.startup.mealtoktok.infra.dishstore.exception.DishCategoryNotFoundException;
 import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
+import core.startup.mealtoktok.infra.global.exception.ImageNotFoundException;
+import core.startup.mealtoktok.infra.global.repository.JpaImageRepository;
 
 @Repository
 @Transactional
@@ -20,41 +24,47 @@ public class CoreDishRepository implements DishRepository {
 
     private final JpaDishRepository jpaDishRepository;
     private final JpaDishCategoryRepository jpaDishCategoryRepository;
+    private final JpaDishImageRepository jpaDishImageRepository;
+    private final JpaImageRepository jpaImageRepository;
 
     @Override
-    public void saveDishCategory(
-            DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
-        jpaDishRepository.save(
-                DishEntity.of(dishStore.getStoreId(), dishCategory.getCategoryId(), dishInfo));
+    public void saveDish(
+            DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo, Image image) {
+
+        DishEntity dishEntity =
+                jpaDishRepository.save(
+                        DishEntity.of(
+                                dishStore.getStoreId(), dishCategory.getCategoryId(), dishInfo));
+
+        jpaDishImageRepository.save(DishImageEntity.of(dishEntity.getDishId(), image.getId()));
     }
 
     @Override
-    public Dish findDishById(TargetDish targetDish) {
-        return jpaDishRepository
-                .findById(targetDish.dishId())
-                .map(DishEntity::toDomain)
-                .orElseThrow(() -> DishNotFoundException.EXCEPTION);
+    public void deleteDish(Dish dish) {
+        jpaDishRepository.deleteById(dish.getDishId());
+        List<DishImage> dishImages = findAllDishImageByDishId(TargetDish.from(dish.getDishId()));
+        deleteDishImages(dishImages);
     }
 
     @Override
-    public void deleteDishCategory(Dish dish) {
-        DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
-        jpaDishRepository.delete(dishEntity);
+    public void deleteDishImages(List<DishImage> dishImages) {
+        dishImages.forEach(
+                dishImage -> {
+                    Long imageId = dishImage.imageId();
+                    jpaImageRepository.deleteById(imageId);
+                });
+
+        dishImages.forEach(dishImage -> jpaDishImageRepository.deleteByDishId(dishImage.dishId()));
     }
 
     @Override
-    public List<Dish> findAllByStoreAndCategory(DishStore dishStore, DishCategory dishCategory) {
-        return jpaDishRepository
-                .findAllByStoreAndCategory(dishStore.getStoreId(), dishCategory.getCategoryId())
-                .stream()
-                .map(DishEntity::toDomain)
-                .toList();
-    }
+    public void updateDish(Dish dish, DishInfo dishInfo, Image image) {
+        jpaDishRepository.getReferenceById(dish.getDishId()).update(dishInfo);
 
-    @Override
-    public void updateDishCategory(Dish dish, DishInfo dishInfo) {
-        DishEntity dishEntity = jpaDishRepository.getReferenceById(dish.getDishId());
-        dishEntity.update(dishInfo);
+        if (image != null) {
+            jpaDishImageRepository.deleteByDishId(dish.getDishImage().dishId());
+            jpaDishImageRepository.save(DishImageEntity.of(dish.getDishId(), image.getId()));
+        }
     }
 
     @Override
@@ -70,7 +80,7 @@ public class CoreDishRepository implements DishRepository {
     }
 
     @Override
-    public DishCategory findDishById(TargetDishCategory targetDishCategory) {
+    public DishCategory findDishCategoryById(TargetDishCategory targetDishCategory) {
         return jpaDishCategoryRepository
                 .findById(targetDishCategory.categoryId())
                 .map(DishCategoryEntity::toDomain)
@@ -103,9 +113,7 @@ public class CoreDishRepository implements DishRepository {
 
     @Override
     public void deleteDishCategory(DishCategory dishCategory) {
-        DishCategoryEntity dishCategoryEntity =
-                jpaDishCategoryRepository.getReferenceById(dishCategory.getCategoryId());
-        jpaDishCategoryRepository.delete(dishCategoryEntity);
+        jpaDishCategoryRepository.deleteById(dishCategory.getCategoryId());
     }
 
     @Override
@@ -116,9 +124,43 @@ public class CoreDishRepository implements DishRepository {
     }
 
     @Override
-    public List<Dish> findAllByStoreAndKeyword(DishStore dishStore, String keyword) {
-        return jpaDishRepository.findByStoreIdAndDishName(dishStore.getStoreId(), keyword).stream()
-                .map(DishEntity::toDomain)
+    public List<DishImage> findAllDishImageByDishId(TargetDish targetDish) {
+        return jpaDishImageRepository.findAllByDishId(targetDish.dishId()).stream()
+                .map(DishImageEntity::toDomain)
                 .toList();
+    }
+
+    public List<Dish> findAllByKeyword(String keyword) {
+        return jpaDishRepository.findByDishNameContaining(keyword).stream()
+                .map(this::toDishWithImage)
+                .toList();
+    }
+
+    public List<Dish> findAllByCategory(DishCategory dishCategory) {
+        return jpaDishRepository.findByDishCategoryId(dishCategory.getCategoryId()).stream()
+                .map(this::toDishWithImage)
+                .toList();
+    }
+
+    public Dish findDishById(TargetDish targetDish) {
+        DishEntity dishEntity =
+                jpaDishRepository
+                        .findById(targetDish.dishId())
+                        .orElseThrow(() -> DishNotFoundException.EXCEPTION);
+
+        return toDishWithImage(dishEntity);
+    }
+
+    private Dish toDishWithImage(DishEntity dishEntity) {
+        Dish dish = dishEntity.toDomain();
+
+        DishImage dishImage =
+                jpaDishImageRepository
+                        .findByDishId(dish.getDishId())
+                        .map(DishImageEntity::toDomain)
+                        .orElseThrow(() -> ImageNotFoundException.EXCEPTION);
+
+        dish.addDishImage(dishImage);
+        return dish;
     }
 }

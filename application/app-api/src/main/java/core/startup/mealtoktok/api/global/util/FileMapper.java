@@ -27,4 +27,16 @@ public class FileMapper {
                         })
                 .toList();
     }
+
+    public static File toFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
+
+        try {
+            return File.of(file.getContentType(), file.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -2,23 +2,25 @@ package core.startup.mealtoktok.domain.dishstore;
 
 import java.util.List;
 
+import core.startup.mealtoktok.common.dto.Image;
+
 public interface DishRepository {
 
-    void saveDishCategory(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo);
+    void saveDish(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo, Image image);
 
     Dish findDishById(TargetDish targetDish);
 
-    void deleteDishCategory(Dish dish);
+    void deleteDish(Dish dish);
 
-    List<Dish> findAllByStoreAndCategory(DishStore dishStore, DishCategory dishCategory);
+    List<Dish> findAllByCategory(DishCategory dishCategory);
 
-    void updateDishCategory(Dish dish, DishInfo dishInfo);
+    void updateDish(Dish dish, DishInfo dishInfo, Image image);
 
     boolean existsByDishStoreIdAndDishName(DishStore dishStore, String dishName);
 
     boolean existsByNameExcludingTargetDish(DishStore dishStore, Dish dish, String dishName);
 
-    DishCategory findDishById(TargetDishCategory targetDishCategory);
+    DishCategory findDishCategoryById(TargetDishCategory targetDishCategory);
 
     void saveDishCategory(DishCategoryInfo dishCategoryInfo);
 
@@ -32,5 +34,9 @@ public interface DishRepository {
 
     List<DishCategory> findAllCategories();
 
-    List<Dish> findAllByStoreAndKeyword(DishStore dishStore, String keyword);
+    List<Dish> findAllByKeyword(String keyword);
+
+    List<DishImage> findAllDishImageByDishId(TargetDish targetDish);
+
+    void deleteDishImages(List<DishImage> dishImages);
 }

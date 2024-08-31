@@ -38,4 +38,8 @@ public class ImageEntity {
     public Image toImage() {
         return new Image(id, imageUrl);
     }
+
+    public Image toDomain() {
+        return Image.builder().id(id).imageUrl(imageUrl).build();
+    }
 }

@@ -1,6 +1,7 @@
 package core.startup.mealtoktok.domain.meal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.domain.dishstore.Dish;
+import core.startup.mealtoktok.domain.dishstore.DishAndImage;
+import core.startup.mealtoktok.domain.dishstore.DishAndImageWrapper;
 import core.startup.mealtoktok.domain.dishstore.DishReader;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
-import core.startup.mealtoktok.domain.meal.exception.MealDishReader;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class MealService {
 
     private final MealReader mealReader;
@@ -23,11 +24,14 @@ public class MealService {
     private final MealRemover mealRemover;
     private final DishReader dishReader;
     private final MealDishReader mealDishReader;
+    private final DishAndImageWrapper dishAndImageWrapper;
 
+    @Transactional
     public void createMeal(MealOwner mealOwner, MealContent newMealContent) {
         mealAppender.append(mealOwner, newMealContent);
     }
 
+    @Transactional
     public void updateMeal(
             MealOwner mealOwner, TargetMeal targetMeal, MealContent updatedMealContent) {
         Meal meal = mealReader.read(targetMeal);
@@ -35,6 +39,7 @@ public class MealService {
         mealUpdater.update(mealOwner, meal, mealDishes, updatedMealContent);
     }
 
+    @Transactional
     public void deleteMeal(MealOwner mealOwner, TargetMeal targetMeal) {
         Meal meal = mealReader.read(targetMeal);
         List<MealDish> mealDishes = mealDishReader.read(targetMeal);
@@ -43,7 +48,7 @@ public class MealService {
 
     public MealAndDishes readMealAndDishes(TargetMeal targetMeal) {
         Meal meal = mealReader.read(targetMeal);
-        List<Dish> dishes = readDishesForMeal(meal);
+        List<DishAndImage> dishes = readDishesForMeal(meal);
         return MealAndDishes.of(meal, dishes);
     }
 
@@ -53,9 +58,13 @@ public class MealService {
                 .toList();
     }
 
-    private List<Dish> readDishesForMeal(Meal meal) {
+    private List<DishAndImage> readDishesForMeal(Meal meal) {
         return mealDishReader.read(TargetMeal.from(meal.getMealId())).stream()
-                .map(mealDish -> dishReader.read(TargetDish.from(mealDish.dishId())))
-                .toList();
+                .map(
+                        mealDish -> {
+                            Dish dish = dishReader.read(TargetDish.from(mealDish.dishId()));
+                            return dishAndImageWrapper.wrap(dish);
+                        })
+                .collect(Collectors.toList());
     }
 }

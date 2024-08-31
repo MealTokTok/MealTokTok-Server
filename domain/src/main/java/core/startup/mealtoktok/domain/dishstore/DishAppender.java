@@ -4,15 +4,21 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
+import core.startup.mealtoktok.common.dto.Image;
+import core.startup.mealtoktok.domain.global.ImageAppender;
+
 @Component
 @RequiredArgsConstructor
 public class DishAppender {
 
     private final DishValidator dishValidator;
     private final DishRepository dishRepository;
+    private final ImageAppender imageAppender;
 
-    public void append(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo) {
+    public void append(
+            DishStore dishStore, DishCategory dishCategory, Image image, DishInfo dishInfo) {
         dishValidator.validateName(dishStore, dishInfo.dishName());
-        dishRepository.saveDishCategory(dishStore, dishCategory, dishInfo);
+        Image saveImage = imageAppender.append(image);
+        dishRepository.saveDish(dishStore, dishCategory, dishInfo, saveImage);
     }
 }

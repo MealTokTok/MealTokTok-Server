@@ -16,11 +16,11 @@ public class DishReader {
         return dishRepository.findDishById(targetDish);
     }
 
-    public List<Dish> readAll(DishStore dishStore, DishCategory dishCategory) {
-        return dishRepository.findAllByStoreAndCategory(dishStore, dishCategory);
+    public List<Dish> readAll(DishCategory dishCategory) {
+        return dishRepository.findAllByCategory(dishCategory);
     }
 
-    public List<Dish> search(DishStore dishStore, String keyword) {
-        return dishRepository.findAllByStoreAndKeyword(dishStore, keyword);
+    public List<Dish> search(String keyword) {
+        return dishRepository.findAllByKeyword(keyword);
     }
 }

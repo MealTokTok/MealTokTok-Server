@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 import core.startup.mealtoktok.common.dto.Money;
 
-public record DishInfo(String dishName, Money dishPrice, String imgUrl, boolean isSoldOut) {
+public record DishInfo(String dishName, Money dishPrice, int dishQuantity) {
 
-    public static DishInfo of(String dishName, int dishPrice, String imgUrl, boolean isSoldOut) {
-        return new DishInfo(dishName, Money.from(BigDecimal.valueOf(dishPrice)), imgUrl, isSoldOut);
+    public static DishInfo of(String dishName, int dishPrice, int dishQuantity) {
+        return new DishInfo(dishName, Money.from(BigDecimal.valueOf(dishPrice)), dishQuantity);
     }
 }

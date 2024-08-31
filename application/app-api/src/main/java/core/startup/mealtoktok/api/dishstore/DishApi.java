@@ -1,16 +1,20 @@
 package core.startup.mealtoktok.api.dishstore;
 
+import static core.startup.mealtoktok.api.global.util.FileMapper.toFile;
+
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,14 +34,18 @@ public class DishApi implements DishApiDocs {
 
     private final DishService dishService;
 
-    @PostMapping(("/admin/stores/{storeId}/categories/{categoryId}/dishes"))
+    @PostMapping(
+            value = "/admin/stores/{storeId}/categories/{categoryId}/dishes",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Response<Void> createDish(
             @PathVariable("storeId") Long storeId,
             @PathVariable("categoryId") Long categoryId,
-            @RequestBody DishRequest request) {
+            @RequestPart MultipartFile file,
+            @RequestPart("request") DishRequest request) {
         dishService.createDish(
                 TargetDishStore.from(storeId),
                 TargetDishCategory.from(categoryId),
+                toFile(file),
                 request.toDishInfo());
         return Response.success("반찬 생성 성공");
     }
@@ -49,34 +57,29 @@ public class DishApi implements DishApiDocs {
     }
 
     @GetMapping("/stores/{storeId}/categories/{categoryId}/dishes")
-    public Response<List<DishResponse>> readDishes(
-            @PathVariable("storeId") Long storeId, @PathVariable("categoryId") Long categoryId) {
+    public Response<List<DishResponse>> readDishes(@PathVariable("categoryId") Long categoryId) {
 
         List<DishResponse> dishResponses =
-                dishService
-                        .readDishes(
-                                TargetDishStore.from(storeId), TargetDishCategory.from(categoryId))
-                        .stream()
+                dishService.readDishes(TargetDishCategory.from(categoryId)).stream()
                         .map(DishResponse::from)
                         .toList();
 
         return Response.success(dishResponses);
     }
 
-    @PatchMapping(("/admin/dishes/{dishId}"))
+    @PutMapping(value = "/admin/dishes/{dishId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Response<Void> updateDish(
-            @PathVariable("dishId") Long dishId, @RequestBody DishRequest request) {
-        dishService.updateDish(TargetDish.from(dishId), request.toDishInfo());
+            @PathVariable("dishId") Long dishId,
+            @RequestPart(required = false) MultipartFile file,
+            @RequestPart("request") DishRequest request) {
+        dishService.updateDish(TargetDish.from(dishId), toFile(file), request.toDishInfo());
         return Response.success("반찬 수정 성공");
     }
 
     @GetMapping("/stores/{storeId}/dishes/search")
-    public Response<List<DishResponse>> searchDishes(
-            @PathVariable("storeId") Long storeId, @ModelAttribute("q") SearchDish q) {
+    public Response<List<DishResponse>> searchDishes(@ModelAttribute("q") SearchDish q) {
         List<DishResponse> dishResponses =
-                dishService.searchDishes(TargetDishStore.from(storeId), q.keyword()).stream()
-                        .map(DishResponse::from)
-                        .toList();
+                dishService.searchDishes(q.keyword()).stream().map(DishResponse::from).toList();
         return Response.success(dishResponses);
     }
 }

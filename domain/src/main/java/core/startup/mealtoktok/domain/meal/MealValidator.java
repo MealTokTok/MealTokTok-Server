@@ -1,14 +1,9 @@
 package core.startup.mealtoktok.domain.meal;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.dishstore.DishReader;
-import core.startup.mealtoktok.domain.dishstore.TargetDish;
-import core.startup.mealtoktok.domain.meal.exception.DishSoldOutException;
 import core.startup.mealtoktok.domain.meal.exception.MealNameAlreadyExitsException;
 import core.startup.mealtoktok.domain.meal.exception.MealOwnerNotMatchException;
 
@@ -17,11 +12,9 @@ import core.startup.mealtoktok.domain.meal.exception.MealOwnerNotMatchException;
 public class MealValidator {
 
     private final MealRepository mealRepository;
-    private final DishReader dishReader;
 
     public void validate(MealContent createMealContent) {
         checkMealNameExists(createMealContent.mealInfo().mealName());
-        checkDishSoldOut(createMealContent.dishIds());
     }
 
     public void validate(MealOwner mealOwner, Meal meal, MealContent updatedMealContent) {
@@ -43,15 +36,6 @@ public class MealValidator {
         if (mealRepository.exitsByNameExcludingTargetMeal(meal, mealName)) {
             throw MealNameAlreadyExitsException.EXCEPTION;
         }
-    }
-
-    private void checkDishSoldOut(List<Long> dishIds) {
-        dishIds.forEach(
-                dishId -> {
-                    if (dishReader.read(TargetDish.from(dishId)).isSoldOut()) {
-                        throw DishSoldOutException.EXCEPTION;
-                    }
-                });
     }
 
     private void checkOwnership(Meal meal, MealOwner mealOwner) {

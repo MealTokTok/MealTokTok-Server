@@ -14,7 +14,7 @@ public interface MealRepository {
 
     void delete(Meal meal, List<MealDish> mealDishes);
 
-    List<MealDish> findAllByMealId(TargetMeal targetMeal);
+    List<MealDish> findAllMealDishByMealId(TargetMeal targetMeal);
 
     boolean exitsByNameExcludingTargetMeal(Meal meal, String mealName);
 
