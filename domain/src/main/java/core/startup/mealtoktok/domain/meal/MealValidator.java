@@ -1,5 +1,7 @@
 package core.startup.mealtoktok.domain.meal;
 
+import static core.startup.mealtoktok.domain.dishstore.DishState.SOLD_OUT;
+
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -48,7 +50,7 @@ public class MealValidator {
     private void checkDishSoldOut(List<Long> dishIds) {
         dishIds.forEach(
                 dishId -> {
-                    if (dishReader.read(TargetDish.from(dishId)).isSoldOut()) {
+                    if (dishReader.read(TargetDish.from(dishId)).getDishState().equals(SOLD_OUT)) {
                         throw DishSoldOutException.EXCEPTION;
                     }
                 });

@@ -7,6 +7,7 @@ import lombok.*;
 import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.dishstore.Dish;
 import core.startup.mealtoktok.domain.dishstore.DishInfo;
+import core.startup.mealtoktok.domain.dishstore.DishState;
 import core.startup.mealtoktok.infra.order.entity.MoneyConverter;
 
 @Entity
@@ -26,17 +27,23 @@ public class DishEntity {
     @Convert(converter = MoneyConverter.class)
     private Money dishPrice;
 
-    private boolean isSoldOut;
+    @Enumerated(EnumType.STRING)
+    private DishState dishState;
+
+    private int dishQuantity;
 
     private Long dishStoreId;
 
     private Long dishCategoryId;
 
     public static DishEntity of(Long dishStoreId, Long dishCategoryId, DishInfo dishInfo) {
+        DishState dishState = dishInfo.dishQuantity() == 0 ? DishState.SOLD_OUT : DishState.ON_SALE;
+
         return DishEntity.builder()
                 .dishName(dishInfo.dishName())
                 .dishPrice(dishInfo.dishPrice())
-                .isSoldOut(dishInfo.isSoldOut())
+                .dishQuantity(dishInfo.dishQuantity())
+                .dishState(dishState)
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
                 .build();
@@ -47,7 +54,8 @@ public class DishEntity {
                 .dishId(dishId)
                 .dishName(dishName)
                 .dishPrice(dishPrice)
-                .isSoldOut(isSoldOut)
+                .dishState(dishState)
+                .dishQuantity(dishQuantity)
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
                 .build();
@@ -58,7 +66,8 @@ public class DishEntity {
                 .dishId(dish.getDishId())
                 .dishName(dish.getDishName())
                 .dishPrice(dish.getDishPrice())
-                .isSoldOut(dish.isSoldOut())
+                .dishState(dish.getDishState())
+                .dishQuantity(dish.getDishQuantity())
                 .dishStoreId(dish.getDishStoreId())
                 .dishCategoryId(dish.getDishCategoryId())
                 .build();
@@ -67,6 +76,16 @@ public class DishEntity {
     public void update(DishInfo dishInfo) {
         this.dishName = dishInfo.dishName();
         this.dishPrice = dishInfo.dishPrice();
-        this.isSoldOut = dishInfo.isSoldOut();
+        this.dishQuantity = dishInfo.dishQuantity();
+        this.dishState = dishInfo.dishQuantity() == 0 ? DishState.SOLD_OUT : DishState.ON_SALE;
+    }
+
+    public void decreaseQuantity(int amount) {
+        if (amount > 0 && this.dishQuantity >= amount) {
+            this.dishQuantity -= amount;
+            if (this.dishQuantity == 0) {
+                this.dishState = DishState.SOLD_OUT;
+            }
+        }
     }
 }
