@@ -25,4 +25,14 @@ public class CoreImageRepository implements ImageRepository {
                 .map(ImageEntity::toDomain)
                 .orElseThrow(() -> ImageNotFoundException.EXCEPTION);
     }
+
+    @Override
+    public void deleteById(Image image) {
+        jpaImageRepository.deleteById(image.getId());
+    }
+
+    @Override
+    public Image save(Image image) {
+        return jpaImageRepository.save(ImageEntity.from(image)).toImage();
+    }
 }

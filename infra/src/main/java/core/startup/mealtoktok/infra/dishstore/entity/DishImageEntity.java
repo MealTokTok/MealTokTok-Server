@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import core.startup.mealtoktok.domain.dishstore.DishImage;
-import core.startup.mealtoktok.infra.jpa.entity.ImageEntity;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,8 +20,8 @@ public class DishImageEntity {
 
     @EmbeddedId private DishImageId dishImageId;
 
-    public static DishImageEntity of(DishEntity savedDish, ImageEntity savedImage) {
-        DishImageId dishImageId = new DishImageId(savedDish.getDishId(), savedImage.getId());
+    public static DishImageEntity of(Long dishId, Long imageId) {
+        DishImageId dishImageId = new DishImageId(dishId, imageId);
         return new DishImageEntity(dishImageId);
     }
 

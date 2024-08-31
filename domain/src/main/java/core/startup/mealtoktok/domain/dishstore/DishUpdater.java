@@ -1,13 +1,14 @@
 package core.startup.mealtoktok.domain.dishstore;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
 import core.startup.mealtoktok.common.dto.Image;
+import core.startup.mealtoktok.domain.global.ImageReader;
+import core.startup.mealtoktok.domain.global.ImageUpdater;
+import core.startup.mealtoktok.domain.global.TargetImage;
 
 @Component
 @RequiredArgsConstructor
@@ -15,18 +16,15 @@ import core.startup.mealtoktok.common.dto.Image;
 public class DishUpdater {
 
     private final DishValidator dishValidator;
+    private final ImageReader imageReader;
+    private final ImageUpdater imageUpdater;
     private final DishRepository dishRepository;
-    private final DishImageReader dishImageReader;
 
-    public void update(DishStore dishStore, Dish dish, List<Image> images, DishInfo dishInfo) {
+    public void update(DishStore dishStore, Dish dish, Image image, DishInfo dishInfo) {
         dishValidator.validateName(dishStore, dish, dishInfo.dishName());
 
-        if (images != null) {
-            List<DishImage> dishImages = dishImageReader.readAll(TargetDish.from(dish.getDishId()));
-            dishRepository.deleteDishImages(dishImages);
-            dishRepository.saveDishImages(dish, images);
-        }
-
-        dishRepository.updateDish(dish, dishInfo);
+        Image existingImage = imageReader.read(TargetImage.from(dish.getDishImage().imageId()));
+        Image updatedImage = imageUpdater.update(existingImage, image);
+        dishRepository.updateDish(dish, dishInfo, updatedImage);
     }
 }

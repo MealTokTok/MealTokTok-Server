@@ -8,19 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.common.dto.Image;
 import core.startup.mealtoktok.domain.dishstore.Dish;
 import core.startup.mealtoktok.domain.dishstore.DishAndImage;
-import core.startup.mealtoktok.domain.dishstore.DishImage;
-import core.startup.mealtoktok.domain.dishstore.DishImageReader;
+import core.startup.mealtoktok.domain.dishstore.DishAndImageWrapper;
 import core.startup.mealtoktok.domain.dishstore.DishReader;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
-import core.startup.mealtoktok.domain.global.ImageReader;
-import core.startup.mealtoktok.domain.global.TargetImage;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class MealService {
 
     private final MealReader mealReader;
@@ -29,13 +24,14 @@ public class MealService {
     private final MealRemover mealRemover;
     private final DishReader dishReader;
     private final MealDishReader mealDishReader;
-    private final DishImageReader dishImageReader;
-    private final ImageReader imageReader;
+    private final DishAndImageWrapper dishAndImageWrapper;
 
+    @Transactional
     public void createMeal(MealOwner mealOwner, MealContent newMealContent) {
         mealAppender.append(mealOwner, newMealContent);
     }
 
+    @Transactional
     public void updateMeal(
             MealOwner mealOwner, TargetMeal targetMeal, MealContent updatedMealContent) {
         Meal meal = mealReader.read(targetMeal);
@@ -43,6 +39,7 @@ public class MealService {
         mealUpdater.update(mealOwner, meal, mealDishes, updatedMealContent);
     }
 
+    @Transactional
     public void deleteMeal(MealOwner mealOwner, TargetMeal targetMeal) {
         Meal meal = mealReader.read(targetMeal);
         List<MealDish> mealDishes = mealDishReader.read(targetMeal);
@@ -66,10 +63,7 @@ public class MealService {
                 .map(
                         mealDish -> {
                             Dish dish = dishReader.read(TargetDish.from(mealDish.dishId()));
-                            DishImage dishImage =
-                                    dishImageReader.read(TargetDish.from(dish.getDishId()));
-                            Image image = imageReader.read(TargetImage.from(dishImage.imageId()));
-                            return DishAndImage.of(dish, image);
+                            return dishAndImageWrapper.wrap(dish);
                         })
                 .collect(Collectors.toList());
     }

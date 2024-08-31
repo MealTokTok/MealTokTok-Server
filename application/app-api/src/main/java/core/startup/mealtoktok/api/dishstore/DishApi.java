@@ -1,6 +1,6 @@
 package core.startup.mealtoktok.api.dishstore;
 
-import static core.startup.mealtoktok.api.global.util.FileMapper.toFiles;
+import static core.startup.mealtoktok.api.global.util.FileMapper.toFile;
 
 import java.util.List;
 
@@ -40,12 +40,12 @@ public class DishApi implements DishApiDocs {
     public Response<Void> createDish(
             @PathVariable("storeId") Long storeId,
             @PathVariable("categoryId") Long categoryId,
-            @RequestPart List<MultipartFile> files,
+            @RequestPart MultipartFile file,
             @RequestPart("request") DishRequest request) {
         dishService.createDish(
                 TargetDishStore.from(storeId),
                 TargetDishCategory.from(categoryId),
-                toFiles(files),
+                toFile(file),
                 request.toDishInfo());
         return Response.success("반찬 생성 성공");
     }
@@ -57,14 +57,10 @@ public class DishApi implements DishApiDocs {
     }
 
     @GetMapping("/stores/{storeId}/categories/{categoryId}/dishes")
-    public Response<List<DishResponse>> readDishes(
-            @PathVariable("storeId") Long storeId, @PathVariable("categoryId") Long categoryId) {
+    public Response<List<DishResponse>> readDishes(@PathVariable("categoryId") Long categoryId) {
 
         List<DishResponse> dishResponses =
-                dishService
-                        .readDishes(
-                                TargetDishStore.from(storeId), TargetDishCategory.from(categoryId))
-                        .stream()
+                dishService.readDishes(TargetDishCategory.from(categoryId)).stream()
                         .map(DishResponse::from)
                         .toList();
 
@@ -74,19 +70,16 @@ public class DishApi implements DishApiDocs {
     @PutMapping(value = "/admin/dishes/{dishId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Response<Void> updateDish(
             @PathVariable("dishId") Long dishId,
-            @RequestPart(required = false) List<MultipartFile> files,
+            @RequestPart(required = false) MultipartFile file,
             @RequestPart("request") DishRequest request) {
-        dishService.updateDish(TargetDish.from(dishId), toFiles(files), request.toDishInfo());
+        dishService.updateDish(TargetDish.from(dishId), toFile(file), request.toDishInfo());
         return Response.success("반찬 수정 성공");
     }
 
     @GetMapping("/stores/{storeId}/dishes/search")
-    public Response<List<DishResponse>> searchDishes(
-            @PathVariable("storeId") Long storeId, @ModelAttribute("q") SearchDish q) {
+    public Response<List<DishResponse>> searchDishes(@ModelAttribute("q") SearchDish q) {
         List<DishResponse> dishResponses =
-                dishService.searchDishes(TargetDishStore.from(storeId), q.keyword()).stream()
-                        .map(DishResponse::from)
-                        .toList();
+                dishService.searchDishes(q.keyword()).stream().map(DishResponse::from).toList();
         return Response.success(dishResponses);
     }
 }

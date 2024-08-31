@@ -17,17 +17,17 @@ public interface DishApiDocs {
 
     @Operation(summary = "반찬 생성")
     Response<Void> createDish(
-            Long storeId, Long categoryId, List<MultipartFile> files, DishRequest request);
+            Long storeId, Long categoryId, MultipartFile file, DishRequest request);
 
     @Operation(summary = "반찬 삭제")
     Response<Void> deleteDish(Long dishId);
 
     @Operation(summary = "반찬 수정")
-    Response<Void> updateDish(Long dishId, List<MultipartFile> files, DishRequest request);
+    Response<Void> updateDish(Long dishId, MultipartFile files, DishRequest request);
 
     @Operation(summary = "반찬 리스트 조회")
-    Response<List<DishResponse>> readDishes(Long storeId, Long categoryId);
+    Response<List<DishResponse>> readDishes(Long categoryId);
 
     @Operation(summary = "반찬 검색")
-    Response<List<DishResponse>> searchDishes(Long storeId, SearchDish q);
+    Response<List<DishResponse>> searchDishes(SearchDish q);
 }

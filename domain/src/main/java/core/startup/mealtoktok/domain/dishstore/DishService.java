@@ -11,11 +11,11 @@ import core.startup.mealtoktok.common.dto.Image;
 import core.startup.mealtoktok.domain.global.File;
 import core.startup.mealtoktok.domain.global.FileUploader;
 import core.startup.mealtoktok.domain.global.ImageReader;
+import core.startup.mealtoktok.domain.global.ImageRemover;
 import core.startup.mealtoktok.domain.global.TargetImage;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class DishService {
 
     private final DishReader dishReader;
@@ -24,53 +24,49 @@ public class DishService {
     private final DishUpdater dishUpdater;
     private final DishStoreReader dishStoreReader;
     private final DishCategoryReader dishCategoryReader;
-    private final DishImageReader dishImageReader;
     private final FileUploader fileUploader;
     private final ImageReader imageReader;
+    private final ImageRemover imageRemover;
+    private final DishAndImageWrapper dishAndImageWrapper;
 
+    @Transactional
     public void createDish(
             TargetDishStore targetDishStore,
             TargetDishCategory targetDishCategory,
-            List<File> uploadFiles,
+            File uploadFile,
             DishInfo dishInfo) {
         DishStore dishStore = dishStoreReader.read(targetDishStore);
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
-        List<Image> images = fileUploader.upload(uploadFiles);
-        dishAppender.append(dishStore, dishCategory, images, dishInfo);
+        Image image = fileUploader.upload(uploadFile);
+        dishAppender.append(dishStore, dishCategory, image, dishInfo);
     }
 
+    @Transactional
     public void deleteDish(TargetDish targetDish) {
         Dish dish = dishReader.read(targetDish);
-        List<DishImage> dishImages = dishImageReader.readAll(targetDish);
-        dishRemover.remove(dish, dishImages);
+        Image image = imageReader.read(TargetImage.from(dish.getDishImage().imageId()));
+        dishRemover.remove(dish);
+        imageRemover.remove(image);
     }
 
-    public void updateDish(TargetDish targetDish, List<File> uploadFiles, DishInfo dishInfo) {
+    @Transactional
+    public void updateDish(TargetDish targetDish, File uploadFile, DishInfo dishInfo) {
         Dish dish = dishReader.read(targetDish);
         DishStore dishStore = dishStoreReader.read(TargetDishStore.from(dish.getDishStoreId()));
-        List<Image> images = fileUploader.upload(uploadFiles);
-        dishUpdater.update(dishStore, dish, images, dishInfo);
+        Image image = fileUploader.upload(uploadFile);
+        dishUpdater.update(dishStore, dish, image, dishInfo);
     }
 
-    public List<DishAndImage> readDishes(
-            TargetDishStore targetDishStore, TargetDishCategory targetDishCategory) {
-        DishStore dishStore = dishStoreReader.read(targetDishStore);
+    public List<DishAndImage> readDishes(TargetDishCategory targetDishCategory) {
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
-        List<Dish> dishes = dishReader.readAll(dishStore, dishCategory);
+        List<Dish> dishes = dishReader.readAll(dishCategory);
 
-        return dishes.stream().map(this::convertToDishAndImage).toList();
+        return dishAndImageWrapper.wrapAll(dishes);
     }
 
-    private DishAndImage convertToDishAndImage(Dish dish) {
-        DishImage dishImage = dishImageReader.read(TargetDish.from(dish.getDishId()));
-        Image image = imageReader.read(TargetImage.from(dishImage.imageId()));
-        return DishAndImage.of(dish, image);
-    }
+    public List<DishAndImage> searchDishes(String keyword) {
+        List<Dish> dishes = dishReader.search(keyword);
 
-    public List<DishAndImage> searchDishes(TargetDishStore targetDishStore, String keyword) {
-        DishStore dishStore = dishStoreReader.read(targetDishStore);
-        List<Dish> dishes = dishReader.search(dishStore, keyword);
-
-        return dishes.stream().map(this::convertToDishAndImage).toList();
+        return dishAndImageWrapper.wrapAll(dishes);
     }
 }
