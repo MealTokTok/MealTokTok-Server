@@ -1,16 +1,9 @@
 package core.startup.mealtoktok.domain.meal;
 
-import static core.startup.mealtoktok.domain.dishstore.DishState.SOLD_OUT;
-
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.dishstore.DishReader;
-import core.startup.mealtoktok.domain.dishstore.TargetDish;
-import core.startup.mealtoktok.domain.meal.exception.DishSoldOutException;
 import core.startup.mealtoktok.domain.meal.exception.MealNameAlreadyExitsException;
 import core.startup.mealtoktok.domain.meal.exception.MealOwnerNotMatchException;
 
