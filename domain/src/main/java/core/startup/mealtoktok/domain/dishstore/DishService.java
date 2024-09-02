@@ -7,12 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.common.dto.Image;
 import core.startup.mealtoktok.domain.global.File;
-import core.startup.mealtoktok.domain.global.FileUploader;
-import core.startup.mealtoktok.domain.global.ImageReader;
-import core.startup.mealtoktok.domain.global.ImageRemover;
-import core.startup.mealtoktok.domain.global.TargetImage;
 
 @Service
 @RequiredArgsConstructor
@@ -24,49 +19,37 @@ public class DishService {
     private final DishUpdater dishUpdater;
     private final DishStoreReader dishStoreReader;
     private final DishCategoryReader dishCategoryReader;
-    private final FileUploader fileUploader;
-    private final ImageReader imageReader;
-    private final ImageRemover imageRemover;
-    private final DishAndImageWrapper dishAndImageWrapper;
+    private final DishWithImageFinder dishWithImageFinder;
 
     @Transactional
     public void createDish(
             TargetDishStore targetDishStore,
             TargetDishCategory targetDishCategory,
-            File uploadFile,
-            DishInfo dishInfo) {
+            DishContent dishContent,
+            File uploadImage) {
         DishStore dishStore = dishStoreReader.read(targetDishStore);
         DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
-        Image image = fileUploader.upload(uploadFile);
-        dishAppender.append(dishStore, dishCategory, image, dishInfo);
+        dishAppender.append(dishStore, dishCategory, dishContent, uploadImage);
     }
 
     @Transactional
     public void deleteDish(TargetDish targetDish) {
         Dish dish = dishReader.read(targetDish);
-        Image image = imageReader.read(TargetImage.from(dish.getDishImage().imageId()));
         dishRemover.remove(dish);
-        imageRemover.remove(image);
     }
 
     @Transactional
-    public void updateDish(TargetDish targetDish, File uploadFile, DishInfo dishInfo) {
+    public void updateDish(TargetDish targetDish, File uploadImage, DishContent dishContent) {
         Dish dish = dishReader.read(targetDish);
         DishStore dishStore = dishStoreReader.read(TargetDishStore.from(dish.getDishStoreId()));
-        Image image = fileUploader.upload(uploadFile);
-        dishUpdater.update(dishStore, dish, image, dishInfo);
+        dishUpdater.update(dishStore, dish, uploadImage, dishContent);
     }
 
-    public List<DishAndImage> readDishes(TargetDishCategory targetDishCategory) {
-        DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
-        List<Dish> dishes = dishReader.readAll(dishCategory);
-
-        return dishAndImageWrapper.wrapAll(dishes);
+    public List<DishWithImage> readDishes(TargetDishCategory targetDishCategory) {
+        return dishWithImageFinder.find(targetDishCategory);
     }
 
-    public List<DishAndImage> searchDishes(String keyword) {
-        List<Dish> dishes = dishReader.search(keyword);
-
-        return dishAndImageWrapper.wrapAll(dishes);
+    public List<DishWithImage> searchDishes(String keyword) {
+        return dishWithImageFinder.find(keyword);
     }
 }

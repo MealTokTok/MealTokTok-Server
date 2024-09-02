@@ -45,8 +45,8 @@ public class DishApi implements DishApiDocs {
         dishService.createDish(
                 TargetDishStore.from(storeId),
                 TargetDishCategory.from(categoryId),
-                toFile(file),
-                request.toDishInfo());
+                request.toContent(),
+                toFile(file));
         return Response.success("반찬 생성 성공");
     }
 
@@ -72,7 +72,7 @@ public class DishApi implements DishApiDocs {
             @PathVariable("dishId") Long dishId,
             @RequestPart(required = false) MultipartFile file,
             @RequestPart("request") DishRequest request) {
-        dishService.updateDish(TargetDish.from(dishId), toFile(file), request.toDishInfo());
+        dishService.updateDish(TargetDish.from(dishId), toFile(file), request.toContent());
         return Response.success("반찬 수정 성공");
     }
 

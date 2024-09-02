@@ -29,12 +29,12 @@ public class CoreDishRepository implements DishRepository {
 
     @Override
     public void saveDish(
-            DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo, Image image) {
+            DishStore dishStore, DishCategory dishCategory, DishContent dishContent, Image image) {
 
         DishEntity dishEntity =
                 jpaDishRepository.save(
                         DishEntity.of(
-                                dishStore.getStoreId(), dishCategory.getCategoryId(), dishInfo));
+                                dishStore.getStoreId(), dishCategory.getCategoryId(), dishContent));
 
         jpaDishImageRepository.save(DishImageEntity.of(dishEntity.getDishId(), image.getId()));
     }
@@ -58,8 +58,8 @@ public class CoreDishRepository implements DishRepository {
     }
 
     @Override
-    public void updateDish(Dish dish, DishInfo dishInfo, Image image) {
-        jpaDishRepository.getReferenceById(dish.getDishId()).update(dishInfo);
+    public void updateDish(Dish dish, DishContent dishContent, Image image) {
+        jpaDishRepository.getReferenceById(dish.getDishId()).update(dishContent);
 
         if (image != null) {
             jpaDishImageRepository.deleteByDishId(dish.getDishImage().dishId());

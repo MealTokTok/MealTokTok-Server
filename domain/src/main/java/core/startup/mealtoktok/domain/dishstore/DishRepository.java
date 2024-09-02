@@ -6,7 +6,8 @@ import core.startup.mealtoktok.common.dto.Image;
 
 public interface DishRepository {
 
-    void saveDish(DishStore dishStore, DishCategory dishCategory, DishInfo dishInfo, Image image);
+    void saveDish(
+            DishStore dishStore, DishCategory dishCategory, DishContent dishContent, Image image);
 
     Dish findDishById(TargetDish targetDish);
 
@@ -14,7 +15,7 @@ public interface DishRepository {
 
     List<Dish> findAllByCategory(DishCategory dishCategory);
 
-    void updateDish(Dish dish, DishInfo dishInfo, Image image);
+    void updateDish(Dish dish, DishContent dishContent, Image image);
 
     boolean existsByDishStoreIdAndDishName(DishStore dishStore, String dishName);
 

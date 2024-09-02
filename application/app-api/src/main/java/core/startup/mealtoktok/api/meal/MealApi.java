@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 import core.startup.mealtoktok.api.global.dto.Response;
 import core.startup.mealtoktok.api.meal.dto.MealDishResponse;
 import core.startup.mealtoktok.api.meal.dto.MealRequest;
-import core.startup.mealtoktok.domain.meal.MealAndDishes;
 import core.startup.mealtoktok.domain.meal.MealOwner;
 import core.startup.mealtoktok.domain.meal.MealService;
+import core.startup.mealtoktok.domain.meal.MealWithDishes;
 import core.startup.mealtoktok.domain.meal.TargetMeal;
 import core.startup.mealtoktok.domain.user.User;
 
@@ -39,16 +39,16 @@ public class MealApi implements MealApiDocs {
 
     @GetMapping("/meals/{mealId}")
     public Response<MealDishResponse> readMeal(@PathVariable("mealId") Long mealId) {
-        MealAndDishes mealAndDishes = mealService.readMealAndDishes(TargetMeal.from(mealId));
-        return Response.success(MealDishResponse.from(mealAndDishes));
+        MealWithDishes mealWithDishes = mealService.readMealAndDishes(TargetMeal.from(mealId));
+        return Response.success(MealDishResponse.from(mealWithDishes));
     }
 
     @GetMapping("/meals")
     public Response<List<MealDishResponse>> readMeals(@AuthenticationPrincipal User currentUser) {
-        List<MealAndDishes> mealAndDishesList =
+        List<MealWithDishes> mealWithDishesList =
                 mealService.readMealAndDishes(MealOwner.from(currentUser));
         List<MealDishResponse> mealDishResponses =
-                mealAndDishesList.stream().map(MealDishResponse::from).toList();
+                mealWithDishesList.stream().map(MealDishResponse::from).toList();
         return Response.success(mealDishResponses);
     }
 

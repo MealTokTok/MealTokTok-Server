@@ -6,7 +6,7 @@ import lombok.*;
 
 import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.dishstore.Dish;
-import core.startup.mealtoktok.domain.dishstore.DishInfo;
+import core.startup.mealtoktok.domain.dishstore.DishContent;
 import core.startup.mealtoktok.domain.dishstore.DishState;
 import core.startup.mealtoktok.infra.order.entity.MoneyConverter;
 
@@ -36,13 +36,14 @@ public class DishEntity {
 
     private Long dishCategoryId;
 
-    public static DishEntity of(Long dishStoreId, Long dishCategoryId, DishInfo dishInfo) {
-        DishState dishState = dishInfo.dishQuantity() == 0 ? DishState.SOLD_OUT : DishState.ON_SALE;
+    public static DishEntity of(Long dishStoreId, Long dishCategoryId, DishContent dishContent) {
+        DishState dishState =
+                dishContent.dishQuantity() == 0 ? DishState.SOLD_OUT : DishState.ON_SALE;
 
         return DishEntity.builder()
-                .dishName(dishInfo.dishName())
-                .dishPrice(dishInfo.dishPrice())
-                .dishQuantity(dishInfo.dishQuantity())
+                .dishName(dishContent.dishName())
+                .dishPrice(dishContent.dishPrice())
+                .dishQuantity(dishContent.dishQuantity())
                 .dishState(dishState)
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
@@ -73,11 +74,11 @@ public class DishEntity {
                 .build();
     }
 
-    public void update(DishInfo dishInfo) {
-        this.dishName = dishInfo.dishName();
-        this.dishPrice = dishInfo.dishPrice();
-        this.dishQuantity = dishInfo.dishQuantity();
-        this.dishState = dishInfo.dishQuantity() == 0 ? DishState.SOLD_OUT : DishState.ON_SALE;
+    public void update(DishContent dishContent) {
+        this.dishName = dishContent.dishName();
+        this.dishPrice = dishContent.dishPrice();
+        this.dishQuantity = dishContent.dishQuantity();
+        this.dishState = dishContent.dishQuantity() == 0 ? DishState.SOLD_OUT : DishState.ON_SALE;
     }
 
     public void decreaseQuantity(int amount) {
