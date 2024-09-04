@@ -8,6 +8,7 @@ import core.startup.mealtoktok.common.dto.Money;
 import core.startup.mealtoktok.domain.dishstore.Dish;
 import core.startup.mealtoktok.domain.dishstore.DishContent;
 import core.startup.mealtoktok.domain.dishstore.DishState;
+import core.startup.mealtoktok.infra.jpa.entity.ImageEntity;
 import core.startup.mealtoktok.infra.order.entity.MoneyConverter;
 
 @Entity
@@ -50,7 +51,7 @@ public class DishEntity {
                 .build();
     }
 
-    public Dish toDomain() {
+    public Dish toDomain(ImageEntity image) {
         return Dish.builder()
                 .dishId(dishId)
                 .dishName(dishName)
@@ -59,6 +60,7 @@ public class DishEntity {
                 .dishQuantity(dishQuantity)
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
+                .dishImage(image.toDomain())
                 .build();
     }
 

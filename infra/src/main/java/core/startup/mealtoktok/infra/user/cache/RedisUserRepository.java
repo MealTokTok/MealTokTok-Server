@@ -34,7 +34,7 @@ public class RedisUserRepository implements UserCacheRepository {
                         log.info(
                                 "Get User from Cache - {} : {}",
                                 key,
-                                u.getUserProfile().getUsername()),
+                                u.getUserProfile().getNickname()),
                 () -> log.info("No User Cache - {}", key));
         return user;
     }

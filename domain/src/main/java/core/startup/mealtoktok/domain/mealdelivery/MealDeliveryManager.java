@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.order.FullDiningInfo;
 import core.startup.mealtoktok.domain.order.MealDeliveryReservationInfo;
 import core.startup.mealtoktok.domain.order.MealDeliveryReserver;
 import core.startup.mealtoktok.domain.order.Order;
@@ -20,14 +19,15 @@ public class MealDeliveryManager implements MealDeliveryReserver {
     private final MealDeliveryRepository mealDeliveryRepository;
     private final OrderReader orderReader;
     private final OrderManager orderManager;
+    private final FullDiningReserver fullDiningReserver;
 
     @Override
-    public List<FullDiningInfo> reserve(List<MealDeliveryReservationInfo> reservationInfos) {
+    public void reserve(List<MealDeliveryReservationInfo> reservationInfos) {
         List<MealDelivery> mealDeliveries =
                 reservationInfos.stream().map(MealDelivery::create).toList();
 
-        List<MealDelivery> saved = mealDeliveryRepository.saveAll(mealDeliveries);
-        return toMealDeliveryInfos(saved);
+        List<MealDelivery> reservedDeliveries = mealDeliveryRepository.saveAll(mealDeliveries);
+        fullDiningReserver.reserve(reservedDeliveries);
     }
 
     public void requestDelivery(MealDelivery mealDelivery) {
@@ -47,15 +47,5 @@ public class MealDeliveryManager implements MealDeliveryReserver {
         mealDelivery.completeDelivery();
         orderManager.reduceRemainDeliveryCount(order);
         mealDeliveryRepository.update(mealDelivery);
-    }
-
-    private static List<FullDiningInfo> toMealDeliveryInfos(List<MealDelivery> mealDeliveries) {
-        return mealDeliveries.stream()
-                .map(
-                        mealDelivery ->
-                                FullDiningInfo.of(
-                                        mealDelivery.getMealDeliveryId().getValue(),
-                                        mealDelivery.hasFullDiningOption()))
-                .toList();
     }
 }

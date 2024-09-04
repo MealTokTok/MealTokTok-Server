@@ -18,8 +18,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "회원 API")
 public interface UserApiDocs {
 
-    @Operation(summary = "유저 정보 조회")
-    Response<UserResponse> getUser(User currentUser);
+    @Operation
+    Response<UserResponse> getUser(Long userId);
+
+    @Operation(summary = "내 정보 조회")
+    Response<UserResponse> getMyInfo(User currentUser);
 
     @Operation(summary = "닉네임 중복 확인")
     Response<AvailabilityResponse> checkNicknameDuplicate(String nickname);

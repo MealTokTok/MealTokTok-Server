@@ -19,7 +19,6 @@ public class DishService {
     private final DishUpdater dishUpdater;
     private final DishStoreReader dishStoreReader;
     private final DishCategoryReader dishCategoryReader;
-    private final DishWithImageFinder dishWithImageFinder;
 
     @Transactional
     public void createDish(
@@ -45,11 +44,12 @@ public class DishService {
         dishUpdater.update(dishStore, dish, uploadImage, dishContent);
     }
 
-    public List<DishWithImage> readDishes(TargetDishCategory targetDishCategory) {
-        return dishWithImageFinder.find(targetDishCategory);
+    public List<Dish> readDishes(TargetDishCategory targetDishCategory) {
+        DishCategory dishCategory = dishCategoryReader.read(targetDishCategory);
+        return dishReader.readAll(dishCategory);
     }
 
-    public List<DishWithImage> searchDishes(String keyword) {
-        return dishWithImageFinder.find(keyword);
+    public List<Dish> searchDishes(String keyword) {
+        return dishReader.search(keyword);
     }
 }

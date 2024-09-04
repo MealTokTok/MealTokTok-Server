@@ -26,7 +26,7 @@ public class DishUpdater {
     public void update(DishStore dishStore, Dish dish, File uploadImage, DishContent dishContent) {
         dishValidator.validateName(dishStore, dish, dishContent.dishName());
         Image image = fileUploader.upload(uploadImage);
-        Image existingImage = imageReader.read(TargetImage.from(dish.getDishImage().imageId()));
+        Image existingImage = imageReader.read(TargetImage.from(dish.getDishImage().getId()));
         Image updatedImage = imageUpdater.update(existingImage, image);
         dishRepository.updateDish(dish, dishContent, updatedImage);
     }

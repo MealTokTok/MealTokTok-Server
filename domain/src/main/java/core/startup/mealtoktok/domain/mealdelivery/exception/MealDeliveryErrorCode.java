@@ -20,7 +20,6 @@ public enum MealDeliveryErrorCode implements BaseErrorCode {
 
     private final Integer status;
     private final String errorCode;
-
     private String message;
 
     public BaseErrorCode setMessage(String message) {

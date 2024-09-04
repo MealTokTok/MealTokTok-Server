@@ -1,6 +1,8 @@
 package core.startup.mealtoktok.api.global.security;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.servlet.FilterChain;
@@ -9,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -76,8 +80,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private void saveAuthentication(User user) {
         UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(user, null, null);
+                new UsernamePasswordAuthenticationToken(user, null, getAuthorities(user));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("{} 유저 인증 성공", user.getUserProfile().getNickname());
+    }
+
+    private List<GrantedAuthority> getAuthorities(User user) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserRole().name()));
+        return authorities;
     }
 }
