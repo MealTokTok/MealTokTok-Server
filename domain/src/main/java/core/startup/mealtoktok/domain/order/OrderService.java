@@ -3,7 +3,6 @@ package core.startup.mealtoktok.domain.order;
 import static core.startup.mealtoktok.common.consts.MealTokTokConstant.VALID_DATE_TIME;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +23,13 @@ public class OrderService {
     private final MealDeliveryReserver mealDeliveryReserver;
     private final OrderManager orderManager;
     private final PaymentCanceler paymentCanceler;
-    private final FullDiningReserver fullDiningReserver;
 
     @Transactional
     public OrderId orderMeals(
             Orderer orderer, OrderContent orderContent, DeliveryAddress deliveryAddress) {
         orderValidator.validate(orderContent);
         OrderId orderId = orderAppender.append(orderer, orderContent, deliveryAddress);
-        List<FullDiningInfo> fullDiningInfos =
-                mealDeliveryReserver.reserve(orderContent.toReservationInfos(orderId));
-        fullDiningReserver.reserve(fullDiningInfos);
+        mealDeliveryReserver.reserve(orderContent.toReservationInfos(orderId));
         return orderId;
     }
 

@@ -4,6 +4,7 @@ import static core.startup.mealtoktok.api.global.security.SecurityConstant.*;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,10 +18,12 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtTokenFilter jwtTokenFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,20 +37,26 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
-                                        .requestMatchers(PERMIT_SYSTEM_URIS)
+                                        .requestMatchers(SYSTEM_URIS)
                                         .permitAll()
-                                        .requestMatchers(PERMIT_SERVICE_URIS)
+                                        .requestMatchers(SERVICE_URIS)
                                         .permitAll()
-                                        .requestMatchers(PERMIT_SWAGGER_URIS)
+                                        .requestMatchers(SWAGGER_URIS)
                                         .permitAll()
                                         .requestMatchers(CorsUtils::isPreFlightRequest)
                                         .permitAll()
+                                        .requestMatchers("/api/v1/user/my")
+                                        .hasRole("ADMIN")
                                         .anyRequest()
                                         .authenticated())
                 .exceptionHandling(
                         httpSecurityExceptionHandlingConfigurer ->
                                 httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(
-                                        jwtAuthenticationEntryPoint));
+                                        jwtAuthenticationEntryPoint))
+                .exceptionHandling(
+                        httpSecurityExceptionHandlingConfigurer ->
+                                httpSecurityExceptionHandlingConfigurer.accessDeniedHandler(
+                                        customAccessDeniedHandler));
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

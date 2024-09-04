@@ -11,6 +11,7 @@ public class UserService {
     private final UserUpdater userUpdater;
     private final userRemover userRemover;
     private final UserValidator userValidator;
+    private final UserReader userReader;
 
     public UserId addDefaultDeliveryAddress(
             User currentUser, AddressWithCoordinate addressWithCoordinate) {
@@ -48,5 +49,9 @@ public class UserService {
     public UserId configureDeliveryAddress(
             User currentUser, TargetDeliveryAddress targetDeliveryAddress) {
         return userUpdater.configureDeliveryAddress(currentUser, targetDeliveryAddress);
+    }
+
+    public User getUser(Long userId) {
+        return userReader.read(UserId.from(userId));
     }
 }

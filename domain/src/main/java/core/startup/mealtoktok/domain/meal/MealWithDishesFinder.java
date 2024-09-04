@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import core.startup.mealtoktok.domain.dishstore.DishWithImage;
-import core.startup.mealtoktok.domain.dishstore.DishWithImageFinder;
+import core.startup.mealtoktok.domain.dishstore.Dish;
+import core.startup.mealtoktok.domain.dishstore.DishReader;
 import core.startup.mealtoktok.domain.dishstore.TargetDish;
 
 @Component
@@ -15,15 +15,13 @@ import core.startup.mealtoktok.domain.dishstore.TargetDish;
 public class MealWithDishesFinder {
 
     private final MealDishReader mealDishReader;
-    private final DishWithImageFinder dishWithImageFinder;
+    private final DishReader dishReader;
 
     public MealWithDishes find(Meal meal) {
-        List<DishWithImage> dishes =
+
+        List<Dish> dishes =
                 mealDishReader.read(TargetMeal.from(meal.getMealId())).stream()
-                        .map(
-                                mealDish ->
-                                        dishWithImageFinder.find(
-                                                TargetDish.from(mealDish.dishId())))
+                        .map(mealDish -> dishReader.read(TargetDish.from(mealDish.dishId())))
                         .toList();
 
         return MealWithDishes.of(meal, dishes);

@@ -16,6 +16,7 @@ import core.startup.mealtoktok.infra.dishstore.exception.DishCategoryNotFoundExc
 import core.startup.mealtoktok.infra.dishstore.exception.DishNotFoundException;
 import core.startup.mealtoktok.infra.global.exception.ImageNotFoundException;
 import core.startup.mealtoktok.infra.global.repository.JpaImageRepository;
+import core.startup.mealtoktok.infra.jpa.entity.ImageEntity;
 
 @Repository
 @Transactional
@@ -62,7 +63,7 @@ public class CoreDishRepository implements DishRepository {
         jpaDishRepository.getReferenceById(dish.getDishId()).update(dishContent);
 
         if (image != null) {
-            jpaDishImageRepository.deleteByDishId(dish.getDishImage().dishId());
+            jpaDishImageRepository.deleteByDishId(dish.getDishId());
             jpaDishImageRepository.save(DishImageEntity.of(dish.getDishId(), image.getId()));
         }
     }
@@ -152,15 +153,17 @@ public class CoreDishRepository implements DishRepository {
     }
 
     private Dish toDishWithImage(DishEntity dishEntity) {
-        Dish dish = dishEntity.toDomain();
 
-        DishImage dishImage =
+        DishImageEntity dishImageEntity =
                 jpaDishImageRepository
-                        .findByDishId(dish.getDishId())
-                        .map(DishImageEntity::toDomain)
+                        .findByDishId(dishEntity.getDishId())
                         .orElseThrow(() -> ImageNotFoundException.EXCEPTION);
 
-        dish.addDishImage(dishImage);
-        return dish;
+        ImageEntity imageEntity =
+                jpaImageRepository
+                        .findById(dishImageEntity.getDishImageId().getImageId())
+                        .orElseThrow(() -> ImageNotFoundException.EXCEPTION);
+
+        return dishEntity.toDomain(imageEntity);
     }
 }

@@ -17,7 +17,6 @@ springdoc:
 server:
   shutdown: graceful
 
-tomcat.util.http.parser.HttpParser.requestTargetAllow: '|{}'
 
 jwt:
   secret-key: ${JWT_SECRET_KEY}

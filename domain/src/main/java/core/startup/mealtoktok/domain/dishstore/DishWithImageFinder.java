@@ -35,7 +35,7 @@ public class DishWithImageFinder {
     }
 
     private DishWithImage wrap(Dish dish) {
-        Image image = imageReader.read(TargetImage.from(dish.getDishImage().imageId()));
+        Image image = imageReader.read(TargetImage.from(dish.getDishImage().getId()));
         return DishWithImage.of(dish, image);
     }
 }

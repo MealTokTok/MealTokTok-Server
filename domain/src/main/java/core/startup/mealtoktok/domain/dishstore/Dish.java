@@ -3,6 +3,7 @@ package core.startup.mealtoktok.domain.dishstore;
 import lombok.Builder;
 import lombok.Getter;
 
+import core.startup.mealtoktok.common.dto.Image;
 import core.startup.mealtoktok.common.dto.Money;
 
 @Getter
@@ -10,15 +11,27 @@ import core.startup.mealtoktok.common.dto.Money;
 public class Dish {
 
     private Long dishId;
-    private String dishName;
-    private Money dishPrice;
-    private DishState dishState;
-    private int dishQuantity;
     private Long dishStoreId;
     private Long dishCategoryId;
-    private DishImage dishImage;
+    private String dishName;
+    private Money dishPrice;
+    private int dishQuantity;
+    private DishState dishState;
+    private Image dishImage;
 
-    public void addDishImage(DishImage dishImage) {
-        this.dishImage = dishImage;
+    public void reduceQuantity() {
+        dishQuantity--;
+        if (dishQuantity == 0) {
+            dishState = DishState.SOLD_OUT;
+        }
+    }
+
+    public void increaseQuantity() {
+        dishQuantity++;
+    }
+
+    public void updateDishInfo(String dishName, Money dishPrice) {
+        this.dishName = dishName;
+        this.dishPrice = dishPrice;
     }
 }

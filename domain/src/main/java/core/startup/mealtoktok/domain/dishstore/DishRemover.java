@@ -19,7 +19,7 @@ public class DishRemover {
 
     public void remove(Dish dish) {
         dishRepository.deleteDish(dish);
-        Image image = imageReader.read(TargetImage.from(dish.getDishImage().imageId()));
+        Image image = imageReader.read(TargetImage.from(dish.getDishImage().getId()));
         imageRemover.remove(image);
     }
 }
