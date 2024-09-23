@@ -26,7 +26,7 @@ import core.startup.mealtoktok.domain.mealdelivery.MealDeliveryId;
 import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.order.OrderedMeal;
 import core.startup.mealtoktok.domain.order.ReservedTime;
-import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
+import core.startup.mealtoktok.infra.jpa.entity.BaseTimeEntity;
 
 @Entity
 @Table(name = "meal_delivery")

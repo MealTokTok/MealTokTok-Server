@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 import core.startup.mealtoktok.domain.auth.OAuthInfo;
 import core.startup.mealtoktok.domain.auth.OAuthProvider;
 import core.startup.mealtoktok.domain.user.*;
-import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
+import core.startup.mealtoktok.infra.jpa.entity.BaseTimeEntity;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

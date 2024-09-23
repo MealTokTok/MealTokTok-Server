@@ -19,7 +19,7 @@ import core.startup.mealtoktok.domain.order.Order;
 import core.startup.mealtoktok.domain.order.OrderId;
 import core.startup.mealtoktok.domain.order.OrderState;
 import core.startup.mealtoktok.domain.order.OrderType;
-import core.startup.mealtoktok.infra.jpa.config.BaseTimeEntity;
+import core.startup.mealtoktok.infra.jpa.entity.BaseTimeEntity;
 
 @Entity
 @SuperBuilder

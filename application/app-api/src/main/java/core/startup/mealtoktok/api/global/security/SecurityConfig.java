@@ -37,16 +37,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
-                                        .requestMatchers(SYSTEM_URIS)
-                                        .permitAll()
-                                        .requestMatchers(SERVICE_URIS)
-                                        .permitAll()
-                                        .requestMatchers(SWAGGER_URIS)
-                                        .permitAll()
                                         .requestMatchers(CorsUtils::isPreFlightRequest)
                                         .permitAll()
-                                        .requestMatchers("/api/v1/user/my")
+                                        .requestMatchers(getPermittedURIs())
+                                        .permitAll()
+                                        .requestMatchers(ADMIN_URIS)
                                         .hasRole("ADMIN")
+                                        .requestMatchers(DELIVERYMAN_URIS)
+                                        .hasRole("DELIVERYMAN")
+                                        .requestMatchers(STORE_OWNER_URIS)
+                                        .hasRole("STORE_OWNER")
                                         .anyRequest()
                                         .authenticated())
                 .exceptionHandling(

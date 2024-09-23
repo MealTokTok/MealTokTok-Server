@@ -21,7 +21,6 @@ public class MealDeliveryManager implements MealDeliveryReserver {
     private final OrderManager orderManager;
     private final FullDiningReserver fullDiningReserver;
 
-    @Override
     public void reserve(List<MealDeliveryReservationInfo> reservationInfos) {
         List<MealDelivery> mealDeliveries =
                 reservationInfos.stream().map(MealDelivery::create).toList();

@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface MealDeliveryReserver {
 
-    void reserve(List<MealDeliveryReservationInfo> reserveInfo);
+    void reserve(List<MealDeliveryReservationInfo> reservationInfos);
 }

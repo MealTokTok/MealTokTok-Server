@@ -1,4 +1,4 @@
-package core.startup.mealtoktok.infra.jpa.config;
+package core.startup.mealtoktok.infra.jpa.entity;
 
 import java.time.LocalDateTime;
 
