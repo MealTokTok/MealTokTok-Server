@@ -22,7 +22,7 @@ public record MealDeliveryResponse(
     public static MealDeliveryResponse from(MealDelivery mealDelivery) {
         return new MealDeliveryResponse(
                 mealDelivery.getMealDeliveryId().getValue(),
-                mealDelivery.getOrderId().toString(),
+                mealDelivery.getOrderId().getValue(),
                 mealDelivery.getOrderType(),
                 mealDelivery.getOrderedMeal(),
                 mealDelivery.getDeliveryState(),
