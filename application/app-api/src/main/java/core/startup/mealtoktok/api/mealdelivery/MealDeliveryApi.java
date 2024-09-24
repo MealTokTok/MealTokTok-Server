@@ -1,5 +1,7 @@
 package core.startup.mealtoktok.api.mealdelivery;
 
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -47,6 +49,15 @@ public class MealDeliveryApi implements MealDeliveryApiDocs {
                 mealDeliveryService
                         .searchMealDeliveries(Recipient.from(currentUser), cond, cursor)
                         .map(MealDeliveryResponse::from));
+    }
+
+    @GetMapping("/order")
+    public Response<List<MealDeliveryResponse>> getMealDeliveriesByOrderId(String orderId) {
+        List<MealDeliveryResponse> responses =
+                mealDeliveryService.getMealDeliveries(OrderId.from(orderId)).stream()
+                        .map(MealDeliveryResponse::from)
+                        .toList();
+        return Response.success(responses);
     }
 
     @GetMapping("/{mealDeliveryId}")

@@ -1,5 +1,7 @@
 package core.startup.mealtoktok.api.mealdelivery;
 
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import core.startup.mealtoktok.api.global.dto.Response;
@@ -22,6 +24,9 @@ public interface MealDeliveryApiDocs {
     @Operation(summary = "도시락 배송 목록 검색")
     Response<SliceResult<MealDeliveryResponse>> searchMealDeliveries(
             User currentUser, MealDeliverySearchCond cond, Cursor cursor);
+
+    @Operation(summary = "주문에 포함된 도시락 배송 목록 조회")
+    Response<List<MealDeliveryResponse>> getMealDeliveriesByOrderId(String orderId);
 
     @Operation(summary = "도시락 배송 단건 조회")
     Response<MealDeliveryResponse> mealDelivery(Long mealDeliveryId);

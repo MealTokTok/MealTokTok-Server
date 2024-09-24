@@ -35,6 +35,10 @@ public class MealDeliveryService {
         return mealDeliveryReader.read(recipient, cond, cursor);
     }
 
+    public List<MealDelivery> getMealDeliveries(OrderId orderId) {
+        return mealDeliveryReader.read(orderId);
+    }
+
     public MealDelivery getNextDeliveryMeal(OrderId orderId) {
         List<MealDelivery> mealDeliveries = mealDeliveryReader.read(orderId);
         return mealDeliveries.stream()
