@@ -30,7 +30,7 @@ public interface FullDiningJpaRepository extends JpaRepository<FullDiningEntity,
                       select count(fd) from FullDiningEntity fd
                       join MealDeliveryEntity md on fd.mealDeliveryId = md.mealDeliveryId
                       join OrderEntity od on md.orderId = od.orderId
-                      where od.orderer = :#{#recipient.userId()}
+                      where od.orderer.userId = :#{#recipient.userId()}
                       and fd.collectingState = :collectingState
                     """)
     long countByOrdererAndCollectingState(Recipient recipient, CollectingState collectingState);
