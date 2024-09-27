@@ -23,9 +23,4 @@ public class UserCacheManager {
     public void delete(User user) {
         userCacheRepository.deleteUser(user);
     }
-
-    public void refresh(User user) {
-        delete(user);
-        cache(user);
-    }
 }

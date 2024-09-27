@@ -20,7 +20,7 @@ public interface FullDiningJpaRepository extends JpaRepository<FullDiningEntity,
                     join OrderEntity od on md.orderId = od.orderId
                     where od.orderer.userId = :#{#recipient.userId()}
                     and md.deliveryState = :deliveryState
-                    and md.deliveryDateTime.deliveryCompleteTime >= :validDateTime
+                    and (fd.collectingState != 'COLLECTED' or md.deliveryDateTime.deliveryCompleteTime < :validDateTime)
                     """)
     List<FullDiningEntity> findByOrdererAndDeliveryStateAndValidPeriod(
             Recipient recipient, DeliveryState deliveryState, LocalDateTime validDateTime);
