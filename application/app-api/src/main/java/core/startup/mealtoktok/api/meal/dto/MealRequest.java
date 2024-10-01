@@ -8,6 +8,6 @@ import core.startup.mealtoktok.domain.meal.MealInfo;
 public record MealRequest(String mealName, int mealPrice, List<Long> dishIds) {
 
     public MealContent toContent() {
-        return MealContent.of(MealInfo.of(mealName, mealPrice), dishIds);
+        return MealContent.of(MealInfo.of(mealName, mealPrice, false), dishIds);
     }
 }

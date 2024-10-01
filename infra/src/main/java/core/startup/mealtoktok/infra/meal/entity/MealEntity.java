@@ -57,7 +57,7 @@ public class MealEntity {
         return Meal.builder()
                 .mealId(mealId)
                 .mealOwner(mealOwner.toDomain())
-                .mealInfo(MealInfo.of(mealName, mealPrice))
+                .mealInfo(MealInfo.of(mealName, mealPrice, isDeleted))
                 .build();
     }
 
