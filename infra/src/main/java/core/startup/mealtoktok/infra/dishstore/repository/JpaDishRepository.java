@@ -16,7 +16,7 @@ public interface JpaDishRepository extends JpaRepository<DishEntity, Long> {
 
     Optional<DishEntity> findByDishIdAndIsDeletedFalse(Long aLong);
 
-    Optional<DishEntity> findByDishCategoryIdAndIsDeletedFalse(Long categoryId);
+    List<DishEntity> findByDishCategoryIdAndIsDeletedFalse(Long categoryId);
 
     boolean existsByDishStoreIdAndDishNameAndIsDeletedFalse(Long storeId, String dishName);
 
