@@ -1,8 +1,8 @@
 package core.startup.mealtoktok.infra.dishstore.repository;
 
 import java.util.List;
-
 import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import core.startup.mealtoktok.infra.dishstore.entity.DishEntity;
@@ -21,6 +21,5 @@ public interface JpaDishRepository extends JpaRepository<DishEntity, Long> {
     boolean existsByDishStoreIdAndDishNameAndIsDeletedFalse(Long storeId, String dishName);
 
     List<DishEntity> findAllByDishIdInAndIsDeletedFalse(List<Long> dishIds);
-
     ;
 }

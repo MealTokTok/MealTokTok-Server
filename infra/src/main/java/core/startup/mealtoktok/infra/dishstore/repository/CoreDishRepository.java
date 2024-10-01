@@ -57,7 +57,8 @@ public class CoreDishRepository implements DishRepository {
 
     @Override
     public boolean existsByDishStoreIdAndDishName(DishStore dishStore, String dishName) {
-        return jpaDishRepository.existsByDishStoreIdAndDishNameAndIsDeletedFalse(dishStore.getStoreId(), dishName);
+        return jpaDishRepository.existsByDishStoreIdAndDishNameAndIsDeletedFalse(
+                dishStore.getStoreId(), dishName);
     }
 
     @Override
@@ -119,7 +120,8 @@ public class CoreDishRepository implements DishRepository {
 
     @Override
     public Dish findActiveDishById(TargetDish targetDish) {
-        return jpaDishRepository.findByDishIdAndIsDeletedFalse(targetDish.dishId())
+        return jpaDishRepository
+                .findByDishIdAndIsDeletedFalse(targetDish.dishId())
                 .map(this::toDishWithImage)
                 .orElseThrow(() -> DishNotFoundException.EXCEPTION);
     }
@@ -132,7 +134,9 @@ public class CoreDishRepository implements DishRepository {
     }
 
     public List<Dish> findAllByCategory(DishCategory dishCategory) {
-        return jpaDishRepository.findByDishCategoryIdAndIsDeletedFalse(dishCategory.getCategoryId()).stream()
+        return jpaDishRepository
+                .findByDishCategoryIdAndIsDeletedFalse(dishCategory.getCategoryId())
+                .stream()
                 .map(this::toDishWithImage)
                 .toList();
     }

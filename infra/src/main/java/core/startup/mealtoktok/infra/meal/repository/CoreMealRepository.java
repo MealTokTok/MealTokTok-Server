@@ -47,7 +47,8 @@ public class CoreMealRepository implements MealRepository {
 
     @Override
     public Meal findActiveMealById(TargetMeal targetMeal) {
-        return jpaMealRepository.findByMealIdAndIsDeletedFalse(targetMeal.meadId())
+        return jpaMealRepository
+                .findByMealIdAndIsDeletedFalse(targetMeal.meadId())
                 .map(MealEntity::toDomain)
                 .orElseThrow(() -> MealNotFoundException.EXCEPTION);
     }

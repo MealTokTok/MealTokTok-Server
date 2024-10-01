@@ -1,10 +1,8 @@
 package core.startup.mealtoktok.infra.meal.repository;
 
-import core.startup.mealtoktok.domain.meal.Meal;
 import java.util.List;
-
 import java.util.Optional;
-import org.geolatte.geom.M;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import core.startup.mealtoktok.infra.meal.entity.MealEntity;

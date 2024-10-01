@@ -1,7 +1,5 @@
 package core.startup.mealtoktok.domain.meal;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
