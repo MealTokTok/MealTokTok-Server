@@ -26,16 +26,15 @@ public class MealService {
     @Transactional
     public void updateMeal(
             MealOwner mealOwner, TargetMeal targetMeal, MealContent updatedMealContent) {
-        Meal meal = mealReader.read(targetMeal);
+        Meal meal = mealReader.readActiveMeal(targetMeal);
         List<MealDish> mealDishes = mealDishReader.read(targetMeal);
         mealUpdater.update(mealOwner, meal, mealDishes, updatedMealContent);
     }
 
     @Transactional
     public void deleteMeal(MealOwner mealOwner, TargetMeal targetMeal) {
-        Meal meal = mealReader.read(targetMeal);
-        List<MealDish> mealDishes = mealDishReader.read(targetMeal);
-        mealRemover.remove(mealOwner, meal, mealDishes);
+        Meal meal = mealReader.readActiveMeal(targetMeal);
+        mealRemover.remove(mealOwner, meal);
     }
 
     public MealWithDishes readMealAndDishes(TargetMeal targetMeal) {

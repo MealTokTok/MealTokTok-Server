@@ -30,7 +30,7 @@ public class CoreMealRepository implements MealRepository {
 
     @Override
     public boolean exitsByMealName(String mealName) {
-        return jpaMealRepository.existsByMealName(mealName);
+        return jpaMealRepository.existsByMealNameAndIsDeletedFalse(mealName);
     }
 
     @Override
@@ -46,13 +46,10 @@ public class CoreMealRepository implements MealRepository {
     }
 
     @Override
-    public void saveMealDish(MealDish updatedMealDish) {
-        jpaMealDishRepository.save(MealDishEntity.from(updatedMealDish));
-    }
-
-    @Override
-    public void delete(MealDish mealDish) {
-        jpaMealDishRepository.deleteById(mealDish.mealDishId());
+    public Meal findActiveMealById(TargetMeal targetMeal) {
+        return jpaMealRepository.findByMealIdAndIsDeletedFalse(targetMeal.meadId())
+                .map(MealEntity::toDomain)
+                .orElseThrow(() -> MealNotFoundException.EXCEPTION);
     }
 
     @Override
@@ -82,9 +79,8 @@ public class CoreMealRepository implements MealRepository {
     }
 
     @Override
-    public void delete(Meal meal, List<MealDish> mealDishes) {
-        jpaMealRepository.deleteById(meal.getMealId());
-        mealDishes.forEach(mealDish -> jpaMealDishRepository.deleteById(mealDish.mealDishId()));
+    public void delete(Meal meal) {
+        jpaMealRepository.getReferenceById(meal.getMealId()).delete();
     }
 
     @Override

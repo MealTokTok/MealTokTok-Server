@@ -13,8 +13,8 @@ public class MealRemover {
     private final MealRepository mealRepository;
     private final MealValidator mealValidator;
 
-    public void remove(MealOwner mealOwner, Meal meal, List<MealDish> mealDishes) {
+    public void remove(MealOwner mealOwner, Meal meal) {
         mealValidator.validate(mealOwner, meal);
-        mealRepository.delete(meal, mealDishes);
+        mealRepository.delete(meal);
     }
 }

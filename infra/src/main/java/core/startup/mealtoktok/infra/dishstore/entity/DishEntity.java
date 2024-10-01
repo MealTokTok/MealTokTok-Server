@@ -37,6 +37,8 @@ public class DishEntity {
 
     private Long dishCategoryId;
 
+    private boolean isDeleted;
+
     public static DishEntity of(Long dishStoreId, Long dishCategoryId, DishContent dishContent) {
         DishState dishState =
                 dishContent.dishQuantity() == 0 ? DishState.SOLD_OUT : DishState.ON_SALE;
@@ -48,6 +50,7 @@ public class DishEntity {
                 .dishState(dishState)
                 .dishStoreId(dishStoreId)
                 .dishCategoryId(dishCategoryId)
+                .isDeleted(false)
                 .build();
     }
 
@@ -90,5 +93,9 @@ public class DishEntity {
                 this.dishState = DishState.SOLD_OUT;
             }
         }
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }

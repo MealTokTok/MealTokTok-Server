@@ -12,7 +12,7 @@ public interface MealRepository {
 
     void update(Meal meal, MealContent mealContent);
 
-    void delete(Meal meal, List<MealDish> mealDishes);
+    void delete(Meal meal);
 
     List<MealDish> findAllMealDishByMealId(TargetMeal targetMeal);
 
@@ -20,9 +20,7 @@ public interface MealRepository {
 
     List<Meal> findAllByMealOwner(MealOwner mealOwner);
 
-    void saveMealDish(MealDish updatedMealDish);
-
-    void delete(MealDish mealDish);
-
     void updateMealDish(MealDish mealDish, Long dishId);
+
+    Meal findActiveMealById(TargetMeal targetMeal);
 }

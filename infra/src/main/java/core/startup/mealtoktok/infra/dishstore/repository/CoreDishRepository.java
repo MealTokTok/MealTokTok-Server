@@ -42,20 +42,7 @@ public class CoreDishRepository implements DishRepository {
 
     @Override
     public void deleteDish(Dish dish) {
-        jpaDishRepository.deleteById(dish.getDishId());
-        List<DishImage> dishImages = findAllDishImageByDishId(TargetDish.from(dish.getDishId()));
-        deleteDishImages(dishImages);
-    }
-
-    @Override
-    public void deleteDishImages(List<DishImage> dishImages) {
-        dishImages.forEach(
-                dishImage -> {
-                    Long imageId = dishImage.imageId();
-                    jpaImageRepository.deleteById(imageId);
-                });
-
-        dishImages.forEach(dishImage -> jpaDishImageRepository.deleteByDishId(dishImage.dishId()));
+        jpaDishRepository.getReferenceById(dish.getDishId()).delete();
     }
 
     @Override
@@ -70,7 +57,7 @@ public class CoreDishRepository implements DishRepository {
 
     @Override
     public boolean existsByDishStoreIdAndDishName(DishStore dishStore, String dishName) {
-        return jpaDishRepository.existsByDishStoreIdAndDishName(dishStore.getStoreId(), dishName);
+        return jpaDishRepository.existsByDishStoreIdAndDishNameAndIsDeletedFalse(dishStore.getStoreId(), dishName);
     }
 
     @Override
@@ -124,21 +111,28 @@ public class CoreDishRepository implements DishRepository {
                 .toList();
     }
 
-    @Override
-    public List<DishImage> findAllDishImageByDishId(TargetDish targetDish) {
-        return jpaDishImageRepository.findAllByDishId(targetDish.dishId()).stream()
-                .map(DishImageEntity::toDomain)
+    public List<Dish> findAllByKeyword(String keyword) {
+        return jpaDishRepository.findByIsDeletedFalseAndDishNameContaining(keyword).stream()
+                .map(this::toDishWithImage)
                 .toList();
     }
 
-    public List<Dish> findAllByKeyword(String keyword) {
-        return jpaDishRepository.findByDishNameContaining(keyword).stream()
+    @Override
+    public Dish findActiveDishById(TargetDish targetDish) {
+        return jpaDishRepository.findByDishIdAndIsDeletedFalse(targetDish.dishId())
+                .map(this::toDishWithImage)
+                .orElseThrow(() -> DishNotFoundException.EXCEPTION);
+    }
+
+    @Override
+    public void findAllActiveDishById(List<Long> dishIds) {
+        jpaDishRepository.findAllByDishIdInAndIsDeletedFalse(dishIds).stream()
                 .map(this::toDishWithImage)
                 .toList();
     }
 
     public List<Dish> findAllByCategory(DishCategory dishCategory) {
-        return jpaDishRepository.findByDishCategoryId(dishCategory.getCategoryId()).stream()
+        return jpaDishRepository.findByDishCategoryIdAndIsDeletedFalse(dishCategory.getCategoryId()).stream()
                 .map(this::toDishWithImage)
                 .toList();
     }

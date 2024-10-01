@@ -37,7 +37,7 @@ public interface DishRepository {
 
     List<Dish> findAllByKeyword(String keyword);
 
-    List<DishImage> findAllDishImageByDishId(TargetDish targetDish);
+    Dish findActiveDishById(TargetDish targetDish);
 
-    void deleteDishImages(List<DishImage> dishImages);
+    void findAllActiveDishById(List<Long> dishIds);
 }

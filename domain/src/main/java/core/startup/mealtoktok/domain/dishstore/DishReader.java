@@ -23,4 +23,8 @@ public class DishReader {
     public List<Dish> search(String keyword) {
         return dishRepository.findAllByKeyword(keyword);
     }
+
+    public Dish readActiveDish(TargetDish targetDish) {
+        return dishRepository.findActiveDishById(targetDish);
+    }
 }

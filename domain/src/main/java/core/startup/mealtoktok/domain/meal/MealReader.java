@@ -19,4 +19,8 @@ public class MealReader {
     public List<Meal> read(MealOwner mealOwner) {
         return mealRepository.findAllByMealOwner(mealOwner);
     }
+
+    public Meal readActiveMeal(TargetMeal targetMeal) {
+        return mealRepository.findActiveMealById(targetMeal);
+    }
 }

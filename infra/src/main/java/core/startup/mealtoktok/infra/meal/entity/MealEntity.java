@@ -42,11 +42,14 @@ public class MealEntity {
     @AttributeOverride(name = "userId", column = @Column(name = "meal_owner_id"))
     private MealOwnerVO mealOwner;
 
+    private boolean isDeleted;
+
     public static MealEntity from(Meal meal) {
         return MealEntity.builder()
                 .mealName(meal.getMealInfo().mealName())
                 .mealPrice(meal.getMealInfo().mealPrice())
                 .mealOwner(MealOwnerVO.from(meal.getMealOwner()))
+                .isDeleted(false)
                 .build();
     }
 
@@ -61,5 +64,9 @@ public class MealEntity {
     public void update(MealInfo mealInfo) {
         this.mealName = mealInfo.mealName();
         this.mealPrice = mealInfo.mealPrice();
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }

@@ -33,13 +33,13 @@ public class DishService {
 
     @Transactional
     public void deleteDish(TargetDish targetDish) {
-        Dish dish = dishReader.read(targetDish);
+        Dish dish = dishReader.readActiveDish(targetDish);
         dishRemover.remove(dish);
     }
 
     @Transactional
     public void updateDish(TargetDish targetDish, File uploadImage, DishContent dishContent) {
-        Dish dish = dishReader.read(targetDish);
+        Dish dish = dishReader.readActiveDish(targetDish);
         DishStore dishStore = dishStoreReader.read(TargetDishStore.from(dish.getDishStoreId()));
         dishUpdater.update(dishStore, dish, uploadImage, dishContent);
     }

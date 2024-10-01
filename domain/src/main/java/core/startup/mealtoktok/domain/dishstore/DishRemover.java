@@ -14,12 +14,8 @@ import core.startup.mealtoktok.domain.global.TargetImage;
 public class DishRemover {
 
     private final DishRepository dishRepository;
-    private final ImageReader imageReader;
-    private final ImageRemover imageRemover;
 
     public void remove(Dish dish) {
         dishRepository.deleteDish(dish);
-        Image image = imageReader.read(TargetImage.from(dish.getDishImage().getId()));
-        imageRemover.remove(image);
     }
 }
