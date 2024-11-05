@@ -22,13 +22,10 @@ public class AuthService {
 
     public boolean canRegistered(String idToken) {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(idToken);
-        return !userValidator.isAlreadyRegistered(oAuthInfo);
+        return userValidator.isNotRegistered(oAuthInfo);
     }
 
-    public JwtTokens signUp(
-            OAuthTokens oAuthTokens,
-            String deviceToken,
-            AddressWithCoordinate addressWithCoordinate) {
+    public JwtTokens signUp(OAuthTokens oAuthTokens, String deviceToken) {
         OAuthInfo oAuthInfo = oAuthAuthenticator.authenticate(oAuthTokens.idToken());
         UserProfile userProfile = oAuthClient.getUserProfile(oAuthTokens.accessToken());
         userValidator.validate(oAuthInfo);
@@ -50,12 +47,6 @@ public class AuthService {
 
     public JwtTokens getCredentialTest(String code) {
         OAuthTokens authToken = oAuthClient.auth(CLIENT_ID, REDIRECT_URL, code);
-        return signUp(
-                authToken,
-                "deviceTokenTest",
-                AddressWithCoordinate.of(
-                        Address.of("충청북도 청주시 서원구 충대로 1", "충청북도 청주시 흥덕구 853-18"),
-                        4536.629,
-                        127.456));
+        return signUp(authToken, "deviceTokenTest");
     }
 }

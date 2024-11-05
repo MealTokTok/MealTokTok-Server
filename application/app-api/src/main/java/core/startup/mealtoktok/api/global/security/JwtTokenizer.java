@@ -93,7 +93,6 @@ public class JwtTokenizer implements TokenGenerator {
             throw InvalidTokenException.EXCEPTION;
         }
     }
-    ;
 
     @Override
     public JwtTokens generate(UserId userId) {

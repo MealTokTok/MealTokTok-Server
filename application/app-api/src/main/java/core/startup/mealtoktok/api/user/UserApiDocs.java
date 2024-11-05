@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "회원 API")
 public interface UserApiDocs {
 
-    @Operation
+    @Operation(summary = "회원 정보 조회")
     Response<UserResponse> getUser(Long userId);
 
     @Operation(summary = "내 정보 조회")

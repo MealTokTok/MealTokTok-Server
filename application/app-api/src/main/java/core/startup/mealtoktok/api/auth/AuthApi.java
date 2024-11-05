@@ -41,11 +41,7 @@ public class AuthApi implements AuthApiDocs {
 
     @PostMapping("/oauth/sign-up")
     public Response<Void> signUp(@RequestBody SignUpRequest request, HttpServletResponse response) {
-        JwtTokens jwtTokens =
-                authService.signUp(
-                        request.oAuthTokens(),
-                        request.deviceToken(),
-                        request.toAddressWithCoordinate());
+        JwtTokens jwtTokens = authService.signUp(request.oAuthTokens(), request.deviceToken());
         JwtTokenizer.setInHeader(response, jwtTokens.accessToken(), jwtTokens.refreshToken());
         return Response.success("회원가입 성공");
     }

@@ -62,7 +62,7 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
         return mealDeliveryJpaRepository
                 .findByOrdererAndDeliveryState(recipient, deliveryState)
                 .map(MealDeliveryEntity::toDomain)
-                .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+                .orElseThrow(() -> MealDeliveryNotFoundException.EXCEPTION);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CoreMealDeliveryRepository implements MealDeliveryRepository {
         return mealDeliveryJpaRepository
                 .findByOrdererAndDeliveryStateAndTime(recipient, deliveryState, startTime, endTime)
                 .map(MealDeliveryEntity::toDomain)
-                .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+                .orElseThrow(() -> MealDeliveryNotFoundException.EXCEPTION);
     }
 
     @Override

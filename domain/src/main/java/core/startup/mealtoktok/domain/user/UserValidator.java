@@ -14,12 +14,12 @@ public class UserValidator {
 
     private final UserRepository userRepository;
 
-    public boolean isAlreadyRegistered(OAuthInfo oAuthInfo) {
-        return userRepository.existsByOAuthInfo(oAuthInfo);
+    public boolean isNotRegistered(OAuthInfo oAuthInfo) {
+        return !userRepository.existsByOAuthInfo(oAuthInfo);
     }
 
     public void validate(OAuthInfo oAuthInfo) {
-        if (isAlreadyRegistered(oAuthInfo)) {
+        if (isNotRegistered(oAuthInfo)) {
             throw AlreadyRegisteredUserException.EXCEPTION;
         }
     }
